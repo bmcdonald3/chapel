@@ -6,9 +6,9 @@ module IntParquet {
   use parquetHeaders;
 
   proc main() {
-    var arr: ArrowArray = new ArrowArray([25,26,27,28,29]);
-    var rb = new ArrowRecordBatch("first", arr);
-    var table = new ArrowTable(rb); 
+    var arr: arrowArray = new arrowArray([25,26,27,28,29]);
+    var rb = new arrowRecordBatch("first", arr);
+    var table = new arrowTable(rb); 
     Arrow.writeTableToParquetFile(table, "introw.parquet");
     var t = Arrow.readParquetFileToTable("introw.parquet");
     var err: GErrorPtr;
@@ -28,8 +28,8 @@ module IntParquet {
     // Chapel string
     //var strArr = Arrow.readParquetFileToStringArr("introw.parquet");
 
-    var rb2 = new ArrowRecordBatch("first", arr, "second", new ArrowArray([9,8,7,6,5]));
-    Arrow.writeTableToParquetFile(new ArrowTable(rb2), "introws.parquet");
+    var rb2 = new arrowRecordBatch("first", arr, "second", new arrowArray([9,8,7,6,5]));
+    Arrow.writeTableToParquetFile(new arrowTable(rb2), "introws.parquet");
     
     var asd = readParquetFileToArrs("introws.parquet");
     writeln(asd);

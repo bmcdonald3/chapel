@@ -1,4 +1,4 @@
-  module Arrow {
+module Arrow {
   // require "ArrowDecl.chpl";
   // public use ArrowDecl;
   require "parquetHeaders.chpl";
@@ -13,7 +13,7 @@
 
   // -------------------------- Type Declarations and Functions -------------
 
-  record ArrowArray{
+  record arrowArray{
     var val: c_ptr(GArrowArray);
 
     proc init(arr: [] ?arrayType, validIndices: [] int = [-1], 
@@ -191,7 +191,7 @@
 
   // ---------------------- Record Batches and schemas ----------------------
 
-  record ArrowRecordBatch {
+  record arrowRecordBatch {
     var rcbatch: c_ptr(GArrowRecordBatch);
 
     proc init(args ...?n){
@@ -209,7 +209,7 @@
         if args[i].type != string then
           compilerError("Wrong even argument type");
       } else {
-        if args[i].type != ArrowArray then
+        if args[i].type != arrowArray then
           compilerError("Wrong odd argument type");
       }
     }
@@ -251,14 +251,14 @@
     return record_batch;
   }
 
-  record ArrowTable {
+  record arrowTable {
     var tbl: c_ptr(GArrowTable);
   
-    proc init(args: ArrowRecordBatch ...?n){
+    proc init(args: arrowRecordBatch ...?n){
       this.tbl = table( (...args) ); // Unpacking the tuple using ...
     }
 
-    proc init(recordBatches: [] ArrowRecordBatch){
+    proc init(recordBatches: [] arrowRecordBatch){
       this.tbl = table(recordBatches);
     }
 
@@ -267,7 +267,7 @@
     }
 
   }
-  proc table(recordBatches: [] ArrowRecordBatch): c_ptr(GArrowTable) {
+  proc table(recordBatches: [] arrowRecordBatch): c_ptr(GArrowTable) {
     var error: GErrorPtr;
     var schema: c_ptr(GArrowSchema) = garrow_record_batch_get_schema(recordBatches[0].rcbatch);
     var rbArray = [rb in recordBatches] rb.rcbatch;
@@ -280,7 +280,7 @@
     return retval;
   }
 
-  proc table(recordBatches: ArrowRecordBatch ...?n){
+  proc table(recordBatches: arrowRecordBatch ...?n){
     var error: GErrorPtr;
     var schema: c_ptr(GArrowSchema) = garrow_record_batch_get_schema(recordBatches[0].rcbatch: c_ptr(GArrowRecordBatch));
     var rbArray = [rb in recordBatches] rb.rcbatch;
@@ -296,7 +296,7 @@
 
   // -------------------------- Parquet -------------------------------------
 
-  proc writeTableToParquetFile(table: ArrowTable, path: string) {
+  proc writeTableToParquetFile(table: arrowTable, path: string) {
     var error: GErrorPtr;
     var writer_properties: c_ptr(GParquetWriterProperties) = gparquet_writer_properties_new();
     var writer: c_ptr(GParquetArrowFileWriter) = gparquet_arrow_file_writer_new_path(
@@ -325,7 +325,7 @@
     }
   }
 
-  proc readParquetFileToTable(path: string): ArrowTable {
+  proc readParquetFileToTable(path: string): arrowTable {
     var error: GErrorPtr;
     var pqFileReader: c_ptr(GParquetArrowFileReader) = gparquet_arrow_file_reader_new_path(
       path.c_str(): c_ptr(gchar), c_ptrTo(error));
@@ -341,7 +341,7 @@
       printGError("failed to read the table:", error);
       exit(EXIT_FAILURE);
     }
-    var retval = new ArrowTable(table);
+    var retval = new arrowTable(table);
     return retval;
   }
 
@@ -430,7 +430,7 @@
   }
 
   //----------------------- Functions for printing ----------------------------
-  proc printArray(arr: ArrowArray) {
+  proc printArray(arr: arrowArray) {
     printArray(arr.val);
   }
   proc printArray(array: c_ptr(GArrowArray)) {
@@ -444,7 +444,7 @@
     g_print("%s\n".c_str(): c_ptr(gchar),str);
   }
 
-  proc printRecordBatch(recordBatch: ArrowRecordBatch){
+  proc printRecordBatch(recordBatch: arrowRecordBatch){
     printRecordBatch(recordBatch.rcbatch);
   }
   proc printRecordBatch(recordBatch: c_ptr(GArrowRecordBatch)) {
@@ -458,7 +458,7 @@
     g_print("%s\n".c_str(): c_ptr(gchar),str: c_ptr(gchar));
   }
 
-  proc printTable(table: ArrowTable) {
+  proc printTable(table: arrowTable) {
     printTable(table.tbl);
   }
   proc printTable(table: c_ptr(GArrowTable)) {
