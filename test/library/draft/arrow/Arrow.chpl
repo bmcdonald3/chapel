@@ -345,7 +345,62 @@
     return retval;
   }
 
+  proc read(path: string) {
+    var error: GErrorPtr;
+    var pqFileReader: c_ptr(GParquetArrowFileReader) = gparquet_arrow_file_reader_new_path(
+      path.c_str(): c_ptr(gchar), c_ptrTo(error));
+
+    if(isNull(pqFileReader)){
+      printGError("failed to open the file:", error);
+      exit(EXIT_FAILURE);
+    }
+
+    // Reading the whole table
+    var table: c_ptr(GArrowTable) = gparquet_arrow_file_reader_read_table(pqFileReader, c_ptrTo(error));
+    if(isNull(table)){
+      printGError("failed to read the table:", error);
+      exit(EXIT_FAILURE);
+    }
+    return table;
+  }
+  
   proc readParquetFileToArr(path: string) {
+    var table = read(path);
+
+    // get values to change to Chapel array
+    var chunk = garrow_table_get_column_data(table, 0);
+    var len = garrow_chunked_array_get_n_rows(chunk);
+    
+    var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+    var ret: [0..#len] int;
+    forall i in 0..#len do
+      ret[i] = garrow_int64_array_get_value(loc, i);
+    
+    return ret;
+  }
+
+  proc readParquetFileToArrs(path: string) {
+    var table = read(path);
+
+    var ret: [0..#garrow_table_get_n_columns(table)] [0..#garrow_table_get_n_rows(table)] int;
+    
+    // get values to change to Chapel array
+    for col in 0..#garrow_table_get_n_columns(table) {
+      var chunk = garrow_table_get_column_data(table, col);
+      var len = garrow_chunked_array_get_n_rows(chunk);
+
+      var localChunk = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+      var loc: [0..#len] int;
+      for i in 0..#len do
+        loc[i] = garrow_int64_array_get_value(localChunk, i);
+      ret[col] = loc;
+    }
+    
+    return ret;
+  }
+
+
+  proc readParquetFileToStringArr(path: string) {
     var error: GErrorPtr;
     var pqFileReader: c_ptr(GParquetArrowFileReader) = gparquet_arrow_file_reader_new_path(
       path.c_str(): c_ptr(gchar), c_ptrTo(error));
@@ -364,12 +419,12 @@
 
     // get values to change to Chapel array
     var chunk = garrow_table_get_column_data(table, 0);
-    var len = garrow_chunked_array_get_length(chunk);
+    var len = garrow_chunked_array_get_n_rows(chunk);
     
-    var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
-    var ret: [0..#len] int;
+    var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
+    var ret: [0..#len] string;
     forall i in 0..#len do
-      ret[i] = garrow_int64_array_get_value(loc, i);
+      ret[i] = garrow_string_array_get_string(loc, i):string;
     
     return ret;
   }
