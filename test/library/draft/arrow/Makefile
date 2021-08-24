@@ -12,7 +12,7 @@ FUNC_FILES = Arrow.chpl
 .PHONY: default all
 default : all
 
-all: ArrowDemo
+all: IntParquet
 
 %: %.chpl $(FUNC_FILES)
 	+$(CHPL) $(GLIB_INCLUDES) $(GLIB_LINKS) -o $@ $<
