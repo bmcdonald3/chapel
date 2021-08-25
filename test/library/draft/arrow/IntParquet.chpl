@@ -33,5 +33,10 @@ module IntParquet {
     
     var asd = readParquetFileToArrs("introws.parquet");
     writeln(asd);
+
+    var column = readParquetFileColumn("introws.parquet", 1);
+    writeln(column);
+    column = readParquetFileColumn("introws.parquet", 0);
+    writeln(column);
   }
 }

@@ -399,6 +399,21 @@ module Arrow {
     return ret;
   }
 
+  proc readParquetFileColumn(path: string, col: int) {
+    var table = read(path);
+
+    // get values to change to Chapel array
+    var chunk = garrow_table_get_column_data(table, col:gint);
+    var len = garrow_chunked_array_get_n_rows(chunk);
+    var ret: [0..#len] int;
+
+    var localChunk = garrow_chunked_array_get_chunk(chunk, 0:gint):c_ptr(GArrowInt64Array);
+    
+    for i in 0..#len do
+      ret[i] = garrow_int64_array_get_value(localChunk, i);
+    
+    return ret;
+  }
 
   proc readParquetFileToStringArr(path: string) {
     var error: GErrorPtr;
