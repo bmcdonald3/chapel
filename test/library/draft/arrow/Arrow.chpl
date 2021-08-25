@@ -415,32 +415,22 @@ module Arrow {
     return ret;
   }
 
-  proc readParquetFileToStringArr(path: string) {
-    var error: GErrorPtr;
-    var pqFileReader: c_ptr(GParquetArrowFileReader) = gparquet_arrow_file_reader_new_path(
-      path.c_str(): c_ptr(gchar), c_ptrTo(error));
-
-    if(isNull(pqFileReader)){
-      printGError("failed to open the file:", error);
-      exit(EXIT_FAILURE);
-    }
-
-    // Reading the whole table
-    var table: c_ptr(GArrowTable) = gparquet_arrow_file_reader_read_table(pqFileReader, c_ptrTo(error));
-    if(isNull(table)){
-      printGError("failed to read the table:", error);
-      exit(EXIT_FAILURE);
-    }
+  proc readParquetColumnToStringArr(path: string, col: int) {
+    extern proc strlen(str): int;
+    var table = read(path);
 
     // get values to change to Chapel array
-    var chunk = garrow_table_get_column_data(table, 0);
+    var chunk = garrow_table_get_column_data(table, col:gint);
     var len = garrow_chunked_array_get_n_rows(chunk);
     
     var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
+
     var ret: [0..#len] string;
-    forall i in 0..#len do
-      ret[i] = garrow_string_array_get_string(loc, i):string;
-    
+    for i in 0..#len {
+      var gstr = garrow_string_array_get_string(loc, i);
+      ret[i] = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+    }
+
     return ret;
   }
 

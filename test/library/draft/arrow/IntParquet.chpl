@@ -24,10 +24,15 @@ module IntParquet {
     var readArr = Arrow.readParquetFileToArr("introw.parquet");
     writeln(readArr);
 
+    var hjk = new arrowArray(["hello1", "hello2"]);
+    var strRb = new arrowRecordBatch("first", hjk);
+    var strTable = new arrowTable(strRb);
+    Arrow.writeTableToParquetFile(strTable, "strings.parquet");
     // Doesn't work yet, need to convert from char* to
     // Chapel string
-    //var strArr = Arrow.readParquetFileToStringArr("introw.parquet");
-
+    var strArr = Arrow.readParquetColumnToStringArr("strings.parquet", 0);
+    writeln(strArr);
+    
     var rb2 = new arrowRecordBatch("first", arr, "second", new arrowArray([9,8,7,6,5]));
     Arrow.writeTableToParquetFile(new arrowTable(rb2), "introws.parquet");
     
