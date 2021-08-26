@@ -434,6 +434,63 @@ module Arrow {
     return ret;
   }
 
+  proc getIntColumn(path: string, col: int) {
+    use Time;
+    var table = read(path);
+    var typeVal = getColumnType(table, col);
+    var chunk = garrow_table_get_column_data(table, col:gint);
+    var len = garrow_chunked_array_get_n_rows(chunk);
+    var ret: [0..#len] int;
+    if typeVal == 9 {
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+      var t: Timer;
+      t.start();
+      forall i in 0..#len {
+        ret[i] = garrow_int64_array_get_value(loc, i);
+      }
+      writeln("copy took:", t.elapsed());
+    } else if typeVal == 13 {
+      writeln("error, this is a string column");
+    }
+    return ret;
+  }
+
+  // eltType == 0 is int, 1 is string
+  proc getParquetColumn(table, col: int, param eltType=0) {
+    use Time;
+    var chunk = garrow_table_get_column_data(table, col:gint);
+    var len = garrow_chunked_array_get_n_rows(chunk);
+    
+    if eltType==0 {
+      var ret: [0..#len] int;
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+      var t: Timer;
+      t.start();
+      forall i in 0..#len {
+        ret[i] = garrow_int64_array_get_value(loc, i);
+      }
+      writeln("copy took:", t.elapsed());
+      return ret;
+    } else if eltType==1 {
+      extern proc strlen(str): int;
+      var ret: [0..#len] string;
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
+      var t: Timer;
+      t.start();
+      forall i in 0..#len {
+        var gstr = garrow_string_array_get_string(loc, i);
+        ret[i] = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      }
+      writeln("copy took:", t.elapsed());
+      return ret;
+    }
+  }
+
+  proc getColumnType(table, col: int) {
+    var chunk = garrow_table_get_column_data(table, col:gint);
+    return garrow_chunked_array_get_value_type(chunk);
+  }
+
   //----------------------- Functions for printing ----------------------------
   proc printArray(arr: arrowArray) {
     printArray(arr.val);

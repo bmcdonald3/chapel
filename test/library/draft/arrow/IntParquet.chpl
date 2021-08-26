@@ -24,7 +24,7 @@ module IntParquet {
     var readArr = Arrow.readParquetFileToArr("introw.parquet");
     writeln(readArr);
 
-    var hjk = new arrowArray(["hello1", "hello2"]);
+    var hjk = new arrowArray(["hello", "asdasdasds"]);
     var strRb = new arrowRecordBatch("first", hjk);
     var strTable = new arrowTable(strRb);
     Arrow.writeTableToParquetFile(strTable, "strings.parquet");
@@ -43,5 +43,9 @@ module IntParquet {
     writeln(column);
     column = readParquetFileColumn("introws.parquet", 0);
     writeln(column);
+
+    column = getIntColumn("introws.parquet", 0);
+    writeln("new func ",column);
+    getIntColumn("strings.parquet", 0);
   }
 }
