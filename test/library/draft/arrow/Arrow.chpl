@@ -296,6 +296,37 @@ module Arrow {
 
   // -------------------------- Parquet -------------------------------------
 
+  record parquetFile {
+    var table: c_ptr(GArrowTable);
+    var schema: c_ptr(GArrowSchema);
+
+    proc init(path: string) {
+      var error: GErrorPtr;
+      var pqFileReader = gparquet_arrow_file_reader_new_path(path.c_str(): c_ptr(gchar), c_ptrTo(error));
+      if isNull(pqFileReader) {
+        printGError("failed to open file: ", error);
+        exit(EXIT_FAILURE);
+      }
+      table = gparquet_arrow_file_reader_read_table(pqFileReader, c_ptrTo(error));
+      if isNull(table) {
+        printGError("failed to read table: ", error);
+        exit(EXIT_FAILURE);
+      }
+      schema = gparquet_arrow_file_reader_get_schema(pqFileReader, c_ptrTo(error));
+    }
+
+    proc writeSchema() {
+      extern proc strlen(str): int;
+      var gstr = garrow_schema_to_string(schema);
+      var sch = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      writeln(sch);
+
+      var field = garrow_schema_get_field(schema, 0:guint);
+      var id = garrow_data_type_get_id(garrow_field_get_data_type(field));
+      writeln("pls be 9: ", id);
+    }
+  }
+  
   proc writeTableToParquetFile(table: arrowTable, path: string) {
     var error: GErrorPtr;
     var writer_properties: c_ptr(GParquetWriterProperties) = gparquet_writer_properties_new();
@@ -456,34 +487,25 @@ module Arrow {
   }
 
   // eltType == 0 is int, 1 is string
-  proc getParquetColumn(table, col: int, param eltType=0) {
-    use Time;
+  proc getParquetColumn(table, col: int, type eltType=int) {
     var chunk = garrow_table_get_column_data(table, col:gint);
     var len = garrow_chunked_array_get_n_rows(chunk);
-    
-    if eltType==0 {
-      var ret: [0..#len] int;
+    var ret: [0..#len] eltType;    
+    if eltType==int {
       var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
-      var t: Timer;
-      t.start();
       forall i in 0..#len {
         ret[i] = garrow_int64_array_get_value(loc, i);
       }
-      writeln("copy took:", t.elapsed());
-      return ret;
-    } else if eltType==1 {
+    } else if eltType==string {
       extern proc strlen(str): int;
       var ret: [0..#len] string;
       var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
-      var t: Timer;
-      t.start();
       forall i in 0..#len {
         var gstr = garrow_string_array_get_string(loc, i);
         ret[i] = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
       }
-      writeln("copy took:", t.elapsed());
-      return ret;
     }
+    return ret;
   }
 
   proc getColumnType(table, col: int) {

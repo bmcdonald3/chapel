@@ -11,13 +11,13 @@ proc main() {
   var table = read("big-parquet.parquet");
   var t1: Timer;
   t1.start();
-  var asd = getParquetColumn(table, 0, 0);
+  var asd = getParquetColumn(table, 0, int);
   writeln("int one took:", t1.elapsed());
   writeln("last 10 elems: ", asd[SIZE-10..SIZE-1]);
 
   var t: Timer;
   t.start();
-  var strAsd = getParquetColumn(table, 1, 1);
+  var strAsd = getParquetColumn(table, 1, string);
   writeln("string one took:", t.elapsed());
   writeln("last 10 elems: ", strAsd[SIZE-10..SIZE-1]);
 }
