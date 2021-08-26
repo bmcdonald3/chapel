@@ -20,3 +20,10 @@ all: IntParquet
 .PHONY: clean
 clean:
 	rm -rf *.o ArrowDemo
+
+test:
+	echo "asd"
+	for f in ./test
+	do
+		echo "hello"
+	done
