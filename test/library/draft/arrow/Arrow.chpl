@@ -296,6 +296,13 @@ module Arrow {
 
   // -------------------------- Parquet -------------------------------------
 
+  proc getSingleSchemaType(schema, idx: int) {
+    var field = garrow_schema_get_field(schema, idx:guint);
+    var id = garrow_data_type_get_id(garrow_field_get_data_type(field));
+    if id == 13 then return "string";
+    else return "int";
+  }
+  
   record parquetFile {
     var table: c_ptr(GArrowTable);
     var schema: c_ptr(GArrowSchema);
@@ -315,15 +322,107 @@ module Arrow {
       schema = gparquet_arrow_file_reader_get_schema(pqFileReader, c_ptrTo(error));
     }
 
+    proc readColumnByIndex(idx: int) {
+      /*var iarr = [1,2,3];
+      var sarr = ["a", "s", "d"];
+      if types[0] == 0 then return iarr;
+      else return sarr;*/
+    }
+
+    proc readColumn(col: int) //where getSingleSchemaType(schema, col) == "int" {
+    {
+      var chunk = garrow_table_get_column_data(table, col:gint);
+      var len = garrow_chunked_array_get_n_rows(chunk);
+      var ret: [0..#len] int;
+
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+      forall i in 0..#len {
+        ret[i] = garrow_int64_array_get_value(loc, i);
+      }
+      return ret;
+    }
+
+    proc readColumnStr(col: int) //where getSingleSchemaType(schema, col) == "string" {
+    {
+      extern proc strlen(str): int;
+      var chunk = garrow_table_get_column_data(table, col:gint);
+      var len = garrow_chunked_array_get_n_rows(chunk);
+      var ret: [0..#len] string;
+      
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
+      forall i in 0..#len {
+        var gstr = garrow_string_array_get_string(loc, i);
+        ret[i] = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      }
+      return ret;
+    }
+
     proc writeSchema() {
       extern proc strlen(str): int;
       var gstr = garrow_schema_to_string(schema);
       var sch = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
       writeln(sch);
+    }
+  }
 
-      var field = garrow_schema_get_field(schema, 0:guint);
-      var id = garrow_data_type_get_id(garrow_field_get_data_type(field));
-      writeln("pls be 9: ", id);
+  record parquetFileNonPersistent {
+    var path: string;
+    var pqFileReader: c_ptr(GParquetArrowFileReader);
+    var schema: c_ptr(GArrowSchema);
+
+    proc init(path: string) {
+      this.path = path;
+      var error: GErrorPtr;
+      pqFileReader = gparquet_arrow_file_reader_new_path(path.c_str(): c_ptr(gchar), c_ptrTo(error));
+      if isNull(pqFileReader) {
+        printGError("failed to open file: ", error);
+        exit(EXIT_FAILURE);
+      }
+      schema = gparquet_arrow_file_reader_get_schema(pqFileReader, c_ptrTo(error));
+    }
+
+    proc readColumnByIndex(idx: int) {
+      /*var iarr = [1,2,3];
+      var sarr = ["a", "s", "d"];
+      if types[0] == 0 then return iarr;
+      else return sarr;*/
+    }
+
+    proc readColumn(col: int) //where getSingleSchemaType(schema, col) == "int" {
+    {
+      var error: GErrorPtr;
+      var chunk = gparquet_arrow_file_reader_read_column_data(pqFileReader, col: gint, c_ptrTo(error));
+      var len = garrow_chunked_array_get_n_rows(chunk);
+      var ret: [0..#len] int;
+
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowInt64Array);
+      forall i in 0..#len {
+        ret[i] = garrow_int64_array_get_value(loc, i);
+      }
+      return ret;
+    }
+
+    proc readColumnStr(col: int) //where getSingleSchemaType(schema, col) == "string" {
+    {
+      var error: GErrorPtr;
+      extern proc strlen(str): int;
+      var chunk = gparquet_arrow_file_reader_read_column_data(pqFileReader, col: gint, c_ptrTo(error));
+      var len = garrow_chunked_array_get_n_rows(chunk);
+      var ret: [0..#len] string;
+      
+      var loc = garrow_chunked_array_get_chunk(chunk, 0:guint):c_ptr(GArrowStringArray);
+      forall i in 0..#len {
+        var gstr = garrow_string_array_get_string(loc, i);
+        ret[i] = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      }
+      return ret;
+    }
+
+    proc writeSchema() {
+      extern proc strlen(str): int;
+      var gstr = garrow_schema_to_string(schema);
+      var sch = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      writeln(sch);
     }
   }
   
