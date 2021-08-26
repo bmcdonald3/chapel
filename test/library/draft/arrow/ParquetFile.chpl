@@ -11,18 +11,26 @@ proc main() {
   var t1: Timer;
   t1.start();
   var fN = new parquetFileNonPersistent("test.parquet");
-  fN.writeSchema();
   for i in 0..#10 do
     writeln(fN.readColumn(i)[10..19]);
-  writeln("column by column read ", t1.elapsed());
+  var done = t1.elapsed();
+  writeln("column by column read ", done);
+
+  var fN1 = new parquetFileNonPersistent("test.parquet");
+  writeln(fN1.readColumn(0)[10..19]);
+  writeln("single column took ", t1.elapsed()-done);
   
   var t:Timer;
   t.start();
   var f = new parquetFile("test.parquet");
-  f.writeSchema();
   for i in 0..#10 do
     writeln(f.readColumn(i)[10..19]);
-  writeln("in memory, whole table read ", t.elapsed());
+  var d = t.elapsed();
+  writeln("in memory, whole table read ", d);
+
+  var f1 = new parquetFile("test.parquet");
+  writeln(f1.readColumn(0)[10..19]);
+  writeln("single column took ", t.elapsed()-d);
 }
 
 proc createFile() {
