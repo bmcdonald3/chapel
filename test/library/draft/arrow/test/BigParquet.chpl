@@ -1,6 +1,5 @@
 use Arrow;
 use CPtr;
-use parquetHeaders;
 use Time;
 
 config const SIZE=1_000_000;;
