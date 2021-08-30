@@ -1,9 +1,8 @@
 module IntParquet {
-  require "Arrow.chpl";
+  require "../lib/ArrowAll.chpl";
   require "-larrow-glib", "-lglib-2.0", "-lgobject-2.0";
-  use Arrow;
+  use ArrowAll as Arrow;
   use CPtr;
-  use parquetHeaders;
 
   proc main() {
     var arr: arrowArray = new arrowArray([25,26,27,28,29]);

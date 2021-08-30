@@ -1,4 +1,5 @@
-use Arrow;
+require "../lib/ArrowAll.chpl";
+use ArrowAll as Arrow;
 use CPtr;
 use Time;
 
