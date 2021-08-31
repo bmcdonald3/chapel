@@ -8455,7 +8455,7 @@ module ArrowAll {
     var val: c_ptr(GArrowArray);
     proc init(arr: [] ?arrayType, validIndices: [] int = [-1], 
               invalidIndices: [] int = [-1]){
-      this.val = array(arr, validIndices, invalidIndices);
+      this.val = buildArrowArray(arr, validIndices, invalidIndices);
     }
   }
   proc arrowInt32(): GArrowInt32DataType {
@@ -8472,7 +8472,7 @@ module ArrowAll {
   }
   //--------------------------- Array building functions --------------------
   
-  proc array(arr: [] ?arrayType, validIndices: [] int = [-1], 
+  proc buildArrowArray(arr: [] ?arrayType, validIndices: [] int = [-1], 
              invalidIndices: [] int = [-1]): c_ptr(GArrowArray) {
     // Build full validity array here since each function needs it anyways
     var validityArr: [0..#arr.size] gboolean;
@@ -8711,6 +8711,64 @@ module ArrowAll {
     else return "int";
   }
 
+  record parquetFileWriter {
+    var fname: string;
+    var chunks: guint64; // Max number of rows
+    var table: c_ptr(GArrowTable) = nil;
+    var numRows = 0;
+
+    // can't create table til we have the first column
+    proc init(fname) {
+      this.fname = fname;
+    }
+
+    proc addColumn(arr: [] int, idx: int, colName: string) {
+      if arr.size > numRows then numRows = arr.size;
+      var col = (new arrowArray(arr)).val;
+      var field = garrow_field_new(colName.c_str(): c_ptr(gchar), garrow_array_get_value_data_type(col: c_ptr(GArrowArray)));
+      var e: GErrorPtr;
+      // need to create table
+      if table == nil {
+        var f: c_ptr(GList) = nil;
+
+        f = g_list_append(f, field);
+        var schema = garrow_schema_new(f);
+
+        var vals: c_ptr(GList);
+        vals = g_list_append(vals, col);
+
+        table = garrow_table_new_values(schema, vals, c_ptrTo(e));
+        if isNull(table) {
+          printGError("failed to create table: ", e);
+        }
+      } else { // can just add the array
+        var l:c_ptr(GList);
+        l = g_list_append(l, col);
+        var chunk = garrow_chunked_array_new(l);
+        table = garrow_table_add_column(table, idx: guint, field, chunk, c_ptrTo(e));
+        
+      }
+    }
+
+    proc finish() {
+      var e: GErrorPtr;
+      var props: c_ptr(GParquetWriterProperties);
+      var writer = gparquet_arrow_file_writer_new_path(garrow_table_get_schema(table),
+                                                       fname.c_str(): c_ptr(gchar),
+                                                       props,
+                                                       c_ptrTo(e));
+      if(!gparquet_arrow_file_writer_write_table(writer, table, numRows:guint64, c_ptrTo(e))) {
+        printGError("failed to write table:", e);
+        exit(EXIT_FAILURE);
+      }
+      
+      if(!gparquet_arrow_file_writer_close(writer, c_ptrTo(e))){
+        printGError("could not close writer:", e);
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
+  
   // Record that stores a reader for the file and can serve columns
   // as requested. Also stores schema
   record parquetFileReader {
