@@ -8722,7 +8722,7 @@ module ArrowAll {
       this.fname = fname;
     }
 
-    proc addColumn(arr: [] int, idx: int, colName: string) {
+    proc addColumn(arr: [] ?eltType, idx: int, colName: string) {
       if arr.size > numRows then numRows = arr.size;
       var col = (new arrowArray(arr)).val;
       var field = garrow_field_new(colName.c_str(): c_ptr(gchar), garrow_array_get_value_data_type(col: c_ptr(GArrowArray)));

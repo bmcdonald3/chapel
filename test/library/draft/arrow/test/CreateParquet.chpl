@@ -3,21 +3,25 @@ use ArrowAll as Arrow;
 
 proc main() {
   var toParquet = [i in 0..#10] i;
-  var table = new arrowTable(new arrowRecordBatch("col1", new arrowArray(toParquet), "col2", new arrowArray(toParquet)));
+  var table = new arrowTable(new arrowRecordBatch("col1", new arrowArray(toParquet)));
   Arrow.writeTableToParquetFile(table, "test.parquet");
 
   var pqReader = new parquetFileReader("test.parquet");
-  var fromParquet = pqReader.readColumn(1);
+  var fromParquet = pqReader.readColumn(0);
   writeln(toParquet);
   writeln(fromParquet);
 
-  var asd = new parquetFileWriter("test2.parquet");
-  asd.addColumn(toParquet, 0, "first-col");
-  asd.addColumn(toParquet, 1, "second-col");
-  asd.finish();
+  var arr = toParquet+10;
+  var strArr = [i in 0..#10] "asd";
+  var parquetWriter = new parquetFileWriter("test2.parquet");
+  parquetWriter.addColumn(toParquet, 0, "first-int-col");
+  parquetWriter.addColumn(arr, 1, "second-int-col");
+  parquetWriter.addColumn(strArr, 1, "str-col");
+  parquetWriter.finish();
 
-  var pqReader2 = new parquetFileReader("test2.parquet");
-  var fromParquet2 = pqReader2.readColumn(1);
-  writeln(toParquet);
-  writeln(fromParquet2);
+  pqReader = new parquetFileReader("test2.parquet");
+  fromParquet = pqReader.readColumn(0);
+  writeln(fromParquet);
+  writeln( pqReader.readColumnStr(1));
+  writeln(fromParquet);
 }
