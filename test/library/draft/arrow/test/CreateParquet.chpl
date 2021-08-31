@@ -22,6 +22,6 @@ proc main() {
   pqReader = new parquetFileReader("test2.parquet");
   fromParquet = pqReader.readColumn(0);
   writeln(fromParquet);
-  writeln( pqReader.readColumnStr(1));
-  writeln(fromParquet);
+  writeln(pqReader.readColumnStr(1));
+  writeln(pqReader.readColumn(2));
 }
