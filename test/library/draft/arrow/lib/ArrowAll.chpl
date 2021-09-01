@@ -8768,6 +8768,18 @@ module ArrowAll {
       }
     }
   }
+
+  record parquetDistFileReader {
+    var distArr;
+    var filenames: [?D] string;
+    var filedomains: [D] domain(1);
+
+    proc init(A, names, doms) {
+      distArr = A;
+      filenames = names;
+      filedomains = doms;
+    }
+  }
   
   // Record that stores a reader for the file and can serve columns
   // as requested. Also stores schema
