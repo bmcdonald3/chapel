@@ -8769,15 +8769,14 @@ module ArrowAll {
     }
   }
 
-  record parquetDistFileReader {
-    var distArr;
-    var filenames: [?D] string;
-    var filedomains: [D] domain(1);
-
-    proc init(A, names, doms) {
-      distArr = A;
-      filenames = names;
-      filedomains = doms;
+  proc readFiles(A, filenames) {
+    var f1 = new parquetFileReader(filenames[0]);
+    var dom1 = {1..10};
+    var f2 = new parquetFileReader(filenames[1]);
+    var dom2 = {11..20};
+    
+    coforall (loc, i) in zip(A.targetLocales(),[0])  do on loc {
+      
     }
   }
   
