@@ -8769,15 +8769,43 @@ module ArrowAll {
     }
   }
 
-  proc readFiles(A, filenames) {
-    var f1 = new parquetFileReader(filenames[0]);
-    var dom1 = {1..10};
-    var f2 = new parquetFileReader(filenames[1]);
-    var dom2 = {11..20};
-    
-    coforall (loc, i) in zip(A.targetLocales(),[0])  do on loc {
-      
+  proc getArrSizeAndType(filenames: [?D] string, col: int) {
+    extern proc strlen(asd): c_int;
+    var sizes: [D] int;
+    var ty: string;
+    for i in D {
+      var error: GErrorPtr;
+      var reader = gparquet_arrow_file_reader_new_path(filenames[i].c_str(): c_ptr(gchar), c_ptrTo(error));
+      writeln("NUM ROW GROUPS: ", gparquet_arrow_file_reader_get_n_row_groups(reader));
+      var t = gparquet_arrow_file_reader_read_table(reader, c_ptrTo(error));
+      sizes[i] = garrow_table_get_n_rows(t):int;
+
+      var schema = garrow_table_get_schema(t);
+      var field = garrow_schema_get_field(schema, col: guint);
+      var gtype = garrow_data_type_get_id(garrow_field_get_data_type(field));
+      // TODO: need to check to make sure all types match
+      // TODO: need to add checking against all int types, not just 64
+      if(gtype == GARROW_TYPE_INT64) then ty = "int";
+      else ty = "string";
     }
+    return (sizes, ty);
+  }
+  
+  proc readFiles(A, filenames: [] string) {
+    var perLoc = 10;//A.size/numLocales;
+    writeln(perLoc, " elems per locale");
+    /*coforall (loc, i) in zip(A.targetLocales(), LocaleSpace) do on loc {
+        var f1 = new parquetFileReader(filenames[i]);
+        A[0+(perLoc*i)..#perLoc] = f1.readColumn(0);
+        }*/
+    for i in 0..1 {
+      var f1 = new parquetFileReader(filenames[i]);
+      var col = f1.readColumn(0);
+      forall j in 0+(perLoc*i)..#perLoc {
+        A[j] = col[j-(perLoc*i)];
+      }
+    }
+    return A;
   }
   
   // Record that stores a reader for the file and can serve columns
