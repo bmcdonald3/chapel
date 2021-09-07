@@ -15,6 +15,3167 @@ module ArrowAll {
   // Header given to c2chapel:
   require "/usr/local/include/parquet-glib/parquet-glib.h";
   require "-larrow-glib", "-lparquet-glib", "-lglib-2.0", "-lgobject-2.0";
+
+  // All records
+  extern "struct _GTimeVal" record _GTimeVal {    var tv_sec : glong;
+    var tv_usec : glong;
+  }
+
+  extern "struct _GArray" record _GArray {    var data : c_ptr(gchar);
+    var len : guint;
+  }
+
+  extern "struct _GByteArray" record _GByteArray {    var data : c_ptr(guint8);
+    var len : guint;
+  }
+
+  extern "struct _GPtrArray" record _GPtrArray {    var pdata : c_ptr(gpointer);
+    var len : guint;
+  }
+
+  extern "struct _GError" record _GError {    extern "domain" var dom: GQuark;
+    var code: gint;
+    var message: c_ptr(gchar);
+  }
+
+  extern "struct _GDebugKey" record _GDebugKey {    var key : c_ptr(gchar);
+    var value : guint;
+  }
+
+  extern "struct _GRWLock" record _GRWLock {    var p : gpointer;
+    var i : c_ptr(guint);
+  }
+
+  extern "struct _GCond" record _GCond {    var p : gpointer;
+    var i : c_ptr(guint);
+  }
+
+  extern "struct _GRecMutex" record _GRecMutex {    var p : gpointer;
+    var i : c_ptr(guint);
+  }
+
+  extern "struct _GPrivate" record _GPrivate {    var p : gpointer;
+    var notify : GDestroyNotify;
+    var future : c_ptr(gpointer);
+  }
+
+  extern "struct _GOnce" record _GOnce {    var status : GOnceStatus;
+    var retval : gpointer;
+  }
+
+  extern "struct _GDate" record _GDate {    var julian_days : guint;
+    var julian : guint;
+    var dmy : guint;
+    var day : guint;
+    var month : guint;
+    var year : guint;
+  }
+
+  extern "struct _GMemVTable" record _GMemVTable {    var malloc : c_ptr(c_fn_ptr);
+    var realloc : c_ptr(c_fn_ptr);
+    var free : c_ptr(c_fn_ptr);
+    var calloc : c_ptr(c_fn_ptr);
+    var try_malloc : c_ptr(c_fn_ptr);
+    var try_realloc : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GNode" record _GNode {    var data : gpointer;
+    var next : c_ptr(_GNode);
+    var prev : c_ptr(_GNode);
+    var parent : c_ptr(_GNode);
+    var children : c_ptr(_GNode);
+  }
+
+  extern "struct _GHashTableIter" record _GHashTableIter {    var dummy1 : gpointer;
+    var dummy2 : gpointer;
+    var dummy3 : gpointer;
+    var dummy4 : c_int;
+    var dummy5 : gboolean;
+    var dummy6 : gpointer;
+  }
+
+  extern "struct _GHookList" record _GHookList {    var seq_id : gulong;
+    var hook_size : guint;
+    var is_setup : guint;
+    var hooks : c_ptr(GHook);
+    var dummy3 : gpointer;
+    var finalize_hook : GHookFinalizeFunc;
+    var dummy : c_ptr(gpointer);
+  }
+
+  extern "struct _GHook" record _GHook {    var data : gpointer;
+    var next : c_ptr(_GHook);
+    var prev : c_ptr(_GHook);
+    var ref_count : guint;
+    var hook_id : gulong;
+    var flags : guint;
+    var func : gpointer;
+    var destroy : GDestroyNotify;
+  }
+
+  extern "struct _GPollFD" record _GPollFD {    var fd : gint;
+    var events : gushort;
+    var revents : gushort;
+  }
+
+  extern "struct _GSList" record _GSList {    var data : gpointer;
+    var next : c_ptr(GSList);
+  }
+
+  extern "struct _GSource" record _GSource {    var callback_data : gpointer;
+    var callback_funcs : c_ptr(GSourceCallbackFuncs);
+    var source_funcs : c_ptr(GSourceFuncs);
+    var ref_count : guint;
+    var context : c_ptr(GMainContext);
+    var priority : gint;
+    var flags : guint;
+    var source_id : guint;
+    var poll_fds : c_ptr(GSList);
+    var prev : c_ptr(_GSource);
+    var next : c_ptr(_GSource);
+    var name : c_string;
+    var priv : c_ptr(GSourcePrivate);
+  }
+
+  extern "struct _GSourceFuncs" record _GSourceFuncs {    var prepare : c_ptr(c_fn_ptr);
+    var check : c_ptr(c_fn_ptr);
+    var dispatch : c_ptr(c_fn_ptr);
+    var finalize : c_ptr(c_fn_ptr);
+    var closure_callback : GSourceFunc;
+    var closure_marshal : GSourceDummyMarshal;
+  }
+
+  extern "struct _GString" record _GString {    var str : c_ptr(gchar);
+    var len : gsize;
+    var allocated_len : gsize;
+  }
+
+  extern "struct _GIOChannel" record _GIOChannel {    var ref_count : gint;
+    var funcs : c_ptr(GIOFuncs);
+    var encoding : c_ptr(gchar);
+    var read_cd : GIConv;
+    var write_cd : GIConv;
+    var line_term : c_ptr(gchar);
+    var line_term_len : guint;
+    var buf_size : gsize;
+    var read_buf : c_ptr(GString);
+    var encoded_read_buf : c_ptr(GString);
+    var write_buf : c_ptr(GString);
+    var partial_write_buf : c_ptr(gchar);
+    var use_buffer : guint;
+    var do_encode : guint;
+    var close_on_unref : guint;
+    var is_readable : guint;
+    var is_writeable : guint;
+    var is_seekable : guint;
+    var reserved1 : gpointer;
+    var reserved2 : gpointer;
+  }
+
+  extern "struct _GIOFuncs" record _GIOFuncs {    var io_read : c_ptr(c_fn_ptr);
+    var io_write : c_ptr(c_fn_ptr);
+    var io_seek : c_ptr(c_fn_ptr);
+    var io_close : c_ptr(c_fn_ptr);
+    var io_create_watch : c_ptr(c_fn_ptr);
+    var io_free : c_ptr(c_fn_ptr);
+    var io_set_flags : c_ptr(c_fn_ptr);
+    var io_get_flags : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMarkupParser" record _GMarkupParser {    var start_element : c_ptr(c_fn_ptr);
+    var end_element : c_ptr(c_fn_ptr);
+    var text : c_ptr(c_fn_ptr);
+    var passthrough : c_ptr(c_fn_ptr);
+    var error : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GVariantIter" record _GVariantIter {    var x : c_ptr(gsize);
+  }
+
+  extern "struct _GLogField" record _GLogField {    var key : c_ptr(gchar);
+    var value : gconstpointer;
+    var length : gssize;
+  }
+
+  extern "struct _GOptionEntry" record _GOptionEntry {    var long_name : c_ptr(gchar);
+    var short_name : gchar;
+    var flags : gint;
+    var arg : GOptionArg;
+    var arg_data : gpointer;
+    var description : c_ptr(gchar);
+    var arg_description : c_ptr(gchar);
+  }
+
+  extern "struct _GQueue" record _GQueue {    var head : c_ptr(GList);
+    var tail : c_ptr(GList);
+    var length : guint;
+  }
+
+  extern "struct _GScannerConfig" record _GScannerConfig {    var cset_skip_characters : c_ptr(gchar);
+    var cset_identifier_first : c_ptr(gchar);
+    var cset_identifier_nth : c_ptr(gchar);
+    var cpair_comment_single : c_ptr(gchar);
+    var case_sensitive : guint;
+    var skip_comment_multi : guint;
+    var skip_comment_single : guint;
+    var scan_comment_multi : guint;
+    var scan_identifier : guint;
+    var scan_identifier_1char : guint;
+    var scan_identifier_NULL : guint;
+    var scan_symbols : guint;
+    var scan_binary : guint;
+    var scan_octal : guint;
+    var scan_float : guint;
+    var scan_hex : guint;
+    var scan_hex_dollar : guint;
+    var scan_string_sq : guint;
+    var scan_string_dq : guint;
+    var numbers_2_int : guint;
+    var int_2_float : guint;
+    var identifier_2_string : guint;
+    var char_2_token : guint;
+    var symbol_2_token : guint;
+    var scope_0_fallback : guint;
+    var store_int64 : guint;
+    var padding_dummy : guint;
+  }
+
+  extern "struct _GThreadPool" record _GThreadPool {    var func : GFunc;
+    var user_data : gpointer;
+    var exclusive : gboolean;
+  }
+
+  extern "struct _GTrashStack" record _GTrashStack {    var next : c_ptr(_GTrashStack);
+  }
+
+  extern "struct _GUriParamsIter" record _GUriParamsIter {    var dummy0 : gint;
+    var dummy1 : gpointer;
+    var dummy2 : gpointer;
+    var dummy3 : c_ptr(guint8);
+  }
+
+  extern "struct _GCompletion" record _GCompletion {    var items : c_ptr(GList);
+    var func : GCompletionFunc;
+    var prefix : c_ptr(gchar);
+    var cache : c_ptr(GList);
+    var strncmp_func : GCompletionStrncmpFunc;
+  }
+
+  extern "struct _GTuples" record _GTuples {    var len : guint;
+  }
+
+  extern "struct _GThread" record _GThread {    var func : GThreadFunc;
+    var data : gpointer;
+    var joinable : gboolean;
+    var priority : GThreadPriority;
+  }
+
+  extern "struct _GThreadFunctions" record _GThreadFunctions {    var mutex_new : c_ptr(c_fn_ptr);
+    var mutex_lock : c_ptr(c_fn_ptr);
+    var mutex_trylock : c_ptr(c_fn_ptr);
+    var mutex_unlock : c_ptr(c_fn_ptr);
+    var mutex_free : c_ptr(c_fn_ptr);
+    var cond_new : c_ptr(c_fn_ptr);
+    var cond_signal : c_ptr(c_fn_ptr);
+    var cond_broadcast : c_ptr(c_fn_ptr);
+    var cond_wait : c_ptr(c_fn_ptr);
+    var cond_timed_wait : c_ptr(c_fn_ptr);
+    var cond_free : c_ptr(c_fn_ptr);
+    var private_new : c_ptr(c_fn_ptr);
+    var private_get : c_ptr(c_fn_ptr);
+    var private_set : c_ptr(c_fn_ptr);
+    var thread_create : c_ptr(c_fn_ptr);
+    var thread_yield : c_ptr(c_fn_ptr);
+    var thread_join : c_ptr(c_fn_ptr);
+    var thread_exit : c_ptr(c_fn_ptr);
+    var thread_set_priority : c_ptr(c_fn_ptr);
+    var thread_self : c_ptr(c_fn_ptr);
+    var thread_equal : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GStaticRecMutex" record _GStaticRecMutex {    var mutex : GStaticMutex;
+    var depth : guint;
+  }
+
+  extern "struct _GStaticRWLock" record _GStaticRWLock {    var mutex : GStaticMutex;
+    var read_cond : c_ptr(GCond);
+    var write_cond : c_ptr(GCond);
+    var read_counter : guint;
+    var have_writer : gboolean;
+    var want_to_read : guint;
+    var want_to_write : guint;
+  }
+
+  extern "struct _GTypeClass" record _GTypeClass {    var g_type : GType;
+  }
+
+  extern "struct _GTypeInstance" record _GTypeInstance {    var g_class : c_ptr(GTypeClass);
+  }
+
+  extern "struct _GTypeInterface" record _GTypeInterface {    var g_type : GType;
+    var g_instance_type : GType;
+  }
+
+  extern "struct _GTypeInfo" record _GTypeInfo {    var class_size : guint16;
+    var base_init : GBaseInitFunc;
+    var base_finalize : GBaseFinalizeFunc;
+    var class_init : GClassInitFunc;
+    var class_finalize : GClassFinalizeFunc;
+    var class_data : gconstpointer;
+    var instance_size : guint16;
+    var n_preallocs : guint16;
+    var instance_init : GInstanceInitFunc;
+    var value_table : c_ptr(GTypeValueTable);
+  }
+
+  extern "struct _GTypeFundamentalInfo" record _GTypeFundamentalInfo {    var type_flags : GTypeFundamentalFlags;
+  }
+
+  extern "struct _GInterfaceInfo" record _GInterfaceInfo {    var interface_init : GInterfaceInitFunc;
+    var interface_finalize : GInterfaceFinalizeFunc;
+    var interface_data : gpointer;
+  }
+
+  extern "struct _GTypeValueTable" record _GTypeValueTable {    var value_init : c_ptr(c_fn_ptr);
+    var value_free : c_ptr(c_fn_ptr);
+    var value_copy : c_ptr(c_fn_ptr);
+    var value_peek_pointer : c_ptr(c_fn_ptr);
+    var collect_format : c_ptr(gchar);
+    var collect_value : c_ptr(c_fn_ptr);
+    var lcopy_format : c_ptr(gchar);
+    var lcopy_value : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GValue" record _GValue {    var g_type : GType;
+  }
+
+  extern "struct _GParamSpec" record _GParamSpec {    var g_type_instance : GTypeInstance;
+    var name : c_ptr(gchar);
+    var flags : GParamFlags;
+    var value_type : GType;
+    var owner_type : GType;
+    var _nick : c_ptr(gchar);
+    var _blurb : c_ptr(gchar);
+    var qdata : c_ptr(GData);
+    var ref_count : guint;
+    var param_id : guint;
+  }
+
+  extern "struct _GParamSpecClass" record _GParamSpecClass {    var g_type_class : GTypeClass;
+    var value_type : GType;
+    var finalize : c_ptr(c_fn_ptr);
+    var value_set_default : c_ptr(c_fn_ptr);
+    var value_validate : c_ptr(c_fn_ptr);
+    var values_cmp : c_ptr(c_fn_ptr);
+    var dummy : c_ptr(gpointer);
+  }
+
+  extern "struct _GParameter" record _GParameter {    var name : c_ptr(gchar);
+    var value : GValue;
+  }
+
+  extern "struct _GParamSpecTypeInfo" record _GParamSpecTypeInfo {    var instance_size : guint16;
+    var n_preallocs : guint16;
+    var instance_init : c_ptr(c_fn_ptr);
+    var value_type : GType;
+    var finalize : c_ptr(c_fn_ptr);
+    var value_set_default : c_ptr(c_fn_ptr);
+    var value_validate : c_ptr(c_fn_ptr);
+    var values_cmp : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GClosureNotifyData" record _GClosureNotifyData {    var data : gpointer;
+    var notify : GClosureNotify;
+  }
+
+  extern "struct _GClosure" record _GClosure {    var ref_count : guint;
+    var meta_marshal_nouse : guint;
+    var n_guards : guint;
+    var n_fnotifiers : guint;
+    var n_inotifiers : guint;
+    var in_inotify : guint;
+    var floating : guint;
+    var derivative_flag : guint;
+    var in_marshal : guint;
+    var is_invalid : guint;
+    var marshal : c_ptr(c_fn_ptr);
+    var data : gpointer;
+    var notifiers : c_ptr(GClosureNotifyData);
+  }
+
+  extern "struct _GCClosure" record _GCClosure {    var closure : GClosure;
+    var callback : gpointer;
+  }
+
+  extern "struct _GSignalInvocationHint" record _GSignalInvocationHint {    var signal_id : guint;
+    var detail : GQuark;
+    var run_type : GSignalFlags;
+  }
+
+  extern "struct _GSignalQuery" record _GSignalQuery {    var signal_id : guint;
+    var signal_name : c_ptr(gchar);
+    var itype : GType;
+    var signal_flags : GSignalFlags;
+    var return_type : GType;
+    var n_params : guint;
+    var param_types : c_ptr(GType);
+  }
+
+  extern "struct _GObject" record _GObject {    var g_type_instance : GTypeInstance;
+    var ref_count : guint;
+    var qdata : c_ptr(GData);
+  }
+
+  extern "struct _GObjectClass" record _GObjectClass {    var g_type_class : GTypeClass;
+    var construct_properties : c_ptr(GSList);
+    var constructor : c_ptr(c_fn_ptr);
+    var set_property : c_ptr(c_fn_ptr);
+    var get_property : c_ptr(c_fn_ptr);
+    var dispose : c_ptr(c_fn_ptr);
+    var finalize : c_ptr(c_fn_ptr);
+    var dispatch_properties_changed : c_ptr(c_fn_ptr);
+    var notify : c_ptr(c_fn_ptr);
+    var constructed : c_ptr(c_fn_ptr);
+    var flags : gsize;
+    var pdummy : c_ptr(gpointer);
+  }
+
+  extern "struct _GArrowDecimal128Class" record _GArrowDecimal128Class {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowDecimal256" record _GArrowDecimal256 {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowDecimal256Class" record _GArrowDecimal256Class {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowDataType" record _GArrowDataType {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowDataTypeClass" record _GArrowDataTypeClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFixedWidthDataType" record _GArrowFixedWidthDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowFixedWidthDataTypeClass" record _GArrowFixedWidthDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowNullDataType" record _GArrowNullDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowNullDataTypeClass" record _GArrowNullDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowBooleanDataType" record _GArrowBooleanDataType {    var parent_instance : GArrowFixedWidthDataType;
+  }
+
+  extern "struct _GArrowBooleanDataTypeClass" record _GArrowBooleanDataTypeClass {    var parent_class : GArrowFixedWidthDataTypeClass;
+  }
+
+  extern "struct _GArrowNumericDataType" record _GArrowNumericDataType {    var parent_instance : GArrowFixedWidthDataType;
+  }
+
+  extern "struct _GArrowNumericDataTypeClass" record _GArrowNumericDataTypeClass {    var parent_class : GArrowFixedWidthDataTypeClass;
+  }
+
+  extern "struct _GArrowIntegerDataType" record _GArrowIntegerDataType {    var parent_instance : GArrowNumericDataType;
+  }
+
+  extern "struct _GArrowIntegerDataTypeClass" record _GArrowIntegerDataTypeClass {    var parent_class : GArrowNumericDataTypeClass;
+  }
+
+  extern "struct _GArrowInt8DataType" record _GArrowInt8DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowInt8DataTypeClass" record _GArrowInt8DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowUInt8DataType" record _GArrowUInt8DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowUInt8DataTypeClass" record _GArrowUInt8DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowInt16DataType" record _GArrowInt16DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowInt16DataTypeClass" record _GArrowInt16DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowUInt16DataType" record _GArrowUInt16DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowUInt16DataTypeClass" record _GArrowUInt16DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowInt32DataType" record _GArrowInt32DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowInt32DataTypeClass" record _GArrowInt32DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowUInt32DataType" record _GArrowUInt32DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowUInt32DataTypeClass" record _GArrowUInt32DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowInt64DataType" record _GArrowInt64DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowInt64DataTypeClass" record _GArrowInt64DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowUInt64DataType" record _GArrowUInt64DataType {    var parent_instance : GArrowIntegerDataType;
+  }
+
+  extern "struct _GArrowUInt64DataTypeClass" record _GArrowUInt64DataTypeClass {    var parent_class : GArrowIntegerDataTypeClass;
+  }
+
+  extern "struct _GArrowFloatingPointDataType" record _GArrowFloatingPointDataType {    var parent_instance : GArrowNumericDataType;
+  }
+
+  extern "struct _GArrowFloatingPointDataTypeClass" record _GArrowFloatingPointDataTypeClass {    var parent_class : GArrowNumericDataTypeClass;
+  }
+
+  extern "struct _GArrowFloatDataType" record _GArrowFloatDataType {    var parent_instance : GArrowFloatingPointDataType;
+  }
+
+  extern "struct _GArrowFloatDataTypeClass" record _GArrowFloatDataTypeClass {    var parent_class : GArrowFloatingPointDataTypeClass;
+  }
+
+  extern "struct _GArrowDoubleDataType" record _GArrowDoubleDataType {    var parent_instance : GArrowFloatingPointDataType;
+  }
+
+  extern "struct _GArrowDoubleDataTypeClass" record _GArrowDoubleDataTypeClass {    var parent_class : GArrowFloatingPointDataTypeClass;
+  }
+
+  extern "struct _GArrowBinaryDataType" record _GArrowBinaryDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowBinaryDataTypeClass" record _GArrowBinaryDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryDataType" record _GArrowFixedSizeBinaryDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryDataTypeClass" record _GArrowFixedSizeBinaryDataTypeClass {    var parent_class : GArrowFixedWidthDataTypeClass;
+  }
+
+  extern "struct _GArrowLargeBinaryDataType" record _GArrowLargeBinaryDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowLargeBinaryDataTypeClass" record _GArrowLargeBinaryDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowStringDataType" record _GArrowStringDataType {    var parent_instance : GArrowBinaryDataType;
+  }
+
+  extern "struct _GArrowStringDataTypeClass" record _GArrowStringDataTypeClass {    var parent_class : GArrowBinaryDataTypeClass;
+  }
+
+  extern "struct _GArrowLargeStringDataType" record _GArrowLargeStringDataType {    var parent_instance : GArrowLargeBinaryDataType;
+  }
+
+  extern "struct _GArrowLargeStringDataTypeClass" record _GArrowLargeStringDataTypeClass {    var parent_class : GArrowLargeBinaryDataTypeClass;
+  }
+
+  extern "struct _GArrowDate32DataType" record _GArrowDate32DataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowDate32DataTypeClass" record _GArrowDate32DataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowDate64DataType" record _GArrowDate64DataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowDate64DataTypeClass" record _GArrowDate64DataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowTimestampDataType" record _GArrowTimestampDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowTimestampDataTypeClass" record _GArrowTimestampDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowTimeDataType" record _GArrowTimeDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowTimeDataTypeClass" record _GArrowTimeDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowTime32DataType" record _GArrowTime32DataType {    var parent_instance : GArrowTimeDataType;
+  }
+
+  extern "struct _GArrowTime32DataTypeClass" record _GArrowTime32DataTypeClass {    var parent_class : GArrowTimeDataTypeClass;
+  }
+
+  extern "struct _GArrowTime64DataType" record _GArrowTime64DataType {    var parent_instance : GArrowTimeDataType;
+  }
+
+  extern "struct _GArrowTime64DataTypeClass" record _GArrowTime64DataTypeClass {    var parent_class : GArrowTimeDataTypeClass;
+  }
+
+  extern "struct _GArrowDecimalDataType" record _GArrowDecimalDataType {    var parent_instance : GArrowFixedSizeBinaryDataType;
+  }
+
+  extern "struct _GArrowDecimalDataTypeClass" record _GArrowDecimalDataTypeClass {    var parent_class : GArrowFixedSizeBinaryDataTypeClass;
+  }
+
+  extern "struct _GArrowDecimal128DataType" record _GArrowDecimal128DataType {    var parent_instance : GArrowDecimalDataType;
+  }
+
+  extern "struct _GArrowDecimal128DataTypeClass" record _GArrowDecimal128DataTypeClass {    var parent_class : GArrowDecimalDataTypeClass;
+  }
+
+  extern "struct _GArrowDecimal256DataType" record _GArrowDecimal256DataType {    var parent_instance : GArrowDecimalDataType;
+  }
+
+  extern "struct _GArrowDecimal256DataTypeClass" record _GArrowDecimal256DataTypeClass {    var parent_class : GArrowDecimalDataTypeClass;
+  }
+
+  extern "struct _GArrowExtensionDataType" record _GArrowExtensionDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowExtensionDataTypeClass" record _GArrowExtensionDataTypeClass {    var parent_class : GArrowDataTypeClass;
+    var get_extension_name : c_ptr(c_fn_ptr);
+    var equal : c_ptr(c_fn_ptr);
+    var deserialize : c_ptr(c_fn_ptr);
+    var serialize : c_ptr(c_fn_ptr);
+    var get_array_gtype : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GArrowExtensionDataTypeRegistry" record _GArrowExtensionDataTypeRegistry {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowExtensionDataTypeRegistryClass" record _GArrowExtensionDataTypeRegistryClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowBuffer" record _GArrowBuffer {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowBufferClass" record _GArrowBufferClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowMutableBuffer" record _GArrowMutableBuffer {    var parent_instance : GArrowBuffer;
+  }
+
+  extern "struct _GArrowMutableBufferClass" record _GArrowMutableBufferClass {    var parent_class : GArrowBufferClass;
+  }
+
+  extern "struct _GArrowResizableBuffer" record _GArrowResizableBuffer {    var parent_instance : GArrowMutableBuffer;
+  }
+
+  extern "struct _GArrowResizableBufferClass" record _GArrowResizableBufferClass {    var parent_class : GArrowMutableBufferClass;
+  }
+
+  extern "struct _GArrowEqualOptions" record _GArrowEqualOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowEqualOptionsClass" record _GArrowEqualOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowArray" record _GArrowArray {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowArrayClass" record _GArrowArrayClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowNullArray" record _GArrowNullArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowNullArrayClass" record _GArrowNullArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowPrimitiveArray" record _GArrowPrimitiveArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowPrimitiveArrayClass" record _GArrowPrimitiveArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowBooleanArray" record _GArrowBooleanArray {    var parent_instance : GArrowPrimitiveArray;
+  }
+
+  extern "struct _GArrowBooleanArrayClass" record _GArrowBooleanArrayClass {    var parent_class : GArrowPrimitiveArrayClass;
+  }
+
+  extern "struct _GArrowNumericArray" record _GArrowNumericArray {    var parent_instance : GArrowPrimitiveArray;
+  }
+
+  extern "struct _GArrowNumericArrayClass" record _GArrowNumericArrayClass {    var parent_class : GArrowPrimitiveArrayClass;
+  }
+
+  extern "struct _GArrowInt8Array" record _GArrowInt8Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowInt8ArrayClass" record _GArrowInt8ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowUInt8Array" record _GArrowUInt8Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowUInt8ArrayClass" record _GArrowUInt8ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowInt16Array" record _GArrowInt16Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowInt16ArrayClass" record _GArrowInt16ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowUInt16Array" record _GArrowUInt16Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowUInt16ArrayClass" record _GArrowUInt16ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowInt32Array" record _GArrowInt32Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowInt32ArrayClass" record _GArrowInt32ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowUInt32Array" record _GArrowUInt32Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowUInt32ArrayClass" record _GArrowUInt32ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowInt64Array" record _GArrowInt64Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowInt64ArrayClass" record _GArrowInt64ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowUInt64Array" record _GArrowUInt64Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowUInt64ArrayClass" record _GArrowUInt64ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowFloatArray" record _GArrowFloatArray {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowFloatArrayClass" record _GArrowFloatArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowDoubleArray" record _GArrowDoubleArray {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowDoubleArrayClass" record _GArrowDoubleArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowBinaryArray" record _GArrowBinaryArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowBinaryArrayClass" record _GArrowBinaryArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowLargeBinaryArray" record _GArrowLargeBinaryArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowLargeBinaryArrayClass" record _GArrowLargeBinaryArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowStringArray" record _GArrowStringArray {    var parent_instance : GArrowBinaryArray;
+  }
+
+  extern "struct _GArrowStringArrayClass" record _GArrowStringArrayClass {    var parent_class : GArrowBinaryArrayClass;
+  }
+
+  extern "struct _GArrowLargeStringArray" record _GArrowLargeStringArray {    var parent_instance : GArrowLargeBinaryArray;
+  }
+
+  extern "struct _GArrowLargeStringArrayClass" record _GArrowLargeStringArrayClass {    var parent_class : GArrowLargeBinaryArrayClass;
+  }
+
+  extern "struct _GArrowDate32Array" record _GArrowDate32Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowDate32ArrayClass" record _GArrowDate32ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowDate64Array" record _GArrowDate64Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowDate64ArrayClass" record _GArrowDate64ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowTimestampArray" record _GArrowTimestampArray {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowTimestampArrayClass" record _GArrowTimestampArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowTime32Array" record _GArrowTime32Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowTime32ArrayClass" record _GArrowTime32ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowTime64Array" record _GArrowTime64Array {    var parent_instance : GArrowNumericArray;
+  }
+
+  extern "struct _GArrowTime64ArrayClass" record _GArrowTime64ArrayClass {    var parent_class : GArrowNumericArrayClass;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryArray" record _GArrowFixedSizeBinaryArray {    var parent_instance : GArrowPrimitiveArray;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryArrayClass" record _GArrowFixedSizeBinaryArrayClass {    var parent_class : GArrowPrimitiveArrayClass;
+  }
+
+  extern "struct _GArrowDecimal128Array" record _GArrowDecimal128Array {    var parent_instance : GArrowFixedSizeBinaryArray;
+  }
+
+  extern "struct _GArrowDecimal128ArrayClass" record _GArrowDecimal128ArrayClass {    var parent_class : GArrowFixedSizeBinaryArrayClass;
+  }
+
+  extern "struct _GArrowDecimal256Array" record _GArrowDecimal256Array {    var parent_instance : GArrowFixedSizeBinaryArray;
+  }
+
+  extern "struct _GArrowDecimal256ArrayClass" record _GArrowDecimal256ArrayClass {    var parent_class : GArrowFixedSizeBinaryArrayClass;
+  }
+
+  extern "struct _GArrowExtensionArray" record _GArrowExtensionArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowExtensionArrayClass" record _GArrowExtensionArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowField" record _GArrowField {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFieldClass" record _GArrowFieldClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowListDataType" record _GArrowListDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowListDataTypeClass" record _GArrowListDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowLargeListDataType" record _GArrowLargeListDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowLargeListDataTypeClass" record _GArrowLargeListDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowStructDataType" record _GArrowStructDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowStructDataTypeClass" record _GArrowStructDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowMapDataType" record _GArrowMapDataType {    var parent_instance : GArrowListDataType;
+  }
+
+  extern "struct _GArrowMapDataTypeClass" record _GArrowMapDataTypeClass {    var parent_class : GArrowListDataTypeClass;
+  }
+
+  extern "struct _GArrowUnionDataType" record _GArrowUnionDataType {    var parent_instance : GArrowDataType;
+  }
+
+  extern "struct _GArrowUnionDataTypeClass" record _GArrowUnionDataTypeClass {    var parent_class : GArrowDataTypeClass;
+  }
+
+  extern "struct _GArrowSparseUnionDataType" record _GArrowSparseUnionDataType {    var parent_instance : GArrowUnionDataType;
+  }
+
+  extern "struct _GArrowSparseUnionDataTypeClass" record _GArrowSparseUnionDataTypeClass {    var parent_class : GArrowUnionDataTypeClass;
+  }
+
+  extern "struct _GArrowDenseUnionDataType" record _GArrowDenseUnionDataType {    var parent_instance : GArrowUnionDataType;
+  }
+
+  extern "struct _GArrowDenseUnionDataTypeClass" record _GArrowDenseUnionDataTypeClass {    var parent_class : GArrowUnionDataTypeClass;
+  }
+
+  extern "struct _GArrowDictionaryDataType" record _GArrowDictionaryDataType {    var parent_instance : GArrowFixedWidthDataType;
+  }
+
+  extern "struct _GArrowDictionaryDataTypeClass" record _GArrowDictionaryDataTypeClass {    var parent_class : GArrowFixedWidthDataTypeClass;
+  }
+
+  extern "struct _GArrowListArray" record _GArrowListArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowListArrayClass" record _GArrowListArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowLargeListArray" record _GArrowLargeListArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowLargeListArrayClass" record _GArrowLargeListArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowStructArray" record _GArrowStructArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowStructArrayClass" record _GArrowStructArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowMapArray" record _GArrowMapArray {    var parent_instance : GArrowListArray;
+  }
+
+  extern "struct _GArrowMapArrayClass" record _GArrowMapArrayClass {    var parent_class : GArrowListArrayClass;
+  }
+
+  extern "struct _GArrowUnionArray" record _GArrowUnionArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowUnionArrayClass" record _GArrowUnionArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowSparseUnionArray" record _GArrowSparseUnionArray {    var parent_instance : GArrowUnionArray;
+  }
+
+  extern "struct _GArrowSparseUnionArrayClass" record _GArrowSparseUnionArrayClass {    var parent_class : GArrowUnionArrayClass;
+  }
+
+  extern "struct _GArrowDenseUnionArray" record _GArrowDenseUnionArray {    var parent_instance : GArrowUnionArray;
+  }
+
+  extern "struct _GArrowDenseUnionArrayClass" record _GArrowDenseUnionArrayClass {    var parent_class : GArrowUnionArrayClass;
+  }
+
+  extern "struct _GArrowDictionaryArray" record _GArrowDictionaryArray {    var parent_instance : GArrowArray;
+  }
+
+  extern "struct _GArrowDictionaryArrayClass" record _GArrowDictionaryArrayClass {    var parent_class : GArrowArrayClass;
+  }
+
+  extern "struct _GArrowArrayBuilder" record _GArrowArrayBuilder {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowArrayBuilderClass" record _GArrowArrayBuilderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowNullArrayBuilder" record _GArrowNullArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowNullArrayBuilderClass" record _GArrowNullArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowBooleanArrayBuilder" record _GArrowBooleanArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowBooleanArrayBuilderClass" record _GArrowBooleanArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowIntArrayBuilder" record _GArrowIntArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowIntArrayBuilderClass" record _GArrowIntArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowUIntArrayBuilder" record _GArrowUIntArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowUIntArrayBuilderClass" record _GArrowUIntArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowInt8ArrayBuilder" record _GArrowInt8ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowInt8ArrayBuilderClass" record _GArrowInt8ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowUInt8ArrayBuilder" record _GArrowUInt8ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowUInt8ArrayBuilderClass" record _GArrowUInt8ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowInt16ArrayBuilder" record _GArrowInt16ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowInt16ArrayBuilderClass" record _GArrowInt16ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowUInt16ArrayBuilder" record _GArrowUInt16ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowUInt16ArrayBuilderClass" record _GArrowUInt16ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowInt32ArrayBuilder" record _GArrowInt32ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowInt32ArrayBuilderClass" record _GArrowInt32ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowUInt32ArrayBuilder" record _GArrowUInt32ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowUInt32ArrayBuilderClass" record _GArrowUInt32ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowInt64ArrayBuilder" record _GArrowInt64ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowInt64ArrayBuilderClass" record _GArrowInt64ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowUInt64ArrayBuilder" record _GArrowUInt64ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowUInt64ArrayBuilderClass" record _GArrowUInt64ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowFloatArrayBuilder" record _GArrowFloatArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowFloatArrayBuilderClass" record _GArrowFloatArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowDoubleArrayBuilder" record _GArrowDoubleArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowDoubleArrayBuilderClass" record _GArrowDoubleArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowBinaryArrayBuilder" record _GArrowBinaryArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowBinaryArrayBuilderClass" record _GArrowBinaryArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowLargeBinaryArrayBuilder" record _GArrowLargeBinaryArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowLargeBinaryArrayBuilderClass" record _GArrowLargeBinaryArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowStringArrayBuilder" record _GArrowStringArrayBuilder {    var parent_instance : GArrowBinaryArrayBuilder;
+  }
+
+  extern "struct _GArrowStringArrayBuilderClass" record _GArrowStringArrayBuilderClass {    var parent_class : GArrowBinaryArrayBuilderClass;
+  }
+
+  extern "struct _GArrowLargeStringArrayBuilder" record _GArrowLargeStringArrayBuilder {    var parent_instance : GArrowLargeBinaryArrayBuilder;
+  }
+
+  extern "struct _GArrowLargeStringArrayBuilderClass" record _GArrowLargeStringArrayBuilderClass {    var parent_class : GArrowLargeBinaryArrayBuilderClass;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryArrayBuilder" record _GArrowFixedSizeBinaryArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryArrayBuilderClass" record _GArrowFixedSizeBinaryArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowDate32ArrayBuilder" record _GArrowDate32ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowDate32ArrayBuilderClass" record _GArrowDate32ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowDate64ArrayBuilder" record _GArrowDate64ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowDate64ArrayBuilderClass" record _GArrowDate64ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowTimestampArrayBuilder" record _GArrowTimestampArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowTimestampArrayBuilderClass" record _GArrowTimestampArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowTime32ArrayBuilder" record _GArrowTime32ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowTime32ArrayBuilderClass" record _GArrowTime32ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowTime64ArrayBuilder" record _GArrowTime64ArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowTime64ArrayBuilderClass" record _GArrowTime64ArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowBinaryDictionaryArrayBuilder" record _GArrowBinaryDictionaryArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowBinaryDictionaryArrayBuilderClass" record _GArrowBinaryDictionaryArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowStringDictionaryArrayBuilder" record _GArrowStringDictionaryArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowStringDictionaryArrayBuilderClass" record _GArrowStringDictionaryArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowListArrayBuilder" record _GArrowListArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowListArrayBuilderClass" record _GArrowListArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowLargeListArrayBuilder" record _GArrowLargeListArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowLargeListArrayBuilderClass" record _GArrowLargeListArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowStructArrayBuilder" record _GArrowStructArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowStructArrayBuilderClass" record _GArrowStructArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowMapArrayBuilder" record _GArrowMapArrayBuilder {    var parent_instance : GArrowArrayBuilder;
+  }
+
+  extern "struct _GArrowMapArrayBuilderClass" record _GArrowMapArrayBuilderClass {    var parent_class : GArrowArrayBuilderClass;
+  }
+
+  extern "struct _GArrowDecimal128ArrayBuilder" record _GArrowDecimal128ArrayBuilder {    var parent_instance : GArrowFixedSizeBinaryArrayBuilder;
+  }
+
+  extern "struct _GArrowDecimal128ArrayBuilderClass" record _GArrowDecimal128ArrayBuilderClass {    var parent_class : GArrowFixedSizeBinaryArrayBuilderClass;
+  }
+
+  extern "struct _GArrowDecimal256ArrayBuilder" record _GArrowDecimal256ArrayBuilder {    var parent_instance : GArrowFixedSizeBinaryArrayBuilder;
+  }
+
+  extern "struct _GArrowDecimal256ArrayBuilderClass" record _GArrowDecimal256ArrayBuilderClass {    var parent_class : GArrowFixedSizeBinaryArrayBuilderClass;
+  }
+
+  extern "struct _GArrowChunkedArray" record _GArrowChunkedArray {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowChunkedArrayClass" record _GArrowChunkedArrayClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowCodec" record _GArrowCodec {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowCodecClass" record _GArrowCodecClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowReadOptions" record _GArrowReadOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowReadOptionsClass" record _GArrowReadOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowWriteOptions" record _GArrowWriteOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowWriteOptionsClass" record _GArrowWriteOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowSchema" record _GArrowSchema {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowSchemaClass" record _GArrowSchemaClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowRecordBatch" record _GArrowRecordBatch {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchClass" record _GArrowRecordBatchClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowRecordBatchIterator" record _GArrowRecordBatchIterator {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchIteratorClass" record _GArrowRecordBatchIteratorClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowScalar" record _GArrowScalar {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowScalarClass" record _GArrowScalarClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowNullScalar" record _GArrowNullScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowNullScalarClass" record _GArrowNullScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowBooleanScalar" record _GArrowBooleanScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowBooleanScalarClass" record _GArrowBooleanScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowInt8Scalar" record _GArrowInt8Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowInt8ScalarClass" record _GArrowInt8ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowInt16Scalar" record _GArrowInt16Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowInt16ScalarClass" record _GArrowInt16ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowInt32Scalar" record _GArrowInt32Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowInt32ScalarClass" record _GArrowInt32ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowInt64Scalar" record _GArrowInt64Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowInt64ScalarClass" record _GArrowInt64ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowUInt8Scalar" record _GArrowUInt8Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowUInt8ScalarClass" record _GArrowUInt8ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowUInt16Scalar" record _GArrowUInt16Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowUInt16ScalarClass" record _GArrowUInt16ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowUInt32Scalar" record _GArrowUInt32Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowUInt32ScalarClass" record _GArrowUInt32ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowUInt64Scalar" record _GArrowUInt64Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowUInt64ScalarClass" record _GArrowUInt64ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowFloatScalar" record _GArrowFloatScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowFloatScalarClass" record _GArrowFloatScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowDoubleScalar" record _GArrowDoubleScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowDoubleScalarClass" record _GArrowDoubleScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowBaseBinaryScalar" record _GArrowBaseBinaryScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowBaseBinaryScalarClass" record _GArrowBaseBinaryScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowBinaryScalar" record _GArrowBinaryScalar {    var parent_instance : GArrowBaseBinaryScalar;
+  }
+
+  extern "struct _GArrowBinaryScalarClass" record _GArrowBinaryScalarClass {    var parent_class : GArrowBaseBinaryScalarClass;
+  }
+
+  extern "struct _GArrowStringScalar" record _GArrowStringScalar {    var parent_instance : GArrowBaseBinaryScalar;
+  }
+
+  extern "struct _GArrowStringScalarClass" record _GArrowStringScalarClass {    var parent_class : GArrowBaseBinaryScalarClass;
+  }
+
+  extern "struct _GArrowLargeBinaryScalar" record _GArrowLargeBinaryScalar {    var parent_instance : GArrowBaseBinaryScalar;
+  }
+
+  extern "struct _GArrowLargeBinaryScalarClass" record _GArrowLargeBinaryScalarClass {    var parent_class : GArrowBaseBinaryScalarClass;
+  }
+
+  extern "struct _GArrowLargeStringScalar" record _GArrowLargeStringScalar {    var parent_instance : GArrowBaseBinaryScalar;
+  }
+
+  extern "struct _GArrowLargeStringScalarClass" record _GArrowLargeStringScalarClass {    var parent_class : GArrowBaseBinaryScalarClass;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryScalar" record _GArrowFixedSizeBinaryScalar {    var parent_instance : GArrowBaseBinaryScalar;
+  }
+
+  extern "struct _GArrowFixedSizeBinaryScalarClass" record _GArrowFixedSizeBinaryScalarClass {    var parent_class : GArrowBaseBinaryScalarClass;
+  }
+
+  extern "struct _GArrowDate32Scalar" record _GArrowDate32Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowDate32ScalarClass" record _GArrowDate32ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowDate64Scalar" record _GArrowDate64Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowDate64ScalarClass" record _GArrowDate64ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowTime32Scalar" record _GArrowTime32Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowTime32ScalarClass" record _GArrowTime32ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowTime64Scalar" record _GArrowTime64Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowTime64ScalarClass" record _GArrowTime64ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowTimestampScalar" record _GArrowTimestampScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowTimestampScalarClass" record _GArrowTimestampScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowDecimal128Scalar" record _GArrowDecimal128Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowDecimal128ScalarClass" record _GArrowDecimal128ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowDecimal256Scalar" record _GArrowDecimal256Scalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowDecimal256ScalarClass" record _GArrowDecimal256ScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowBaseListScalar" record _GArrowBaseListScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowBaseListScalarClass" record _GArrowBaseListScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowListScalar" record _GArrowListScalar {    var parent_instance : GArrowBaseListScalar;
+  }
+
+  extern "struct _GArrowListScalarClass" record _GArrowListScalarClass {    var parent_class : GArrowBaseListScalarClass;
+  }
+
+  extern "struct _GArrowLargeListScalar" record _GArrowLargeListScalar {    var parent_instance : GArrowBaseListScalar;
+  }
+
+  extern "struct _GArrowLargeListScalarClass" record _GArrowLargeListScalarClass {    var parent_class : GArrowBaseListScalarClass;
+  }
+
+  extern "struct _GArrowMapScalar" record _GArrowMapScalar {    var parent_instance : GArrowBaseListScalar;
+  }
+
+  extern "struct _GArrowMapScalarClass" record _GArrowMapScalarClass {    var parent_class : GArrowBaseListScalarClass;
+  }
+
+  extern "struct _GArrowStructScalar" record _GArrowStructScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowStructScalarClass" record _GArrowStructScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowUnionScalar" record _GArrowUnionScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowUnionScalarClass" record _GArrowUnionScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GArrowSparseUnionScalar" record _GArrowSparseUnionScalar {    var parent_instance : GArrowUnionScalar;
+  }
+
+  extern "struct _GArrowSparseUnionScalarClass" record _GArrowSparseUnionScalarClass {    var parent_class : GArrowUnionScalarClass;
+  }
+
+  extern "struct _GArrowDenseUnionScalar" record _GArrowDenseUnionScalar {    var parent_instance : GArrowUnionScalar;
+  }
+
+  extern "struct _GArrowDenseUnionScalarClass" record _GArrowDenseUnionScalarClass {    var parent_class : GArrowUnionScalarClass;
+  }
+
+  extern "struct _GArrowExtensionScalar" record _GArrowExtensionScalar {    var parent_instance : GArrowScalar;
+  }
+
+  extern "struct _GArrowExtensionScalarClass" record _GArrowExtensionScalarClass {    var parent_class : GArrowScalarClass;
+  }
+
+  extern "struct _GInputVector" record _GInputVector {    var buffer : gpointer;
+    var size : gsize;
+  }
+
+  extern "struct _GInputMessage" record _GInputMessage {    var address : c_ptr(c_ptr(GSocketAddress));
+    var vectors : c_ptr(GInputVector);
+    var num_vectors : guint;
+    var bytes_received : gsize;
+    var flags : gint;
+    var control_messages : c_ptr(c_ptr(c_ptr(GSocketControlMessage)));
+    var num_control_messages : c_ptr(guint);
+  }
+
+  extern "struct _GOutputVector" record _GOutputVector {    var buffer : gconstpointer;
+    var size : gsize;
+  }
+
+  extern "struct _GOutputMessage" record _GOutputMessage {    var address : c_ptr(GSocketAddress);
+    var vectors : c_ptr(GOutputVector);
+    var num_vectors : guint;
+    var bytes_sent : guint;
+    var control_messages : c_ptr(c_ptr(GSocketControlMessage));
+    var num_control_messages : guint;
+  }
+
+  extern "struct _GActionInterface" record _GActionInterface {    var g_iface : GTypeInterface;
+    var get_name : c_ptr(c_fn_ptr);
+    var get_parameter_type : c_ptr(c_fn_ptr);
+    var get_state_type : c_ptr(c_fn_ptr);
+    var get_state_hint : c_ptr(c_fn_ptr);
+    var get_enabled : c_ptr(c_fn_ptr);
+    var get_state : c_ptr(c_fn_ptr);
+    var change_state : c_ptr(c_fn_ptr);
+    var activate : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GActionGroupInterface" record _GActionGroupInterface {    var g_iface : GTypeInterface;
+    var has_action : c_ptr(c_fn_ptr);
+    var list_actions : c_ptr(c_fn_ptr);
+    var get_action_enabled : c_ptr(c_fn_ptr);
+    var get_action_parameter_type : c_ptr(c_fn_ptr);
+    var get_action_state_type : c_ptr(c_fn_ptr);
+    var get_action_state_hint : c_ptr(c_fn_ptr);
+    var get_action_state : c_ptr(c_fn_ptr);
+    var change_action_state : c_ptr(c_fn_ptr);
+    var activate_action : c_ptr(c_fn_ptr);
+    var action_added : c_ptr(c_fn_ptr);
+    var action_removed : c_ptr(c_fn_ptr);
+    var action_enabled_changed : c_ptr(c_fn_ptr);
+    var action_state_changed : c_ptr(c_fn_ptr);
+    var query_action : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GActionMapInterface" record _GActionMapInterface {    var g_iface : GTypeInterface;
+    var lookup_action : c_ptr(c_fn_ptr);
+    var add_action : c_ptr(c_fn_ptr);
+    var remove_action : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GActionEntry" record _GActionEntry {    var name : c_ptr(gchar);
+    var activate : c_ptr(c_fn_ptr);
+    var parameter_type : c_ptr(gchar);
+    var state : c_ptr(gchar);
+    var change_state : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gsize);
+  }
+
+  extern "struct _GAppInfoIface" record _GAppInfoIface {    var g_iface : GTypeInterface;
+    var dup : c_ptr(c_fn_ptr);
+    var equal : c_ptr(c_fn_ptr);
+    var get_id : c_ptr(c_fn_ptr);
+    var get_name : c_ptr(c_fn_ptr);
+    var get_description : c_ptr(c_fn_ptr);
+    var get_executable : c_ptr(c_fn_ptr);
+    var get_icon : c_ptr(c_fn_ptr);
+    var launch : c_ptr(c_fn_ptr);
+    var supports_uris : c_ptr(c_fn_ptr);
+    var supports_files : c_ptr(c_fn_ptr);
+    var launch_uris : c_ptr(c_fn_ptr);
+    var should_show : c_ptr(c_fn_ptr);
+    var set_as_default_for_type : c_ptr(c_fn_ptr);
+    var set_as_default_for_extension : c_ptr(c_fn_ptr);
+    var add_supports_type : c_ptr(c_fn_ptr);
+    var can_remove_supports_type : c_ptr(c_fn_ptr);
+    var remove_supports_type : c_ptr(c_fn_ptr);
+    var can_delete : c_ptr(c_fn_ptr);
+    var do_delete : c_ptr(c_fn_ptr);
+    var get_commandline : c_ptr(c_fn_ptr);
+    var get_display_name : c_ptr(c_fn_ptr);
+    var set_as_last_used_for_type : c_ptr(c_fn_ptr);
+    var get_supported_types : c_ptr(c_fn_ptr);
+    var launch_uris_async : c_ptr(c_fn_ptr);
+    var launch_uris_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GAppLaunchContext" record _GAppLaunchContext {    var parent_instance : GObject;
+    var priv : c_ptr(GAppLaunchContextPrivate);
+  }
+
+  extern "struct _GAppLaunchContextClass" record _GAppLaunchContextClass {    var parent_class : GObjectClass;
+    var get_display : c_ptr(c_fn_ptr);
+    var get_startup_notify_id : c_ptr(c_fn_ptr);
+    var launch_failed : c_ptr(c_fn_ptr);
+    var launched : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GApplication" record _GApplication {    var parent_instance : GObject;
+    var priv : c_ptr(GApplicationPrivate);
+  }
+
+  extern "struct _GApplicationClass" record _GApplicationClass {    var parent_class : GObjectClass;
+    var startup : c_ptr(c_fn_ptr);
+    var activate : c_ptr(c_fn_ptr);
+    var open : c_ptr(c_fn_ptr);
+    var command_line : c_ptr(c_fn_ptr);
+    var local_command_line : c_ptr(c_fn_ptr);
+    var before_emit : c_ptr(c_fn_ptr);
+    var after_emit : c_ptr(c_fn_ptr);
+    var add_platform_data : c_ptr(c_fn_ptr);
+    var quit_mainloop : c_ptr(c_fn_ptr);
+    var run_mainloop : c_ptr(c_fn_ptr);
+    var shutdown : c_ptr(c_fn_ptr);
+    var dbus_register : c_ptr(c_fn_ptr);
+    var dbus_unregister : c_ptr(c_fn_ptr);
+    var handle_local_options : c_ptr(c_fn_ptr);
+    var name_lost : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GApplicationCommandLine" record _GApplicationCommandLine {    var parent_instance : GObject;
+    var priv : c_ptr(GApplicationCommandLinePrivate);
+  }
+
+  extern "struct _GApplicationCommandLineClass" record _GApplicationCommandLineClass {    var parent_class : GObjectClass;
+    var print_literal : c_ptr(c_fn_ptr);
+    var printerr_literal : c_ptr(c_fn_ptr);
+    var get_stdin : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GInitableIface" record _GInitableIface {    var g_iface : GTypeInterface;
+    var init : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GAsyncInitableIface" record _GAsyncInitableIface {    var g_iface : GTypeInterface;
+    var init_async : c_ptr(c_fn_ptr);
+    var init_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GAsyncResultIface" record _GAsyncResultIface {    var g_iface : GTypeInterface;
+    var get_user_data : c_ptr(c_fn_ptr);
+    var get_source_object : c_ptr(c_fn_ptr);
+    var is_tagged : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GInputStream" record _GInputStream {    var parent_instance : GObject;
+    var priv : c_ptr(GInputStreamPrivate);
+  }
+
+  extern "struct _GInputStreamClass" record _GInputStreamClass {    var parent_class : GObjectClass;
+    var read_fn : c_ptr(c_fn_ptr);
+    var skip : c_ptr(c_fn_ptr);
+    var close_fn : c_ptr(c_fn_ptr);
+    var read_async : c_ptr(c_fn_ptr);
+    var read_finish : c_ptr(c_fn_ptr);
+    var skip_async : c_ptr(c_fn_ptr);
+    var skip_finish : c_ptr(c_fn_ptr);
+    var close_async : c_ptr(c_fn_ptr);
+    var close_finish : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFilterInputStream" record _GFilterInputStream {    var parent_instance : GInputStream;
+    var base_stream : c_ptr(GInputStream);
+  }
+
+  extern "struct _GFilterInputStreamClass" record _GFilterInputStreamClass {    var parent_class : GInputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GBufferedInputStream" record _GBufferedInputStream {    var parent_instance : GFilterInputStream;
+    var priv : c_ptr(GBufferedInputStreamPrivate);
+  }
+
+  extern "struct _GBufferedInputStreamClass" record _GBufferedInputStreamClass {    var parent_class : GFilterInputStreamClass;
+    var fill : c_ptr(c_fn_ptr);
+    var fill_async : c_ptr(c_fn_ptr);
+    var fill_finish : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GOutputStream" record _GOutputStream {    var parent_instance : GObject;
+    var priv : c_ptr(GOutputStreamPrivate);
+  }
+
+  extern "struct _GOutputStreamClass" record _GOutputStreamClass {    var parent_class : GObjectClass;
+    var write_fn : c_ptr(c_fn_ptr);
+    var splice : c_ptr(c_fn_ptr);
+    var flush : c_ptr(c_fn_ptr);
+    var close_fn : c_ptr(c_fn_ptr);
+    var write_async : c_ptr(c_fn_ptr);
+    var write_finish : c_ptr(c_fn_ptr);
+    var splice_async : c_ptr(c_fn_ptr);
+    var splice_finish : c_ptr(c_fn_ptr);
+    var flush_async : c_ptr(c_fn_ptr);
+    var flush_finish : c_ptr(c_fn_ptr);
+    var close_async : c_ptr(c_fn_ptr);
+    var close_finish : c_ptr(c_fn_ptr);
+    var writev_fn : c_ptr(c_fn_ptr);
+    var writev_async : c_ptr(c_fn_ptr);
+    var writev_finish : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+    var _g_reserved8 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFilterOutputStream" record _GFilterOutputStream {    var parent_instance : GOutputStream;
+    var base_stream : c_ptr(GOutputStream);
+  }
+
+  extern "struct _GFilterOutputStreamClass" record _GFilterOutputStreamClass {    var parent_class : GOutputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GBufferedOutputStream" record _GBufferedOutputStream {    var parent_instance : GFilterOutputStream;
+    var priv : c_ptr(GBufferedOutputStreamPrivate);
+  }
+
+  extern "struct _GBufferedOutputStreamClass" record _GBufferedOutputStreamClass {    var parent_class : GFilterOutputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GCancellable" record _GCancellable {    var parent_instance : GObject;
+    var priv : c_ptr(GCancellablePrivate);
+  }
+
+  extern "struct _GCancellableClass" record _GCancellableClass {    var parent_class : GObjectClass;
+    var cancelled : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GConverterIface" record _GConverterIface {    var g_iface : GTypeInterface;
+    var convert : c_ptr(c_fn_ptr);
+    var reset : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GCharsetConverterClass" record _GCharsetConverterClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GConverterInputStream" record _GConverterInputStream {    var parent_instance : GFilterInputStream;
+    var priv : c_ptr(GConverterInputStreamPrivate);
+  }
+
+  extern "struct _GConverterInputStreamClass" record _GConverterInputStreamClass {    var parent_class : GFilterInputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GConverterOutputStream" record _GConverterOutputStream {    var parent_instance : GFilterOutputStream;
+    var priv : c_ptr(GConverterOutputStreamPrivate);
+  }
+
+  extern "struct _GConverterOutputStreamClass" record _GConverterOutputStreamClass {    var parent_class : GFilterOutputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDatagramBasedInterface" record _GDatagramBasedInterface {    var g_iface : GTypeInterface;
+    var receive_messages : c_ptr(c_fn_ptr);
+    var send_messages : c_ptr(c_fn_ptr);
+    var create_source : c_ptr(c_fn_ptr);
+    var condition_check : c_ptr(c_fn_ptr);
+    var condition_wait : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDataInputStream" record _GDataInputStream {    var parent_instance : GBufferedInputStream;
+    var priv : c_ptr(GDataInputStreamPrivate);
+  }
+
+  extern "struct _GDataInputStreamClass" record _GDataInputStreamClass {    var parent_class : GBufferedInputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDataOutputStream" record _GDataOutputStream {    var parent_instance : GFilterOutputStream;
+    var priv : c_ptr(GDataOutputStreamPrivate);
+  }
+
+  extern "struct _GDataOutputStreamClass" record _GDataOutputStreamClass {    var parent_class : GFilterOutputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDBusInterfaceVTable" record _GDBusInterfaceVTable {    var method_call : GDBusInterfaceMethodCallFunc;
+    var get_property : GDBusInterfaceGetPropertyFunc;
+    var set_property : GDBusInterfaceSetPropertyFunc;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusSubtreeVTable" record _GDBusSubtreeVTable {    var enumerate : GDBusSubtreeEnumerateFunc;
+    var introspect : GDBusSubtreeIntrospectFunc;
+    var dispatch : GDBusSubtreeDispatchFunc;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusErrorEntry" record _GDBusErrorEntry {    var error_code : gint;
+    var dbus_error_name : c_ptr(gchar);
+  }
+
+  extern "struct _GDBusInterfaceIface" record _GDBusInterfaceIface {    var parent_iface : GTypeInterface;
+    var get_info : c_ptr(c_fn_ptr);
+    var get_object : c_ptr(c_fn_ptr);
+    var set_object : c_ptr(c_fn_ptr);
+    var dup_object : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDBusInterfaceSkeleton" record _GDBusInterfaceSkeleton {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusInterfaceSkeletonPrivate);
+  }
+
+  extern "struct _GDBusInterfaceSkeletonClass" record _GDBusInterfaceSkeletonClass {    var parent_class : GObjectClass;
+    var get_info : c_ptr(c_fn_ptr);
+    var get_vtable : c_ptr(c_fn_ptr);
+    var get_properties : c_ptr(c_fn_ptr);
+    var flush : c_ptr(c_fn_ptr);
+    var vfunc_padding : c_ptr(gpointer);
+    var g_authorize_method : c_ptr(c_fn_ptr);
+    var signal_padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusAnnotationInfo" record _GDBusAnnotationInfo {    var ref_count : gint;
+    var key : c_ptr(gchar);
+    var value : c_ptr(gchar);
+    var annotations : c_ptr(c_ptr(_GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusArgInfo" record _GDBusArgInfo {    var ref_count : gint;
+    var name : c_ptr(gchar);
+    var signature : c_ptr(gchar);
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusMethodInfo" record _GDBusMethodInfo {    var ref_count : gint;
+    var name : c_ptr(gchar);
+    var in_args : c_ptr(c_ptr(GDBusArgInfo));
+    var out_args : c_ptr(c_ptr(GDBusArgInfo));
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusSignalInfo" record _GDBusSignalInfo {    var ref_count : gint;
+    var name : c_ptr(gchar);
+    var args : c_ptr(c_ptr(GDBusArgInfo));
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusPropertyInfo" record _GDBusPropertyInfo {    var ref_count : gint;
+    var name : c_ptr(gchar);
+    var signature : c_ptr(gchar);
+    var flags : GDBusPropertyInfoFlags;
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusInterfaceInfo" record _GDBusInterfaceInfo {    var ref_count : gint;
+    var name : c_ptr(gchar);
+    var methods : c_ptr(c_ptr(GDBusMethodInfo));
+    var signals : c_ptr(c_ptr(GDBusSignalInfo));
+    var properties : c_ptr(c_ptr(GDBusPropertyInfo));
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusNodeInfo" record _GDBusNodeInfo {    var ref_count : gint;
+    var path : c_ptr(gchar);
+    var interfaces : c_ptr(c_ptr(GDBusInterfaceInfo));
+    var nodes : c_ptr(c_ptr(_GDBusNodeInfo));
+    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
+  }
+
+  extern "struct _GDBusObjectIface" record _GDBusObjectIface {    var parent_iface : GTypeInterface;
+    var get_object_path : c_ptr(c_fn_ptr);
+    var get_interfaces : c_ptr(c_fn_ptr);
+    var get_interface : c_ptr(c_fn_ptr);
+    var interface_added : c_ptr(c_fn_ptr);
+    var interface_removed : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDBusObjectManagerIface" record _GDBusObjectManagerIface {    var parent_iface : GTypeInterface;
+    var get_object_path : c_ptr(c_fn_ptr);
+    var get_objects : c_ptr(c_fn_ptr);
+    var get_object : c_ptr(c_fn_ptr);
+    var get_interface : c_ptr(c_fn_ptr);
+    var object_added : c_ptr(c_fn_ptr);
+    var object_removed : c_ptr(c_fn_ptr);
+    var interface_added : c_ptr(c_fn_ptr);
+    var interface_removed : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDBusObjectManagerClient" record _GDBusObjectManagerClient {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusObjectManagerClientPrivate);
+  }
+
+  extern "struct _GDBusObjectManagerClientClass" record _GDBusObjectManagerClientClass {    var parent_class : GObjectClass;
+    var interface_proxy_signal : c_ptr(c_fn_ptr);
+    var interface_proxy_properties_changed : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusObjectManagerServer" record _GDBusObjectManagerServer {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusObjectManagerServerPrivate);
+  }
+
+  extern "struct _GDBusObjectManagerServerClass" record _GDBusObjectManagerServerClass {    var parent_class : GObjectClass;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusObjectProxy" record _GDBusObjectProxy {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusObjectProxyPrivate);
+  }
+
+  extern "struct _GDBusObjectProxyClass" record _GDBusObjectProxyClass {    var parent_class : GObjectClass;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusObjectSkeleton" record _GDBusObjectSkeleton {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusObjectSkeletonPrivate);
+  }
+
+  extern "struct _GDBusObjectSkeletonClass" record _GDBusObjectSkeletonClass {    var parent_class : GObjectClass;
+    var authorize_method : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDBusProxy" record _GDBusProxy {    var parent_instance : GObject;
+    var priv : c_ptr(GDBusProxyPrivate);
+  }
+
+  extern "struct _GDBusProxyClass" record _GDBusProxyClass {    var parent_class : GObjectClass;
+    var g_properties_changed : c_ptr(c_fn_ptr);
+    var g_signal : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GDriveIface" record _GDriveIface {    var g_iface : GTypeInterface;
+    var changed : c_ptr(c_fn_ptr);
+    var disconnected : c_ptr(c_fn_ptr);
+    var eject_button : c_ptr(c_fn_ptr);
+    var get_name : c_ptr(c_fn_ptr);
+    var get_icon : c_ptr(c_fn_ptr);
+    var has_volumes : c_ptr(c_fn_ptr);
+    var get_volumes : c_ptr(c_fn_ptr);
+    var is_media_removable : c_ptr(c_fn_ptr);
+    var has_media : c_ptr(c_fn_ptr);
+    var is_media_check_automatic : c_ptr(c_fn_ptr);
+    var can_eject : c_ptr(c_fn_ptr);
+    var can_poll_for_media : c_ptr(c_fn_ptr);
+    var eject : c_ptr(c_fn_ptr);
+    var eject_finish : c_ptr(c_fn_ptr);
+    var poll_for_media : c_ptr(c_fn_ptr);
+    var poll_for_media_finish : c_ptr(c_fn_ptr);
+    var get_identifier : c_ptr(c_fn_ptr);
+    var enumerate_identifiers : c_ptr(c_fn_ptr);
+    var get_start_stop_type : c_ptr(c_fn_ptr);
+    var can_start : c_ptr(c_fn_ptr);
+    var can_start_degraded : c_ptr(c_fn_ptr);
+    var start : c_ptr(c_fn_ptr);
+    var start_finish : c_ptr(c_fn_ptr);
+    var can_stop : c_ptr(c_fn_ptr);
+    var stop : c_ptr(c_fn_ptr);
+    var stop_finish : c_ptr(c_fn_ptr);
+    var stop_button : c_ptr(c_fn_ptr);
+    var eject_with_operation : c_ptr(c_fn_ptr);
+    var eject_with_operation_finish : c_ptr(c_fn_ptr);
+    var get_sort_key : c_ptr(c_fn_ptr);
+    var get_symbolic_icon : c_ptr(c_fn_ptr);
+    var is_removable : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDtlsConnectionInterface" record _GDtlsConnectionInterface {    var g_iface : GTypeInterface;
+    var accept_certificate : c_ptr(c_fn_ptr);
+    var handshake : c_ptr(c_fn_ptr);
+    var handshake_async : c_ptr(c_fn_ptr);
+    var handshake_finish : c_ptr(c_fn_ptr);
+    var shutdown : c_ptr(c_fn_ptr);
+    var shutdown_async : c_ptr(c_fn_ptr);
+    var shutdown_finish : c_ptr(c_fn_ptr);
+    var set_advertised_protocols : c_ptr(c_fn_ptr);
+    var get_negotiated_protocol : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GDtlsClientConnectionInterface" record _GDtlsClientConnectionInterface {    var g_iface : GTypeInterface;
+  }
+
+  extern "struct _GDtlsServerConnectionInterface" record _GDtlsServerConnectionInterface {    var g_iface : GTypeInterface;
+  }
+
+  extern "struct _GIconIface" record _GIconIface {    var g_iface : GTypeInterface;
+    var hash : c_ptr(c_fn_ptr);
+    var equal : c_ptr(c_fn_ptr);
+    var to_tokens : c_ptr(c_fn_ptr);
+    var from_tokens : c_ptr(c_fn_ptr);
+    var serialize : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GEmblemedIcon" record _GEmblemedIcon {    var parent_instance : GObject;
+    var priv : c_ptr(GEmblemedIconPrivate);
+  }
+
+  extern "struct _GEmblemedIconClass" record _GEmblemedIconClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GFileIface" record _GFileIface {    var g_iface : GTypeInterface;
+    var dup : c_ptr(c_fn_ptr);
+    var hash : c_ptr(c_fn_ptr);
+    var equal : c_ptr(c_fn_ptr);
+    var is_native : c_ptr(c_fn_ptr);
+    var has_uri_scheme : c_ptr(c_fn_ptr);
+    var get_uri_scheme : c_ptr(c_fn_ptr);
+    var get_basename : c_ptr(c_fn_ptr);
+    var get_path : c_ptr(c_fn_ptr);
+    var get_uri : c_ptr(c_fn_ptr);
+    var get_parse_name : c_ptr(c_fn_ptr);
+    var get_parent : c_ptr(c_fn_ptr);
+    var prefix_matches : c_ptr(c_fn_ptr);
+    var get_relative_path : c_ptr(c_fn_ptr);
+    var resolve_relative_path : c_ptr(c_fn_ptr);
+    var get_child_for_display_name : c_ptr(c_fn_ptr);
+    var enumerate_children : c_ptr(c_fn_ptr);
+    var enumerate_children_async : c_ptr(c_fn_ptr);
+    var enumerate_children_finish : c_ptr(c_fn_ptr);
+    var query_info : c_ptr(c_fn_ptr);
+    var query_info_async : c_ptr(c_fn_ptr);
+    var query_info_finish : c_ptr(c_fn_ptr);
+    var query_filesystem_info : c_ptr(c_fn_ptr);
+    var query_filesystem_info_async : c_ptr(c_fn_ptr);
+    var query_filesystem_info_finish : c_ptr(c_fn_ptr);
+    var find_enclosing_mount : c_ptr(c_fn_ptr);
+    var find_enclosing_mount_async : c_ptr(c_fn_ptr);
+    var find_enclosing_mount_finish : c_ptr(c_fn_ptr);
+    var set_display_name : c_ptr(c_fn_ptr);
+    var set_display_name_async : c_ptr(c_fn_ptr);
+    var set_display_name_finish : c_ptr(c_fn_ptr);
+    var query_settable_attributes : c_ptr(c_fn_ptr);
+    var _query_settable_attributes_async : c_ptr(c_fn_ptr);
+    var _query_settable_attributes_finish : c_ptr(c_fn_ptr);
+    var query_writable_namespaces : c_ptr(c_fn_ptr);
+    var _query_writable_namespaces_async : c_ptr(c_fn_ptr);
+    var _query_writable_namespaces_finish : c_ptr(c_fn_ptr);
+    var set_attribute : c_ptr(c_fn_ptr);
+    var set_attributes_from_info : c_ptr(c_fn_ptr);
+    var set_attributes_async : c_ptr(c_fn_ptr);
+    var set_attributes_finish : c_ptr(c_fn_ptr);
+    var read_fn : c_ptr(c_fn_ptr);
+    var read_async : c_ptr(c_fn_ptr);
+    var read_finish : c_ptr(c_fn_ptr);
+    var append_to : c_ptr(c_fn_ptr);
+    var append_to_async : c_ptr(c_fn_ptr);
+    var append_to_finish : c_ptr(c_fn_ptr);
+    var create : c_ptr(c_fn_ptr);
+    var create_async : c_ptr(c_fn_ptr);
+    var create_finish : c_ptr(c_fn_ptr);
+    var replace : c_ptr(c_fn_ptr);
+    var replace_async : c_ptr(c_fn_ptr);
+    var replace_finish : c_ptr(c_fn_ptr);
+    var delete_file : c_ptr(c_fn_ptr);
+    var delete_file_async : c_ptr(c_fn_ptr);
+    var delete_file_finish : c_ptr(c_fn_ptr);
+    var trash : c_ptr(c_fn_ptr);
+    var trash_async : c_ptr(c_fn_ptr);
+    var trash_finish : c_ptr(c_fn_ptr);
+    var make_directory : c_ptr(c_fn_ptr);
+    var make_directory_async : c_ptr(c_fn_ptr);
+    var make_directory_finish : c_ptr(c_fn_ptr);
+    var make_symbolic_link : c_ptr(c_fn_ptr);
+    var _make_symbolic_link_async : c_ptr(c_fn_ptr);
+    var _make_symbolic_link_finish : c_ptr(c_fn_ptr);
+    var copy : c_ptr(c_fn_ptr);
+    var copy_async : c_ptr(c_fn_ptr);
+    var copy_finish : c_ptr(c_fn_ptr);
+    var move : c_ptr(c_fn_ptr);
+    var _move_async : c_ptr(c_fn_ptr);
+    var _move_finish : c_ptr(c_fn_ptr);
+    var mount_mountable : c_ptr(c_fn_ptr);
+    var mount_mountable_finish : c_ptr(c_fn_ptr);
+    var unmount_mountable : c_ptr(c_fn_ptr);
+    var unmount_mountable_finish : c_ptr(c_fn_ptr);
+    var eject_mountable : c_ptr(c_fn_ptr);
+    var eject_mountable_finish : c_ptr(c_fn_ptr);
+    var mount_enclosing_volume : c_ptr(c_fn_ptr);
+    var mount_enclosing_volume_finish : c_ptr(c_fn_ptr);
+    var monitor_dir : c_ptr(c_fn_ptr);
+    var monitor_file : c_ptr(c_fn_ptr);
+    var open_readwrite : c_ptr(c_fn_ptr);
+    var open_readwrite_async : c_ptr(c_fn_ptr);
+    var open_readwrite_finish : c_ptr(c_fn_ptr);
+    var create_readwrite : c_ptr(c_fn_ptr);
+    var create_readwrite_async : c_ptr(c_fn_ptr);
+    var create_readwrite_finish : c_ptr(c_fn_ptr);
+    var replace_readwrite : c_ptr(c_fn_ptr);
+    var replace_readwrite_async : c_ptr(c_fn_ptr);
+    var replace_readwrite_finish : c_ptr(c_fn_ptr);
+    var start_mountable : c_ptr(c_fn_ptr);
+    var start_mountable_finish : c_ptr(c_fn_ptr);
+    var stop_mountable : c_ptr(c_fn_ptr);
+    var stop_mountable_finish : c_ptr(c_fn_ptr);
+    var supports_thread_contexts : gboolean;
+    var unmount_mountable_with_operation : c_ptr(c_fn_ptr);
+    var unmount_mountable_with_operation_finish : c_ptr(c_fn_ptr);
+    var eject_mountable_with_operation : c_ptr(c_fn_ptr);
+    var eject_mountable_with_operation_finish : c_ptr(c_fn_ptr);
+    var poll_mountable : c_ptr(c_fn_ptr);
+    var poll_mountable_finish : c_ptr(c_fn_ptr);
+    var measure_disk_usage : c_ptr(c_fn_ptr);
+    var measure_disk_usage_async : c_ptr(c_fn_ptr);
+    var measure_disk_usage_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern record _GFileAttributeInfo {}
+
+  extern "struct _GFileAttributeInfoList" record _GFileAttributeInfoList {    var infos : c_ptr(GFileAttributeInfo);
+    var n_infos : c_int;
+  }
+
+  extern "struct _GFileEnumerator" record _GFileEnumerator {    var parent_instance : GObject;
+    var priv : c_ptr(GFileEnumeratorPrivate);
+  }
+
+  extern "struct _GFileEnumeratorClass" record _GFileEnumeratorClass {    var parent_class : GObjectClass;
+    var next_file : c_ptr(c_fn_ptr);
+    var close_fn : c_ptr(c_fn_ptr);
+    var next_files_async : c_ptr(c_fn_ptr);
+    var next_files_finish : c_ptr(c_fn_ptr);
+    var close_async : c_ptr(c_fn_ptr);
+    var close_finish : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFileInputStream" record _GFileInputStream {    var parent_instance : GInputStream;
+    var priv : c_ptr(GFileInputStreamPrivate);
+  }
+
+  extern "struct _GFileInputStreamClass" record _GFileInputStreamClass {    var parent_class : GInputStreamClass;
+    var tell : c_ptr(c_fn_ptr);
+    var can_seek : c_ptr(c_fn_ptr);
+    var seek : c_ptr(c_fn_ptr);
+    var query_info : c_ptr(c_fn_ptr);
+    var query_info_async : c_ptr(c_fn_ptr);
+    var query_info_finish : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GIOStream" record _GIOStream {    var parent_instance : GObject;
+    var priv : c_ptr(GIOStreamPrivate);
+  }
+
+  extern "struct _GIOStreamClass" record _GIOStreamClass {    var parent_class : GObjectClass;
+    var get_input_stream : c_ptr(c_fn_ptr);
+    var get_output_stream : c_ptr(c_fn_ptr);
+    var close_fn : c_ptr(c_fn_ptr);
+    var close_async : c_ptr(c_fn_ptr);
+    var close_finish : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+    var _g_reserved8 : c_ptr(c_fn_ptr);
+    var _g_reserved9 : c_ptr(c_fn_ptr);
+    var _g_reserved10 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFileIOStream" record _GFileIOStream {    var parent_instance : GIOStream;
+    var priv : c_ptr(GFileIOStreamPrivate);
+  }
+
+  extern "struct _GFileIOStreamClass" record _GFileIOStreamClass {    var parent_class : GIOStreamClass;
+    var tell : c_ptr(c_fn_ptr);
+    var can_seek : c_ptr(c_fn_ptr);
+    var seek : c_ptr(c_fn_ptr);
+    var can_truncate : c_ptr(c_fn_ptr);
+    var truncate_fn : c_ptr(c_fn_ptr);
+    var query_info : c_ptr(c_fn_ptr);
+    var query_info_async : c_ptr(c_fn_ptr);
+    var query_info_finish : c_ptr(c_fn_ptr);
+    var get_etag : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFileMonitor" record _GFileMonitor {    var parent_instance : GObject;
+    var priv : c_ptr(GFileMonitorPrivate);
+  }
+
+  extern "struct _GFileMonitorClass" record _GFileMonitorClass {    var parent_class : GObjectClass;
+    var changed : c_ptr(c_fn_ptr);
+    var cancel : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFilenameCompleterClass" record _GFilenameCompleterClass {    var parent_class : GObjectClass;
+    var got_completion_data : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GFileOutputStream" record _GFileOutputStream {    var parent_instance : GOutputStream;
+    var priv : c_ptr(GFileOutputStreamPrivate);
+  }
+
+  extern "struct _GFileOutputStreamClass" record _GFileOutputStreamClass {    var parent_class : GOutputStreamClass;
+    var tell : c_ptr(c_fn_ptr);
+    var can_seek : c_ptr(c_fn_ptr);
+    var seek : c_ptr(c_fn_ptr);
+    var can_truncate : c_ptr(c_fn_ptr);
+    var truncate_fn : c_ptr(c_fn_ptr);
+    var query_info : c_ptr(c_fn_ptr);
+    var query_info_async : c_ptr(c_fn_ptr);
+    var query_info_finish : c_ptr(c_fn_ptr);
+    var get_etag : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GInetAddress" record _GInetAddress {    var parent_instance : GObject;
+    var priv : c_ptr(GInetAddressPrivate);
+  }
+
+  extern "struct _GInetAddressClass" record _GInetAddressClass {    var parent_class : GObjectClass;
+    var to_string : c_ptr(c_fn_ptr);
+    var to_bytes : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GInetAddressMask" record _GInetAddressMask {    var parent_instance : GObject;
+    var priv : c_ptr(GInetAddressMaskPrivate);
+  }
+
+  extern "struct _GInetAddressMaskClass" record _GInetAddressMaskClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GSocketAddress" record _GSocketAddress {    var parent_instance : GObject;
+  }
+
+  extern "struct _GSocketAddressClass" record _GSocketAddressClass {    var parent_class : GObjectClass;
+    var get_family : c_ptr(c_fn_ptr);
+    var get_native_size : c_ptr(c_fn_ptr);
+    var to_native : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GInetSocketAddress" record _GInetSocketAddress {    var parent_instance : GSocketAddress;
+    var priv : c_ptr(GInetSocketAddressPrivate);
+  }
+
+  extern "struct _GInetSocketAddressClass" record _GInetSocketAddressClass {    var parent_class : GSocketAddressClass;
+  }
+
+  extern "struct _GListModelInterface" record _GListModelInterface {    var g_iface : GTypeInterface;
+    var get_item_type : c_ptr(c_fn_ptr);
+    var get_n_items : c_ptr(c_fn_ptr);
+    var get_item : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GLoadableIconIface" record _GLoadableIconIface {    var g_iface : GTypeInterface;
+    var load : c_ptr(c_fn_ptr);
+    var load_async : c_ptr(c_fn_ptr);
+    var load_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMemoryInputStream" record _GMemoryInputStream {    var parent_instance : GInputStream;
+    var priv : c_ptr(GMemoryInputStreamPrivate);
+  }
+
+  extern "struct _GMemoryInputStreamClass" record _GMemoryInputStreamClass {    var parent_class : GInputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMemoryMonitorInterface" record _GMemoryMonitorInterface {    var g_iface : GTypeInterface;
+    var low_memory_warning : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMemoryOutputStream" record _GMemoryOutputStream {    var parent_instance : GOutputStream;
+    var priv : c_ptr(GMemoryOutputStreamPrivate);
+  }
+
+  extern "struct _GMemoryOutputStreamClass" record _GMemoryOutputStreamClass {    var parent_class : GOutputStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMenuModel" record _GMenuModel {    var parent_instance : GObject;
+    var priv : c_ptr(GMenuModelPrivate);
+  }
+
+  extern "struct _GMenuModelClass" record _GMenuModelClass {    var parent_class : GObjectClass;
+    var is_mutable : c_ptr(c_fn_ptr);
+    var get_n_items : c_ptr(c_fn_ptr);
+    var get_item_attributes : c_ptr(c_fn_ptr);
+    var iterate_item_attributes : c_ptr(c_fn_ptr);
+    var get_item_attribute_value : c_ptr(c_fn_ptr);
+    var get_item_links : c_ptr(c_fn_ptr);
+    var iterate_item_links : c_ptr(c_fn_ptr);
+    var get_item_link : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMenuAttributeIter" record _GMenuAttributeIter {    var parent_instance : GObject;
+    var priv : c_ptr(GMenuAttributeIterPrivate);
+  }
+
+  extern "struct _GMenuAttributeIterClass" record _GMenuAttributeIterClass {    var parent_class : GObjectClass;
+    var get_next : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMenuLinkIter" record _GMenuLinkIter {    var parent_instance : GObject;
+    var priv : c_ptr(GMenuLinkIterPrivate);
+  }
+
+  extern "struct _GMenuLinkIterClass" record _GMenuLinkIterClass {    var parent_class : GObjectClass;
+    var get_next : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMountIface" record _GMountIface {    var g_iface : GTypeInterface;
+    var changed : c_ptr(c_fn_ptr);
+    var unmounted : c_ptr(c_fn_ptr);
+    var get_root : c_ptr(c_fn_ptr);
+    var get_name : c_ptr(c_fn_ptr);
+    var get_icon : c_ptr(c_fn_ptr);
+    var get_uuid : c_ptr(c_fn_ptr);
+    var get_volume : c_ptr(c_fn_ptr);
+    var get_drive : c_ptr(c_fn_ptr);
+    var can_unmount : c_ptr(c_fn_ptr);
+    var can_eject : c_ptr(c_fn_ptr);
+    var unmount : c_ptr(c_fn_ptr);
+    var unmount_finish : c_ptr(c_fn_ptr);
+    var eject : c_ptr(c_fn_ptr);
+    var eject_finish : c_ptr(c_fn_ptr);
+    var remount : c_ptr(c_fn_ptr);
+    var remount_finish : c_ptr(c_fn_ptr);
+    var guess_content_type : c_ptr(c_fn_ptr);
+    var guess_content_type_finish : c_ptr(c_fn_ptr);
+    var guess_content_type_sync : c_ptr(c_fn_ptr);
+    var pre_unmount : c_ptr(c_fn_ptr);
+    var unmount_with_operation : c_ptr(c_fn_ptr);
+    var unmount_with_operation_finish : c_ptr(c_fn_ptr);
+    var eject_with_operation : c_ptr(c_fn_ptr);
+    var eject_with_operation_finish : c_ptr(c_fn_ptr);
+    var get_default_location : c_ptr(c_fn_ptr);
+    var get_sort_key : c_ptr(c_fn_ptr);
+    var get_symbolic_icon : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GMountOperation" record _GMountOperation {    var parent_instance : GObject;
+    var priv : c_ptr(GMountOperationPrivate);
+  }
+
+  extern "struct _GMountOperationClass" record _GMountOperationClass {    var parent_class : GObjectClass;
+    var ask_password : c_ptr(c_fn_ptr);
+    var ask_question : c_ptr(c_fn_ptr);
+    var reply : c_ptr(c_fn_ptr);
+    var aborted : c_ptr(c_fn_ptr);
+    var show_processes : c_ptr(c_fn_ptr);
+    var show_unmount_progress : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+    var _g_reserved8 : c_ptr(c_fn_ptr);
+    var _g_reserved9 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GNativeSocketAddress" record _GNativeSocketAddress {    var parent_instance : GSocketAddress;
+    var priv : c_ptr(GNativeSocketAddressPrivate);
+  }
+
+  extern "struct _GNativeSocketAddressClass" record _GNativeSocketAddressClass {    var parent_class : GSocketAddressClass;
+  }
+
+  extern "struct _GVolumeMonitor" record _GVolumeMonitor {    var parent_instance : GObject;
+    var priv : gpointer;
+  }
+
+  extern "struct _GVolumeMonitorClass" record _GVolumeMonitorClass {    var parent_class : GObjectClass;
+    var volume_added : c_ptr(c_fn_ptr);
+    var volume_removed : c_ptr(c_fn_ptr);
+    var volume_changed : c_ptr(c_fn_ptr);
+    var mount_added : c_ptr(c_fn_ptr);
+    var mount_removed : c_ptr(c_fn_ptr);
+    var mount_pre_unmount : c_ptr(c_fn_ptr);
+    var mount_changed : c_ptr(c_fn_ptr);
+    var drive_connected : c_ptr(c_fn_ptr);
+    var drive_disconnected : c_ptr(c_fn_ptr);
+    var drive_changed : c_ptr(c_fn_ptr);
+    var is_supported : c_ptr(c_fn_ptr);
+    var get_connected_drives : c_ptr(c_fn_ptr);
+    var get_volumes : c_ptr(c_fn_ptr);
+    var get_mounts : c_ptr(c_fn_ptr);
+    var get_volume_for_uuid : c_ptr(c_fn_ptr);
+    var get_mount_for_uuid : c_ptr(c_fn_ptr);
+    var adopt_orphan_mount : c_ptr(c_fn_ptr);
+    var drive_eject_button : c_ptr(c_fn_ptr);
+    var drive_stop_button : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GNativeVolumeMonitor" record _GNativeVolumeMonitor {    var parent_instance : GVolumeMonitor;
+  }
+
+  extern "struct _GNativeVolumeMonitorClass" record _GNativeVolumeMonitorClass {    var parent_class : GVolumeMonitorClass;
+    var get_mount_for_mount_path : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GNetworkAddress" record _GNetworkAddress {    var parent_instance : GObject;
+    var priv : c_ptr(GNetworkAddressPrivate);
+  }
+
+  extern "struct _GNetworkAddressClass" record _GNetworkAddressClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GNetworkMonitorInterface" record _GNetworkMonitorInterface {    var g_iface : GTypeInterface;
+    var network_changed : c_ptr(c_fn_ptr);
+    var can_reach : c_ptr(c_fn_ptr);
+    var can_reach_async : c_ptr(c_fn_ptr);
+    var can_reach_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GNetworkService" record _GNetworkService {    var parent_instance : GObject;
+    var priv : c_ptr(GNetworkServicePrivate);
+  }
+
+  extern "struct _GNetworkServiceClass" record _GNetworkServiceClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GPermission" record _GPermission {    var parent_instance : GObject;
+    var priv : c_ptr(GPermissionPrivate);
+  }
+
+  extern "struct _GPermissionClass" record _GPermissionClass {    var parent_class : GObjectClass;
+    var acquire : c_ptr(c_fn_ptr);
+    var acquire_async : c_ptr(c_fn_ptr);
+    var acquire_finish : c_ptr(c_fn_ptr);
+    var release : c_ptr(c_fn_ptr);
+    var release_async : c_ptr(c_fn_ptr);
+    var release_finish : c_ptr(c_fn_ptr);
+    var reserved : c_ptr(gpointer);
+  }
+
+  extern "struct _GPollableInputStreamInterface" record _GPollableInputStreamInterface {    var g_iface : GTypeInterface;
+    var can_poll : c_ptr(c_fn_ptr);
+    var is_readable : c_ptr(c_fn_ptr);
+    var create_source : c_ptr(c_fn_ptr);
+    var read_nonblocking : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GPollableOutputStreamInterface" record _GPollableOutputStreamInterface {    var g_iface : GTypeInterface;
+    var can_poll : c_ptr(c_fn_ptr);
+    var is_writable : c_ptr(c_fn_ptr);
+    var create_source : c_ptr(c_fn_ptr);
+    var write_nonblocking : c_ptr(c_fn_ptr);
+    var writev_nonblocking : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GProxyInterface" record _GProxyInterface {    var g_iface : GTypeInterface;
+    var connect : c_ptr(c_fn_ptr);
+    var connect_async : c_ptr(c_fn_ptr);
+    var connect_finish : c_ptr(c_fn_ptr);
+    var supports_hostname : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GProxyAddress" record _GProxyAddress {    var parent_instance : GInetSocketAddress;
+    var priv : c_ptr(GProxyAddressPrivate);
+  }
+
+  extern "struct _GProxyAddressClass" record _GProxyAddressClass {    var parent_class : GInetSocketAddressClass;
+  }
+
+  extern "struct _GSocketAddressEnumerator" record _GSocketAddressEnumerator {    var parent_instance : GObject;
+  }
+
+  extern "struct _GSocketAddressEnumeratorClass" record _GSocketAddressEnumeratorClass {    var parent_class : GObjectClass;
+    var next : c_ptr(c_fn_ptr);
+    var next_async : c_ptr(c_fn_ptr);
+    var next_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GProxyAddressEnumerator" record _GProxyAddressEnumerator {    var parent_instance : GSocketAddressEnumerator;
+    var priv : c_ptr(GProxyAddressEnumeratorPrivate);
+  }
+
+  extern "struct _GProxyAddressEnumeratorClass" record _GProxyAddressEnumeratorClass {    var parent_class : GSocketAddressEnumeratorClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GProxyResolverInterface" record _GProxyResolverInterface {    var g_iface : GTypeInterface;
+    var is_supported : c_ptr(c_fn_ptr);
+    var lookup : c_ptr(c_fn_ptr);
+    var lookup_async : c_ptr(c_fn_ptr);
+    var lookup_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GRemoteActionGroupInterface" record _GRemoteActionGroupInterface {    var g_iface : GTypeInterface;
+    var activate_action_full : c_ptr(c_fn_ptr);
+    var change_action_state_full : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GResolver" record _GResolver {    var parent_instance : GObject;
+    var priv : c_ptr(GResolverPrivate);
+  }
+
+  extern "struct _GResolverClass" record _GResolverClass {    var parent_class : GObjectClass;
+    var reload : c_ptr(c_fn_ptr);
+    var lookup_by_name : c_ptr(c_fn_ptr);
+    var lookup_by_name_async : c_ptr(c_fn_ptr);
+    var lookup_by_name_finish : c_ptr(c_fn_ptr);
+    var lookup_by_address : c_ptr(c_fn_ptr);
+    var lookup_by_address_async : c_ptr(c_fn_ptr);
+    var lookup_by_address_finish : c_ptr(c_fn_ptr);
+    var lookup_service : c_ptr(c_fn_ptr);
+    var lookup_service_async : c_ptr(c_fn_ptr);
+    var lookup_service_finish : c_ptr(c_fn_ptr);
+    var lookup_records : c_ptr(c_fn_ptr);
+    var lookup_records_async : c_ptr(c_fn_ptr);
+    var lookup_records_finish : c_ptr(c_fn_ptr);
+    var lookup_by_name_with_flags_async : c_ptr(c_fn_ptr);
+    var lookup_by_name_with_flags_finish : c_ptr(c_fn_ptr);
+    var lookup_by_name_with_flags : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GStaticResource" record _GStaticResource {    var data : c_ptr(guint8);
+    var data_len : gsize;
+    var resource : c_ptr(GResource);
+    var next : c_ptr(_GStaticResource);
+    var padding : gpointer;
+  }
+
+  extern "struct _GSeekableIface" record _GSeekableIface {    var g_iface : GTypeInterface;
+    var tell : c_ptr(c_fn_ptr);
+    var can_seek : c_ptr(c_fn_ptr);
+    var seek : c_ptr(c_fn_ptr);
+    var can_truncate : c_ptr(c_fn_ptr);
+    var truncate_fn : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSettingsClass" record _GSettingsClass {    var parent_class : GObjectClass;
+    var writable_changed : c_ptr(c_fn_ptr);
+    var changed : c_ptr(c_fn_ptr);
+    var writable_change_event : c_ptr(c_fn_ptr);
+    var change_event : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GSettings" record _GSettings {    var parent_instance : GObject;
+    var priv : c_ptr(GSettingsPrivate);
+  }
+
+  extern "struct _GSimpleActionGroup" record _GSimpleActionGroup {    var parent_instance : GObject;
+    var priv : c_ptr(GSimpleActionGroupPrivate);
+  }
+
+  extern "struct _GSimpleActionGroupClass" record _GSimpleActionGroupClass {    var parent_class : GObjectClass;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GSimpleProxyResolver" record _GSimpleProxyResolver {    var parent_instance : GObject;
+    var priv : c_ptr(GSimpleProxyResolverPrivate);
+  }
+
+  extern "struct _GSimpleProxyResolverClass" record _GSimpleProxyResolverClass {    var parent_class : GObjectClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketClass" record _GSocketClass {    var parent_class : GObjectClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+    var _g_reserved7 : c_ptr(c_fn_ptr);
+    var _g_reserved8 : c_ptr(c_fn_ptr);
+    var _g_reserved9 : c_ptr(c_fn_ptr);
+    var _g_reserved10 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocket" record _GSocket {    var parent_instance : GObject;
+    var priv : c_ptr(GSocketPrivate);
+  }
+
+  extern "struct _GSocketClientClass" record _GSocketClientClass {    var parent_class : GObjectClass;
+    var event : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketClient" record _GSocketClient {    var parent_instance : GObject;
+    var priv : c_ptr(GSocketClientPrivate);
+  }
+
+  extern "struct _GSocketConnectableIface" record _GSocketConnectableIface {    var g_iface : GTypeInterface;
+    var enumerate : c_ptr(c_fn_ptr);
+    var proxy_enumerate : c_ptr(c_fn_ptr);
+    var to_string : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketConnectionClass" record _GSocketConnectionClass {    var parent_class : GIOStreamClass;
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketConnection" record _GSocketConnection {    var parent_instance : GIOStream;
+    var priv : c_ptr(GSocketConnectionPrivate);
+  }
+
+  extern "struct _GSocketControlMessageClass" record _GSocketControlMessageClass {    var parent_class : GObjectClass;
+    var get_size : c_ptr(c_fn_ptr);
+    var get_level : c_ptr(c_fn_ptr);
+    var get_type : c_ptr(c_fn_ptr);
+    var serialize : c_ptr(c_fn_ptr);
+    var deserialize : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketControlMessage" record _GSocketControlMessage {    var parent_instance : GObject;
+    var priv : c_ptr(GSocketControlMessagePrivate);
+  }
+
+  extern "struct _GSocketListenerClass" record _GSocketListenerClass {    var parent_class : GObjectClass;
+    var changed : c_ptr(c_fn_ptr);
+    var event : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketListener" record _GSocketListener {    var parent_instance : GObject;
+    var priv : c_ptr(GSocketListenerPrivate);
+  }
+
+  extern "struct _GSocketServiceClass" record _GSocketServiceClass {    var parent_class : GSocketListenerClass;
+    var incoming : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GSocketService" record _GSocketService {    var parent_instance : GSocketListener;
+    var priv : c_ptr(GSocketServicePrivate);
+  }
+
+  extern "struct _GTcpConnectionClass" record _GTcpConnectionClass {    var parent_class : GSocketConnectionClass;
+  }
+
+  extern "struct _GTcpConnection" record _GTcpConnection {    var parent_instance : GSocketConnection;
+    var priv : c_ptr(GTcpConnectionPrivate);
+  }
+
+  extern "struct _GTcpWrapperConnectionClass" record _GTcpWrapperConnectionClass {    var parent_class : GTcpConnectionClass;
+  }
+
+  extern "struct _GTcpWrapperConnection" record _GTcpWrapperConnection {    var parent_instance : GTcpConnection;
+    var priv : c_ptr(GTcpWrapperConnectionPrivate);
+  }
+
+  extern "struct _GThreadedSocketServiceClass" record _GThreadedSocketServiceClass {    var parent_class : GSocketServiceClass;
+    var run : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GThreadedSocketService" record _GThreadedSocketService {    var parent_instance : GSocketService;
+    var priv : c_ptr(GThreadedSocketServicePrivate);
+  }
+
+  extern "struct _GTlsBackendInterface" record _GTlsBackendInterface {    var g_iface : GTypeInterface;
+    var supports_tls : c_ptr(c_fn_ptr);
+    var get_certificate_type : c_ptr(c_fn_ptr);
+    var get_client_connection_type : c_ptr(c_fn_ptr);
+    var get_server_connection_type : c_ptr(c_fn_ptr);
+    var get_file_database_type : c_ptr(c_fn_ptr);
+    var get_default_database : c_ptr(c_fn_ptr);
+    var supports_dtls : c_ptr(c_fn_ptr);
+    var get_dtls_client_connection_type : c_ptr(c_fn_ptr);
+    var get_dtls_server_connection_type : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GTlsCertificate" record _GTlsCertificate {    var parent_instance : GObject;
+    var priv : c_ptr(GTlsCertificatePrivate);
+  }
+
+  extern "struct _GTlsCertificateClass" record _GTlsCertificateClass {    var parent_class : GObjectClass;
+    var verify : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GTlsConnection" record _GTlsConnection {    var parent_instance : GIOStream;
+    var priv : c_ptr(GTlsConnectionPrivate);
+  }
+
+  extern "struct _GTlsConnectionClass" record _GTlsConnectionClass {    var parent_class : GIOStreamClass;
+    var accept_certificate : c_ptr(c_fn_ptr);
+    var handshake : c_ptr(c_fn_ptr);
+    var handshake_async : c_ptr(c_fn_ptr);
+    var handshake_finish : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GTlsClientConnectionInterface" record _GTlsClientConnectionInterface {    var g_iface : GTypeInterface;
+    var copy_session_state : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GTlsDatabase" record _GTlsDatabase {    var parent_instance : GObject;
+    var priv : c_ptr(GTlsDatabasePrivate);
+  }
+
+  extern "struct _GTlsDatabaseClass" record _GTlsDatabaseClass {    var parent_class : GObjectClass;
+    var verify_chain : c_ptr(c_fn_ptr);
+    var verify_chain_async : c_ptr(c_fn_ptr);
+    var verify_chain_finish : c_ptr(c_fn_ptr);
+    var create_certificate_handle : c_ptr(c_fn_ptr);
+    var lookup_certificate_for_handle : c_ptr(c_fn_ptr);
+    var lookup_certificate_for_handle_async : c_ptr(c_fn_ptr);
+    var lookup_certificate_for_handle_finish : c_ptr(c_fn_ptr);
+    var lookup_certificate_issuer : c_ptr(c_fn_ptr);
+    var lookup_certificate_issuer_async : c_ptr(c_fn_ptr);
+    var lookup_certificate_issuer_finish : c_ptr(c_fn_ptr);
+    var lookup_certificates_issued_by : c_ptr(c_fn_ptr);
+    var lookup_certificates_issued_by_async : c_ptr(c_fn_ptr);
+    var lookup_certificates_issued_by_finish : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GTlsFileDatabaseInterface" record _GTlsFileDatabaseInterface {    var g_iface : GTypeInterface;
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GTlsInteraction" record _GTlsInteraction {    var parent_instance : GObject;
+    var priv : c_ptr(GTlsInteractionPrivate);
+  }
+
+  extern "struct _GTlsInteractionClass" record _GTlsInteractionClass {    var parent_class : GObjectClass;
+    var ask_password : c_ptr(c_fn_ptr);
+    var ask_password_async : c_ptr(c_fn_ptr);
+    var ask_password_finish : c_ptr(c_fn_ptr);
+    var request_certificate : c_ptr(c_fn_ptr);
+    var request_certificate_async : c_ptr(c_fn_ptr);
+    var request_certificate_finish : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GTlsPassword" record _GTlsPassword {    var parent_instance : GObject;
+    var priv : c_ptr(GTlsPasswordPrivate);
+  }
+
+  extern "struct _GTlsPasswordClass" record _GTlsPasswordClass {    var parent_class : GObjectClass;
+    var get_value : c_ptr(c_fn_ptr);
+    var set_value : c_ptr(c_fn_ptr);
+    var get_default_warning : c_ptr(c_fn_ptr);
+    var padding : c_ptr(gpointer);
+  }
+
+  extern "struct _GTlsServerConnectionInterface" record _GTlsServerConnectionInterface {    var g_iface : GTypeInterface;
+  }
+
+  extern "struct _GVfs" record _GVfs {    var parent_instance : GObject;
+  }
+
+  extern "struct _GVfsClass" record _GVfsClass {    var parent_class : GObjectClass;
+    var is_active : c_ptr(c_fn_ptr);
+    var get_file_for_path : c_ptr(c_fn_ptr);
+    var get_file_for_uri : c_ptr(c_fn_ptr);
+    var get_supported_uri_schemes : c_ptr(c_fn_ptr);
+    var parse_name : c_ptr(c_fn_ptr);
+    var local_file_add_info : c_ptr(c_fn_ptr);
+    var add_writable_namespaces : c_ptr(c_fn_ptr);
+    var local_file_set_attributes : c_ptr(c_fn_ptr);
+    var local_file_removed : c_ptr(c_fn_ptr);
+    var local_file_moved : c_ptr(c_fn_ptr);
+    var deserialize_icon : c_ptr(c_fn_ptr);
+    var _g_reserved1 : c_ptr(c_fn_ptr);
+    var _g_reserved2 : c_ptr(c_fn_ptr);
+    var _g_reserved3 : c_ptr(c_fn_ptr);
+    var _g_reserved4 : c_ptr(c_fn_ptr);
+    var _g_reserved5 : c_ptr(c_fn_ptr);
+    var _g_reserved6 : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GVolumeIface" record _GVolumeIface {    var g_iface : GTypeInterface;
+    var changed : c_ptr(c_fn_ptr);
+    var removed : c_ptr(c_fn_ptr);
+    var get_name : c_ptr(c_fn_ptr);
+    var get_icon : c_ptr(c_fn_ptr);
+    var get_uuid : c_ptr(c_fn_ptr);
+    var get_drive : c_ptr(c_fn_ptr);
+    var get_mount : c_ptr(c_fn_ptr);
+    var can_mount : c_ptr(c_fn_ptr);
+    var can_eject : c_ptr(c_fn_ptr);
+    var mount_fn : c_ptr(c_fn_ptr);
+    var mount_finish : c_ptr(c_fn_ptr);
+    var eject : c_ptr(c_fn_ptr);
+    var eject_finish : c_ptr(c_fn_ptr);
+    var get_identifier : c_ptr(c_fn_ptr);
+    var enumerate_identifiers : c_ptr(c_fn_ptr);
+    var should_automount : c_ptr(c_fn_ptr);
+    var get_activation_root : c_ptr(c_fn_ptr);
+    var eject_with_operation : c_ptr(c_fn_ptr);
+    var eject_with_operation_finish : c_ptr(c_fn_ptr);
+    var get_sort_key : c_ptr(c_fn_ptr);
+    var get_symbolic_icon : c_ptr(c_fn_ptr);
+  }
+
+  extern "struct _GZlibCompressorClass" record _GZlibCompressorClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GZlibDecompressorClass" record _GZlibDecompressorClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowTensor" record _GArrowTensor {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowTensorClass" record _GArrowTensorClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowOutputStream" record _GArrowOutputStream {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowOutputStreamClass" record _GArrowOutputStreamClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFileOutputStream" record _GArrowFileOutputStream {    var parent_instance : GArrowOutputStream;
+  }
+
+  extern "struct _GArrowFileOutputStreamClass" record _GArrowFileOutputStreamClass {    var parent_class : GArrowOutputStreamClass;
+  }
+
+  extern "struct _GArrowBufferOutputStream" record _GArrowBufferOutputStream {    var parent_instance : GArrowOutputStream;
+  }
+
+  extern "struct _GArrowBufferOutputStreamClass" record _GArrowBufferOutputStreamClass {    var parent_class : GArrowOutputStreamClass;
+  }
+
+  extern "struct _GArrowGIOOutputStream" record _GArrowGIOOutputStream {    var parent_instance : GArrowOutputStream;
+  }
+
+  extern "struct _GArrowGIOOutputStreamClass" record _GArrowGIOOutputStreamClass {    var parent_class : GArrowOutputStreamClass;
+  }
+
+  extern "struct _GArrowCompressedOutputStream" record _GArrowCompressedOutputStream {    var parent_instance : GArrowOutputStream;
+  }
+
+  extern "struct _GArrowCompressedOutputStreamClass" record _GArrowCompressedOutputStreamClass {    var parent_class : GArrowOutputStreamClass;
+  }
+
+  extern "struct _GArrowTable" record _GArrowTable {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowTableClass" record _GArrowTableClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFeatherWriteProperties" record _GArrowFeatherWriteProperties {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFeatherWritePropertiesClass" record _GArrowFeatherWritePropertiesClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowDatum" record _GArrowDatum {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowDatumClass" record _GArrowDatumClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowScalarDatum" record _GArrowScalarDatum {    var parent_instance : GArrowDatum;
+  }
+
+  extern "struct _GArrowScalarDatumClass" record _GArrowScalarDatumClass {    var parent_class : GArrowDatumClass;
+  }
+
+  extern "struct _GArrowArrayDatum" record _GArrowArrayDatum {    var parent_instance : GArrowDatum;
+  }
+
+  extern "struct _GArrowArrayDatumClass" record _GArrowArrayDatumClass {    var parent_class : GArrowDatumClass;
+  }
+
+  extern "struct _GArrowChunkedArrayDatum" record _GArrowChunkedArrayDatum {    var parent_instance : GArrowDatum;
+  }
+
+  extern "struct _GArrowChunkedArrayDatumClass" record _GArrowChunkedArrayDatumClass {    var parent_class : GArrowDatumClass;
+  }
+
+  extern "struct _GArrowRecordBatchDatum" record _GArrowRecordBatchDatum {    var parent_instance : GArrowDatum;
+  }
+
+  extern "struct _GArrowRecordBatchDatumClass" record _GArrowRecordBatchDatumClass {    var parent_class : GArrowDatumClass;
+  }
+
+  extern "struct _GArrowTableDatum" record _GArrowTableDatum {    var parent_instance : GArrowDatum;
+  }
+
+  extern "struct _GArrowTableDatumClass" record _GArrowTableDatumClass {    var parent_class : GArrowDatumClass;
+  }
+
+  extern "struct _GArrowExecuteContext" record _GArrowExecuteContext {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowExecuteContextClass" record _GArrowExecuteContextClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFunction" record _GArrowFunction {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFunctionClass" record _GArrowFunctionClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowCastOptions" record _GArrowCastOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowCastOptionsClass" record _GArrowCastOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowScalarAggregateOptions" record _GArrowScalarAggregateOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowScalarAggregateOptionsClass" record _GArrowScalarAggregateOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFilterOptions" record _GArrowFilterOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFilterOptionsClass" record _GArrowFilterOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowTakeOptions" record _GArrowTakeOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowTakeOptionsClass" record _GArrowTakeOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowArraySortOptions" record _GArrowArraySortOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowArraySortOptionsClass" record _GArrowArraySortOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowSortKey" record _GArrowSortKey {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowSortKeyClass" record _GArrowSortKeyClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowSortOptions" record _GArrowSortOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowSortOptionsClass" record _GArrowSortOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowRecordBatchBuilder" record _GArrowRecordBatchBuilder {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchBuilderClass" record _GArrowRecordBatchBuilderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowInputStream" record _GArrowInputStream {    var parent_instance : GInputStream;
+  }
+
+  extern "struct _GArrowInputStreamClass" record _GArrowInputStreamClass {    var parent_class : GInputStreamClass;
+  }
+
+  extern "struct _GArrowSeekableInputStream" record _GArrowSeekableInputStream {    var parent_instance : GArrowInputStream;
+  }
+
+  extern "struct _GArrowSeekableInputStreamClass" record _GArrowSeekableInputStreamClass {    var parent_class : GArrowInputStreamClass;
+  }
+
+  extern "struct _GArrowBufferInputStream" record _GArrowBufferInputStream {    var parent_instance : GArrowSeekableInputStream;
+  }
+
+  extern "struct _GArrowBufferInputStreamClass" record _GArrowBufferInputStreamClass {    var parent_class : GArrowSeekableInputStreamClass;
+  }
+
+  extern "struct _GArrowMemoryMappedInputStream" record _GArrowMemoryMappedInputStream {    var parent_instance : GArrowSeekableInputStream;
+  }
+
+  extern "struct _GArrowMemoryMappedInputStreamClass" record _GArrowMemoryMappedInputStreamClass {    var parent_class : GArrowSeekableInputStreamClass;
+  }
+
+  extern "struct _GArrowGIOInputStream" record _GArrowGIOInputStream {    var parent_instance : GArrowSeekableInputStream;
+  }
+
+  extern "struct _GArrowGIOInputStreamClass" record _GArrowGIOInputStreamClass {    var parent_class : GArrowSeekableInputStreamClass;
+  }
+
+  extern "struct _GArrowCompressedInputStream" record _GArrowCompressedInputStream {    var parent_instance : GArrowInputStream;
+  }
+
+  extern "struct _GArrowCompressedInputStreamClass" record _GArrowCompressedInputStreamClass {    var parent_class : GArrowInputStreamClass;
+  }
+
+  extern "struct _GArrowRecordBatchReader" record _GArrowRecordBatchReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchReaderClass" record _GArrowRecordBatchReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowTableBatchReader" record _GArrowTableBatchReader {    var parent_instance : GArrowRecordBatchReader;
+  }
+
+  extern "struct _GArrowTableBatchReaderClass" record _GArrowTableBatchReaderClass {    var parent_class : GArrowRecordBatchReaderClass;
+  }
+
+  extern "struct _GArrowRecordBatchStreamReader" record _GArrowRecordBatchStreamReader {    var parent_instance : GArrowRecordBatchReader;
+  }
+
+  extern "struct _GArrowRecordBatchStreamReaderClass" record _GArrowRecordBatchStreamReaderClass {    var parent_class : GArrowRecordBatchReaderClass;
+  }
+
+  extern "struct _GArrowRecordBatchFileReader" record _GArrowRecordBatchFileReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchFileReaderClass" record _GArrowRecordBatchFileReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFeatherFileReader" record _GArrowFeatherFileReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFeatherFileReaderClass" record _GArrowFeatherFileReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowCSVReadOptions" record _GArrowCSVReadOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowCSVReadOptionsClass" record _GArrowCSVReadOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowCSVReader" record _GArrowCSVReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowCSVReaderClass" record _GArrowCSVReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowJSONReadOptions" record _GArrowJSONReadOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowJSONReadOptionsClass" record _GArrowJSONReadOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowJSONReader" record _GArrowJSONReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowJSONReaderClass" record _GArrowJSONReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowRecordBatchWriter" record _GArrowRecordBatchWriter {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowRecordBatchWriterClass" record _GArrowRecordBatchWriterClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowRecordBatchStreamWriter" record _GArrowRecordBatchStreamWriter {    var parent_instance : GArrowRecordBatchWriter;
+  }
+
+  extern "struct _GArrowRecordBatchStreamWriterClass" record _GArrowRecordBatchStreamWriterClass {    var parent_class : GArrowRecordBatchWriterClass;
+  }
+
+  extern "struct _GArrowRecordBatchFileWriter" record _GArrowRecordBatchFileWriter {    var parent_instance : GArrowRecordBatchStreamWriter;
+  }
+
+  extern "struct _GArrowRecordBatchFileWriterClass" record _GArrowRecordBatchFileWriterClass {    var parent_class : GArrowRecordBatchStreamWriterClass;
+  }
+
+  extern "struct _GArrowFileInfo" record _GArrowFileInfo {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFileInfoClass" record _GArrowFileInfoClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFileSelector" record _GArrowFileSelector {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFileSelectorClass" record _GArrowFileSelectorClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowFileSystem" record _GArrowFileSystem {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowFileSystemClass" record _GArrowFileSystemClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowSubTreeFileSystem" record _GArrowSubTreeFileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowSubTreeFileSystemClass" record _GArrowSubTreeFileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GArrowSlowFileSystem" record _GArrowSlowFileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowSlowFileSystemClass" record _GArrowSlowFileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GArrowMockFileSystem" record _GArrowMockFileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowMockFileSystemClass" record _GArrowMockFileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GArrowHDFSFileSystem" record _GArrowHDFSFileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowHDFSFileSystemClass" record _GArrowHDFSFileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GArrowS3FileSystem" record _GArrowS3FileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowS3FileSystemClass" record _GArrowS3FileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GArrowLocalFileSystemOptions" record _GArrowLocalFileSystemOptions {    var parent_instance : GObject;
+  }
+
+  extern "struct _GArrowLocalFileSystemOptionsClass" record _GArrowLocalFileSystemOptionsClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GArrowLocalFileSystem" record _GArrowLocalFileSystem {    var parent_instance : GArrowFileSystem;
+  }
+
+  extern "struct _GArrowLocalFileSystemClass" record _GArrowLocalFileSystemClass {    var parent_class : GArrowFileSystemClass;
+  }
+
+  extern "struct _GParquetArrowFileReader" record _GParquetArrowFileReader {    var parent_instance : GObject;
+  }
+
+  extern "struct _GParquetArrowFileReaderClass" record _GParquetArrowFileReaderClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GParquetWriterProperties" record _GParquetWriterProperties {    var parent_instance : GObject;
+  }
+
+  extern "struct _GParquetWriterPropertiesClass" record _GParquetWriterPropertiesClass {    var parent_class : GObjectClass;
+  }
+
+  extern "struct _GParquetArrowFileWriter" record _GParquetArrowFileWriter {    var parent_instance : GObject;
+  }
+
+  extern "struct _GParquetArrowFileWriterClass" record _GParquetArrowFileWriterClass {    var parent_class : GObjectClass;
+  }
+
+  extern record GAction {};
+
+  extern record GActionGroup {};
+
+  extern record GActionMap {};
+
+  extern record GAllocator {};
+
+  extern record GAppInfo {};
+
+  extern record GAppInfoMonitor {};
+
+  extern record GAppLaunchContextPrivate {};
+
+  extern record GApplicationCommandLinePrivate {};
+
+  extern record GApplicationPrivate {};
+
+  extern record GArrowFile {};
+
+  extern record GArrowFileInterface {};
+
+  extern record GArrowFunctionOptions {};
+
+  extern record GArrowFunctionOptionsInterface {};
+
+  extern record GArrowReadable {};
+
+  extern record GArrowReadableInterface {};
+
+  extern record GArrowWritable {};
+
+  extern record GArrowWritableFile {};
+
+  extern record GArrowWritableFileInterface {};
+
+  extern record GArrowWritableInterface {};
+
+  
   // Note: Generated with fake std headers
   extern type time_t;
   extern type tm;
@@ -193,430 +3354,7 @@ module ArrowAll {
 
   
   // All records
-  extern record _GTimeVal {
-    var tv_sec : glong;
-    var tv_usec : glong;
-  }
-  extern record _GArray {
-    var data : c_ptr(gchar);
-    var len : guint;
-  }
-  extern record _GByteArray {
-    var data : c_ptr(guint8);
-    var len : guint;
-  }
-  extern record _GPtrArray {
-    var pdata : c_ptr(gpointer);
-    var len : guint;
-  }
-  extern record _GError {
-    extern "domain" var dom: GQuark;
-    var code: gint;
-    var message: c_ptr(gchar);
-  }
-  extern record _GDebugKey {
-    var key : c_ptr(gchar);
-    var value : guint;
-  }
-  extern record _GRWLock {
-    var p : gpointer;
-    var i : c_ptr(guint);
-  }
-  extern record _GCond {
-    var p : gpointer;
-    var i : c_ptr(guint);
-  }
-  extern record _GRecMutex {
-    var p : gpointer;
-    var i : c_ptr(guint);
-  }
-  extern record _GPrivate {
-    var p : gpointer;
-    var notify : GDestroyNotify;
-    var future : c_ptr(gpointer);
-  }
-  extern record _GOnce {
-    var status : GOnceStatus;
-    var retval : gpointer;
-  }
-  extern record _GDate {
-    var julian_days : guint;
-    var julian : guint;
-    var dmy : guint;
-    var day : guint;
-    var month : guint;
-    var year : guint;
-  }
-  extern record _GMemVTable {
-    var malloc : c_ptr(c_fn_ptr);
-    var realloc : c_ptr(c_fn_ptr);
-    var free : c_ptr(c_fn_ptr);
-    var calloc : c_ptr(c_fn_ptr);
-    var try_malloc : c_ptr(c_fn_ptr);
-    var try_realloc : c_ptr(c_fn_ptr);
-  }
-  extern record _GNode {
-    var data : gpointer;
-    var next : c_ptr(_GNode);
-    var prev : c_ptr(_GNode);
-    var parent : c_ptr(_GNode);
-    var children : c_ptr(_GNode);
-  }
 
-  extern record _GHashTableIter {
-    var dummy1 : gpointer;
-    var dummy2 : gpointer;
-    var dummy3 : gpointer;
-    var dummy4 : c_int;
-    var dummy5 : gboolean;
-    var dummy6 : gpointer;
-  }
-  extern record _GHookList {
-    var seq_id : gulong;
-    var hook_size : guint;
-    var is_setup : guint;
-    var hooks : c_ptr(GHook);
-    var dummy3 : gpointer;
-    var finalize_hook : GHookFinalizeFunc;
-    var dummy : c_ptr(gpointer);
-  }
-  extern record _GHook {
-    var data : gpointer;
-    var next : c_ptr(_GHook);
-    var prev : c_ptr(_GHook);
-    var ref_count : guint;
-    var hook_id : gulong;
-    var flags : guint;
-    var func : gpointer;
-    var destroy : GDestroyNotify;
-  }
-  extern record _GPollFD {
-    var fd : gint;
-    var events : gushort;
-    var revents : gushort;
-  }
-  extern record _GSList {
-    var data : gpointer;
-    var next : c_ptr(GSList);
-  }
-  extern record _GSource {
-    var callback_data : gpointer;
-    var callback_funcs : c_ptr(GSourceCallbackFuncs);
-    var source_funcs : c_ptr(GSourceFuncs);
-    var ref_count : guint;
-    var context : c_ptr(GMainContext);
-    var priority : gint;
-    var flags : guint;
-    var source_id : guint;
-    var poll_fds : c_ptr(GSList);
-    var prev : c_ptr(_GSource);
-    var next : c_ptr(_GSource);
-    var name : c_string;
-    var priv : c_ptr(GSourcePrivate);
-  }
-  extern record _GSourceFuncs {
-    var prepare : c_ptr(c_fn_ptr);
-    var check : c_ptr(c_fn_ptr);
-    var dispatch : c_ptr(c_fn_ptr);
-    var finalize : c_ptr(c_fn_ptr);
-    var closure_callback : GSourceFunc;
-    var closure_marshal : GSourceDummyMarshal;
-  }
-  extern record _GString {
-    var str : c_ptr(gchar);
-    var len : gsize;
-    var allocated_len : gsize;
-  }
-  extern record _GIOChannel {
-    var ref_count : gint;
-    var funcs : c_ptr(GIOFuncs);
-    var encoding : c_ptr(gchar);
-    var read_cd : GIConv;
-    var write_cd : GIConv;
-    var line_term : c_ptr(gchar);
-    var line_term_len : guint;
-    var buf_size : gsize;
-    var read_buf : c_ptr(GString);
-    var encoded_read_buf : c_ptr(GString);
-    var write_buf : c_ptr(GString);
-    var partial_write_buf : c_ptr(gchar);
-    var use_buffer : guint;
-    var do_encode : guint;
-    var close_on_unref : guint;
-    var is_readable : guint;
-    var is_writeable : guint;
-    var is_seekable : guint;
-    var reserved1 : gpointer;
-    var reserved2 : gpointer;
-  }
-  extern record _GIOFuncs {
-    var io_read : c_ptr(c_fn_ptr);
-    var io_write : c_ptr(c_fn_ptr);
-    var io_seek : c_ptr(c_fn_ptr);
-    var io_close : c_ptr(c_fn_ptr);
-    var io_create_watch : c_ptr(c_fn_ptr);
-    var io_free : c_ptr(c_fn_ptr);
-    var io_set_flags : c_ptr(c_fn_ptr);
-    var io_get_flags : c_ptr(c_fn_ptr);
-  }
-  extern record _GMarkupParser {
-    var start_element : c_ptr(c_fn_ptr);
-    var end_element : c_ptr(c_fn_ptr);
-    var text : c_ptr(c_fn_ptr);
-    var passthrough : c_ptr(c_fn_ptr);
-    var error : c_ptr(c_fn_ptr);
-  }
-  extern record _GVariantIter {
-    var x : c_ptr(gsize);
-  }
-  extern record _GLogField {
-    var key : c_ptr(gchar);
-    var value : gconstpointer;
-    var length : gssize;
-  }
-  extern record _GOptionEntry {
-    var long_name : c_ptr(gchar);
-    var short_name : gchar;
-    var flags : gint;
-    var arg : GOptionArg;
-    var arg_data : gpointer;
-    var description : c_ptr(gchar);
-    var arg_description : c_ptr(gchar);
-  }
-  extern record _GQueue {
-    var head : c_ptr(GList);
-    var tail : c_ptr(GList);
-    var length : guint;
-  }
-  extern record _GScannerConfig {
-    var cset_skip_characters : c_ptr(gchar);
-    var cset_identifier_first : c_ptr(gchar);
-    var cset_identifier_nth : c_ptr(gchar);
-    var cpair_comment_single : c_ptr(gchar);
-    var case_sensitive : guint;
-    var skip_comment_multi : guint;
-    var skip_comment_single : guint;
-    var scan_comment_multi : guint;
-    var scan_identifier : guint;
-    var scan_identifier_1char : guint;
-    var scan_identifier_NULL : guint;
-    var scan_symbols : guint;
-    var scan_binary : guint;
-    var scan_octal : guint;
-    var scan_float : guint;
-    var scan_hex : guint;
-    var scan_hex_dollar : guint;
-    var scan_string_sq : guint;
-    var scan_string_dq : guint;
-    var numbers_2_int : guint;
-    var int_2_float : guint;
-    var identifier_2_string : guint;
-    var char_2_token : guint;
-    var symbol_2_token : guint;
-    var scope_0_fallback : guint;
-    var store_int64 : guint;
-    var padding_dummy : guint;
-  }
-  extern record _GThreadPool {
-    var func : GFunc;
-    var user_data : gpointer;
-    var exclusive : gboolean;
-  }
-  extern record _GTrashStack {
-    var next : c_ptr(_GTrashStack);
-  }
-  extern record _GUriParamsIter {
-    var dummy0 : gint;
-    var dummy1 : gpointer;
-    var dummy2 : gpointer;
-    var dummy3 : c_ptr(guint8);
-  }
-  extern record _GCompletion {
-    var items : c_ptr(GList);
-    var func : GCompletionFunc;
-    var prefix : c_ptr(gchar);
-    var cache : c_ptr(GList);
-    var strncmp_func : GCompletionStrncmpFunc;
-  }
-  extern record _GTuples {
-    var len : guint;
-  }
-  extern record _GThread {
-    var func : GThreadFunc;
-    var data : gpointer;
-    var joinable : gboolean;
-    var priority : GThreadPriority;
-  }
-  extern record _GThreadFunctions {
-    var mutex_new : c_ptr(c_fn_ptr);
-    var mutex_lock : c_ptr(c_fn_ptr);
-    var mutex_trylock : c_ptr(c_fn_ptr);
-    var mutex_unlock : c_ptr(c_fn_ptr);
-    var mutex_free : c_ptr(c_fn_ptr);
-    var cond_new : c_ptr(c_fn_ptr);
-    var cond_signal : c_ptr(c_fn_ptr);
-    var cond_broadcast : c_ptr(c_fn_ptr);
-    var cond_wait : c_ptr(c_fn_ptr);
-    var cond_timed_wait : c_ptr(c_fn_ptr);
-    var cond_free : c_ptr(c_fn_ptr);
-    var private_new : c_ptr(c_fn_ptr);
-    var private_get : c_ptr(c_fn_ptr);
-    var private_set : c_ptr(c_fn_ptr);
-    var thread_create : c_ptr(c_fn_ptr);
-    var thread_yield : c_ptr(c_fn_ptr);
-    var thread_join : c_ptr(c_fn_ptr);
-    var thread_exit : c_ptr(c_fn_ptr);
-    var thread_set_priority : c_ptr(c_fn_ptr);
-    var thread_self : c_ptr(c_fn_ptr);
-    var thread_equal : c_ptr(c_fn_ptr);
-  }
-  extern record _GStaticRecMutex {
-    var mutex : GStaticMutex;
-    var depth : guint;
-  }
-  extern record _GStaticRWLock {
-    var mutex : GStaticMutex;
-    var read_cond : c_ptr(GCond);
-    var write_cond : c_ptr(GCond);
-    var read_counter : guint;
-    var have_writer : gboolean;
-    var want_to_read : guint;
-    var want_to_write : guint;
-  }
-  extern record _GTypeClass {
-    var g_type : GType;
-  }
-  extern record _GTypeInstance {
-    var g_class : c_ptr(GTypeClass);
-  }
-  extern record _GTypeInterface {
-    var g_type : GType;
-    var g_instance_type : GType;
-  }
-  extern record _GTypeInfo {
-    var class_size : guint16;
-    var base_init : GBaseInitFunc;
-    var base_finalize : GBaseFinalizeFunc;
-    var class_init : GClassInitFunc;
-    var class_finalize : GClassFinalizeFunc;
-    var class_data : gconstpointer;
-    var instance_size : guint16;
-    var n_preallocs : guint16;
-    var instance_init : GInstanceInitFunc;
-    var value_table : c_ptr(GTypeValueTable);
-  }
-  extern record _GTypeFundamentalInfo {
-    var type_flags : GTypeFundamentalFlags;
-  }
-  extern record _GInterfaceInfo {
-    var interface_init : GInterfaceInitFunc;
-    var interface_finalize : GInterfaceFinalizeFunc;
-    var interface_data : gpointer;
-  }
-  extern record _GTypeValueTable {
-    var value_init : c_ptr(c_fn_ptr);
-    var value_free : c_ptr(c_fn_ptr);
-    var value_copy : c_ptr(c_fn_ptr);
-    var value_peek_pointer : c_ptr(c_fn_ptr);
-    var collect_format : c_ptr(gchar);
-    var collect_value : c_ptr(c_fn_ptr);
-    var lcopy_format : c_ptr(gchar);
-    var lcopy_value : c_ptr(c_fn_ptr);
-  }
-  extern record _GValue {
-    var g_type : GType;
-  }
-  extern record _GParamSpec {
-    var g_type_instance : GTypeInstance;
-    var name : c_ptr(gchar);
-    var flags : GParamFlags;
-    var value_type : GType;
-    var owner_type : GType;
-    var _nick : c_ptr(gchar);
-    var _blurb : c_ptr(gchar);
-    var qdata : c_ptr(GData);
-    var ref_count : guint;
-    var param_id : guint;
-  }
-  extern record _GParamSpecClass {
-    var g_type_class : GTypeClass;
-    var value_type : GType;
-    var finalize : c_ptr(c_fn_ptr);
-    var value_set_default : c_ptr(c_fn_ptr);
-    var value_validate : c_ptr(c_fn_ptr);
-    var values_cmp : c_ptr(c_fn_ptr);
-    var dummy : c_ptr(gpointer);
-  }
-  extern record _GParameter {
-    var name : c_ptr(gchar);
-    var value : GValue;
-  }
-  extern record _GParamSpecTypeInfo {
-    var instance_size : guint16;
-    var n_preallocs : guint16;
-    var instance_init : c_ptr(c_fn_ptr);
-    var value_type : GType;
-    var finalize : c_ptr(c_fn_ptr);
-    var value_set_default : c_ptr(c_fn_ptr);
-    var value_validate : c_ptr(c_fn_ptr);
-    var values_cmp : c_ptr(c_fn_ptr);
-  }
-  extern record _GClosureNotifyData {
-    var data : gpointer;
-    var notify : GClosureNotify;
-  }
-  extern record _GClosure {
-    var ref_count : guint;
-    var meta_marshal_nouse : guint;
-    var n_guards : guint;
-    var n_fnotifiers : guint;
-    var n_inotifiers : guint;
-    var in_inotify : guint;
-    var floating : guint;
-    var derivative_flag : guint;
-    var in_marshal : guint;
-    var is_invalid : guint;
-    var marshal : c_ptr(c_fn_ptr);
-    var data : gpointer;
-    var notifiers : c_ptr(GClosureNotifyData);
-  }
-  extern record _GCClosure {
-    var closure : GClosure;
-    var callback : gpointer;
-  }
-  extern record _GSignalInvocationHint {
-    var signal_id : guint;
-    var detail : GQuark;
-    var run_type : GSignalFlags;
-  }
-  extern record _GSignalQuery {
-    var signal_id : guint;
-    var signal_name : c_ptr(gchar);
-    var itype : GType;
-    var signal_flags : GSignalFlags;
-    var return_type : GType;
-    var n_params : guint;
-    var param_types : c_ptr(GType);
-  }
-  extern record _GObject {
-    var g_type_instance : GTypeInstance;
-    var ref_count : guint;
-    var qdata : c_ptr(GData);
-  }
-  extern record _GObjectClass {
-    var g_type_class : GTypeClass;
-    var construct_properties : c_ptr(GSList);
-    var constructor : c_ptr(c_fn_ptr);
-    var set_property : c_ptr(c_fn_ptr);
-    var get_property : c_ptr(c_fn_ptr);
-    var dispose : c_ptr(c_fn_ptr);
-    var finalize : c_ptr(c_fn_ptr);
-    var dispatch_properties_changed : c_ptr(c_fn_ptr);
-    var notify : c_ptr(c_fn_ptr);
-    var constructed : c_ptr(c_fn_ptr);
-    var flags : gsize;
-    var pdummy : c_ptr(gpointer);
-  }
   
   extern type GQuark;
   extern type _GDoubleIEEE754;
@@ -631,9 +3369,6 @@ module ArrowAll {
   extern proc GARROW_IS_DECIMAL128(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL128_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL128_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128Class);
-  extern record _GArrowDecimal128Class {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_decimal128_new_string(ref data : gchar) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal128_new_string(data : c_ptr(gchar)) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal128_new_integer(data : gint64) : c_ptr(GArrowDecimal128);
@@ -674,17 +3409,11 @@ module ArrowAll {
   extern proc garrow_decimal128_rescale(ref decimal : GArrowDecimal128, original_scale : gint32, new_scale : gint32, ref error : c_ptr(GError)) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal128_rescale(decimal : c_ptr(GArrowDecimal128), original_scale : gint32, new_scale : gint32, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal256_get_type() : GType;
-  extern record _GArrowDecimal256 {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_DECIMAL256(ptr : gpointer) : c_ptr(GArrowDecimal256);
   extern proc GARROW_DECIMAL256_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256Class);
   extern proc GARROW_IS_DECIMAL256(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL256_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL256_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256Class);
-  extern record _GArrowDecimal256Class {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_decimal256_new_string(ref data : gchar) : c_ptr(GArrowDecimal256);
   extern proc garrow_decimal256_new_string(data : c_ptr(gchar)) : c_ptr(GArrowDecimal256);
   extern proc garrow_decimal256_new_integer(data : gint64) : c_ptr(GArrowDecimal256);
@@ -721,17 +3450,11 @@ module ArrowAll {
   extern proc garrow_decimal256_rescale(ref decimal : GArrowDecimal256, original_scale : gint32, new_scale : gint32, ref error : c_ptr(GError)) : c_ptr(GArrowDecimal256);
   extern proc garrow_decimal256_rescale(decimal : c_ptr(GArrowDecimal256), original_scale : gint32, new_scale : gint32, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDecimal256);
   extern proc garrow_data_type_get_type() : GType;
-  extern record _GArrowDataType {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDataType);
   extern proc GARROW_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDataTypeClass);
   extern proc GARROW_IS_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDataTypeClass);
-  extern record _GArrowDataTypeClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_data_type_equal(ref data_type : GArrowDataType, ref other_data_type : GArrowDataType) : gboolean;
   extern proc garrow_data_type_equal(data_type : c_ptr(GArrowDataType), other_data_type : c_ptr(GArrowDataType)) : gboolean;
   extern proc garrow_data_type_to_string(ref data_type : GArrowDataType) : c_ptr(gchar);
@@ -741,425 +3464,234 @@ module ArrowAll {
   extern proc garrow_data_type_get_name(ref data_type : GArrowDataType) : c_ptr(gchar);
   extern proc garrow_data_type_get_name(data_type : c_ptr(GArrowDataType)) : c_ptr(gchar);
   extern proc garrow_fixed_width_data_type_get_type() : GType;
-  extern record _GArrowFixedWidthDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_FIXED_WIDTH_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowFixedWidthDataType);
   extern proc GARROW_FIXED_WIDTH_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowFixedWidthDataTypeClass);
   extern proc GARROW_IS_FIXED_WIDTH_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIXED_WIDTH_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIXED_WIDTH_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFixedWidthDataTypeClass);
-  extern record _GArrowFixedWidthDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_fixed_width_data_type_get_bit_width(ref data_type : GArrowFixedWidthDataType) : gint;
   extern proc garrow_fixed_width_data_type_get_bit_width(data_type : c_ptr(GArrowFixedWidthDataType)) : gint;
   extern proc garrow_null_data_type_get_type() : GType;
-  extern record _GArrowNullDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_NULL_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowNullDataType);
   extern proc GARROW_NULL_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowNullDataTypeClass);
   extern proc GARROW_IS_NULL_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NULL_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NULL_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNullDataTypeClass);
-  extern record _GArrowNullDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_null_data_type_new() : c_ptr(GArrowNullDataType);
   extern proc garrow_boolean_data_type_get_type() : GType;
-  extern record _GArrowBooleanDataType {
-    var parent_instance : GArrowFixedWidthDataType;
-  }
   extern proc GARROW_BOOLEAN_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowBooleanDataType);
   extern proc GARROW_BOOLEAN_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanDataTypeClass);
   extern proc GARROW_IS_BOOLEAN_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BOOLEAN_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BOOLEAN_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanDataTypeClass);
-  extern record _GArrowBooleanDataTypeClass {
-    var parent_class : GArrowFixedWidthDataTypeClass;
-  }
   extern proc garrow_boolean_data_type_new() : c_ptr(GArrowBooleanDataType);
   extern proc garrow_numeric_data_type_get_type() : GType;
-  extern record _GArrowNumericDataType {
-    var parent_instance : GArrowFixedWidthDataType;
-  }
   extern proc GARROW_NUMERIC_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowNumericDataType);
   extern proc GARROW_NUMERIC_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowNumericDataTypeClass);
   extern proc GARROW_IS_NUMERIC_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NUMERIC_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NUMERIC_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNumericDataTypeClass);
-  extern record _GArrowNumericDataTypeClass {
-    var parent_class : GArrowFixedWidthDataTypeClass;
-  }
   extern proc garrow_integer_data_type_get_type() : GType;
-  extern record _GArrowIntegerDataType {
-    var parent_instance : GArrowNumericDataType;
-  }
   extern proc GARROW_INTEGER_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowIntegerDataType);
   extern proc GARROW_INTEGER_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowIntegerDataTypeClass);
   extern proc GARROW_IS_INTEGER_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INTEGER_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INTEGER_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowIntegerDataTypeClass);
-  extern record _GArrowIntegerDataTypeClass {
-    var parent_class : GArrowNumericDataTypeClass;
-  }
   extern proc garrow_integer_data_type_is_signed(ref data_type : GArrowIntegerDataType) : gboolean;
   extern proc garrow_integer_data_type_is_signed(data_type : c_ptr(GArrowIntegerDataType)) : gboolean;
   extern proc garrow_int8_data_type_get_type() : GType;
-  extern record _GArrowInt8DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_INT8_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowInt8DataType);
   extern proc GARROW_INT8_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowInt8DataTypeClass);
   extern proc GARROW_IS_INT8_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT8_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT8_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt8DataTypeClass);
-  extern record _GArrowInt8DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_int8_data_type_new() : c_ptr(GArrowInt8DataType);
   extern proc garrow_uint8_data_type_get_type() : GType;
-  extern record _GArrowUInt8DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_UINT8_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowUInt8DataType);
   extern proc GARROW_UINT8_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8DataTypeClass);
   extern proc GARROW_IS_UINT8_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT8_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT8_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8DataTypeClass);
-  extern record _GArrowUInt8DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_uint8_data_type_new() : c_ptr(GArrowUInt8DataType);
   extern proc garrow_int16_data_type_get_type() : GType;
-  extern record _GArrowInt16DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_INT16_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowInt16DataType);
   extern proc GARROW_INT16_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowInt16DataTypeClass);
   extern proc GARROW_IS_INT16_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT16_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT16_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt16DataTypeClass);
-  extern record _GArrowInt16DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_int16_data_type_new() : c_ptr(GArrowInt16DataType);
   extern proc garrow_uint16_data_type_get_type() : GType;
-  extern record _GArrowUInt16DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_UINT16_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowUInt16DataType);
   extern proc GARROW_UINT16_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16DataTypeClass);
   extern proc GARROW_IS_UINT16_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT16_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT16_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16DataTypeClass);
-  extern record _GArrowUInt16DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_uint16_data_type_new() : c_ptr(GArrowUInt16DataType);
   extern proc garrow_int32_data_type_get_type() : GType;
-  extern record _GArrowInt32DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_INT32_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowInt32DataType);
   extern proc GARROW_INT32_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowInt32DataTypeClass);
   extern proc GARROW_IS_INT32_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT32_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT32_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt32DataTypeClass);
-  extern record _GArrowInt32DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_int32_data_type_new() : c_ptr(GArrowInt32DataType);
   extern proc garrow_uint32_data_type_get_type() : GType;
-  extern record _GArrowUInt32DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_UINT32_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowUInt32DataType);
   extern proc GARROW_UINT32_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32DataTypeClass);
   extern proc GARROW_IS_UINT32_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT32_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT32_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32DataTypeClass);
-  extern record _GArrowUInt32DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_uint32_data_type_new() : c_ptr(GArrowUInt32DataType);
   extern proc garrow_int64_data_type_get_type() : GType;
-  extern record _GArrowInt64DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_INT64_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowInt64DataType);
   extern proc GARROW_INT64_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowInt64DataTypeClass);
   extern proc GARROW_IS_INT64_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT64_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT64_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt64DataTypeClass);
-  extern record _GArrowInt64DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_int64_data_type_new() : c_ptr(GArrowInt64DataType);
   extern proc garrow_uint64_data_type_get_type() : GType;
-  extern record _GArrowUInt64DataType {
-    var parent_instance : GArrowIntegerDataType;
-  }
   extern proc GARROW_UINT64_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowUInt64DataType);
   extern proc GARROW_UINT64_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64DataTypeClass);
   extern proc GARROW_IS_UINT64_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT64_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT64_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64DataTypeClass);
-  extern record _GArrowUInt64DataTypeClass {
-    var parent_class : GArrowIntegerDataTypeClass;
-  }
   extern proc garrow_uint64_data_type_new() : c_ptr(GArrowUInt64DataType);
   extern proc garrow_floating_point_data_type_get_type() : GType;
-  extern record _GArrowFloatingPointDataType {
-    var parent_instance : GArrowNumericDataType;
-  }
   extern proc GARROW_FLOATING_POINT_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowFloatingPointDataType);
   extern proc GARROW_FLOATING_POINT_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowFloatingPointDataTypeClass);
   extern proc GARROW_IS_FLOATING_POINT_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FLOATING_POINT_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FLOATING_POINT_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFloatingPointDataTypeClass);
-  extern record _GArrowFloatingPointDataTypeClass {
-    var parent_class : GArrowNumericDataTypeClass;
-  }
   extern proc garrow_float_data_type_get_type() : GType;
-  extern record _GArrowFloatDataType {
-    var parent_instance : GArrowFloatingPointDataType;
-  }
   extern proc GARROW_FLOAT_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowFloatDataType);
   extern proc GARROW_FLOAT_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowFloatDataTypeClass);
   extern proc GARROW_IS_FLOAT_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FLOAT_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FLOAT_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFloatDataTypeClass);
-  extern record _GArrowFloatDataTypeClass {
-    var parent_class : GArrowFloatingPointDataTypeClass;
-  }
   extern proc garrow_float_data_type_new() : c_ptr(GArrowFloatDataType);
   extern proc garrow_double_data_type_get_type() : GType;
-  extern record _GArrowDoubleDataType {
-    var parent_instance : GArrowFloatingPointDataType;
-  }
   extern proc GARROW_DOUBLE_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDoubleDataType);
   extern proc GARROW_DOUBLE_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleDataTypeClass);
   extern proc GARROW_IS_DOUBLE_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DOUBLE_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DOUBLE_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleDataTypeClass);
-  extern record _GArrowDoubleDataTypeClass {
-    var parent_class : GArrowFloatingPointDataTypeClass;
-  }
   extern proc garrow_double_data_type_new() : c_ptr(GArrowDoubleDataType);
   extern proc garrow_binary_data_type_get_type() : GType;
-  extern record _GArrowBinaryDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_BINARY_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowBinaryDataType);
   extern proc GARROW_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryDataTypeClass);
   extern proc GARROW_IS_BINARY_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BINARY_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryDataTypeClass);
-  extern record _GArrowBinaryDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_binary_data_type_new() : c_ptr(GArrowBinaryDataType);
   extern proc garrow_fixed_size_binary_data_type_get_type() : GType;
-  extern record _GArrowFixedSizeBinaryDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_FIXED_SIZE_BINARY_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryDataType);
   extern proc GARROW_FIXED_SIZE_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryDataTypeClass);
   extern proc GARROW_IS_FIXED_SIZE_BINARY_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIXED_SIZE_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIXED_SIZE_BINARY_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryDataTypeClass);
-  extern record _GArrowFixedSizeBinaryDataTypeClass {
-    var parent_class : GArrowFixedWidthDataTypeClass;
-  }
   extern proc garrow_fixed_size_binary_data_type_new(byte_width : gint32) : c_ptr(GArrowFixedSizeBinaryDataType);
   extern proc garrow_fixed_size_binary_data_type_get_byte_width(ref data_type : GArrowFixedSizeBinaryDataType) : gint32;
   extern proc garrow_fixed_size_binary_data_type_get_byte_width(data_type : c_ptr(GArrowFixedSizeBinaryDataType)) : gint32;
   extern proc garrow_large_binary_data_type_get_type() : GType;
-  extern record _GArrowLargeBinaryDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_LARGE_BINARY_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowLargeBinaryDataType);
   extern proc GARROW_LARGE_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryDataTypeClass);
   extern proc GARROW_IS_LARGE_BINARY_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_BINARY_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_BINARY_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryDataTypeClass);
-  extern record _GArrowLargeBinaryDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_large_binary_data_type_new() : c_ptr(GArrowLargeBinaryDataType);
   extern proc garrow_string_data_type_get_type() : GType;
-  extern record _GArrowStringDataType {
-    var parent_instance : GArrowBinaryDataType;
-  }
   extern proc GARROW_STRING_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowStringDataType);
   extern proc GARROW_STRING_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowStringDataTypeClass);
   extern proc GARROW_IS_STRING_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRING_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRING_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStringDataTypeClass);
-  extern record _GArrowStringDataTypeClass {
-    var parent_class : GArrowBinaryDataTypeClass;
-  }
   extern proc garrow_string_data_type_new() : c_ptr(GArrowStringDataType);
   extern proc garrow_large_string_data_type_get_type() : GType;
-  extern record _GArrowLargeStringDataType {
-    var parent_instance : GArrowLargeBinaryDataType;
-  }
   extern proc GARROW_LARGE_STRING_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowLargeStringDataType);
   extern proc GARROW_LARGE_STRING_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringDataTypeClass);
   extern proc GARROW_IS_LARGE_STRING_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_STRING_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_STRING_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringDataTypeClass);
-  extern record _GArrowLargeStringDataTypeClass {
-    var parent_class : GArrowLargeBinaryDataTypeClass;
-  }
   extern proc garrow_large_string_data_type_new() : c_ptr(GArrowLargeStringDataType);
   extern proc garrow_date32_data_type_get_type() : GType;
-  extern record _GArrowDate32DataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_DATE32_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDate32DataType);
   extern proc GARROW_DATE32_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDate32DataTypeClass);
   extern proc GARROW_IS_DATE32_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE32_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE32_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate32DataTypeClass);
-  extern record _GArrowDate32DataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_date32_data_type_new() : c_ptr(GArrowDate32DataType);
   extern proc garrow_date64_data_type_get_type() : GType;
-  extern record _GArrowDate64DataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_DATE64_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDate64DataType);
   extern proc GARROW_DATE64_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDate64DataTypeClass);
   extern proc GARROW_IS_DATE64_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE64_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE64_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate64DataTypeClass);
-  extern record _GArrowDate64DataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_date64_data_type_new() : c_ptr(GArrowDate64DataType);
   extern proc garrow_timestamp_data_type_get_type() : GType;
-  extern record _GArrowTimestampDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_TIMESTAMP_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowTimestampDataType);
   extern proc GARROW_TIMESTAMP_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampDataTypeClass);
   extern proc GARROW_IS_TIMESTAMP_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIMESTAMP_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIMESTAMP_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampDataTypeClass);
-  extern record _GArrowTimestampDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_timestamp_data_type_new(unit : GArrowTimeUnit) : c_ptr(GArrowTimestampDataType);
   extern proc garrow_timestamp_data_type_get_unit(ref timestamp_data_type : GArrowTimestampDataType) : GArrowTimeUnit;
   extern proc garrow_timestamp_data_type_get_unit(timestamp_data_type : c_ptr(GArrowTimestampDataType)) : GArrowTimeUnit;
   extern proc garrow_time_data_type_get_type() : GType;
-  extern record _GArrowTimeDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_TIME_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowTimeDataType);
   extern proc GARROW_TIME_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowTimeDataTypeClass);
   extern proc GARROW_IS_TIME_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTimeDataTypeClass);
-  extern record _GArrowTimeDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_time_data_type_get_unit(ref time_data_type : GArrowTimeDataType) : GArrowTimeUnit;
   extern proc garrow_time_data_type_get_unit(time_data_type : c_ptr(GArrowTimeDataType)) : GArrowTimeUnit;
   extern proc garrow_time32_data_type_get_type() : GType;
-  extern record _GArrowTime32DataType {
-    var parent_instance : GArrowTimeDataType;
-  }
   extern proc GARROW_TIME32_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowTime32DataType);
   extern proc GARROW_TIME32_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowTime32DataTypeClass);
   extern proc GARROW_IS_TIME32_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME32_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME32_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime32DataTypeClass);
-  extern record _GArrowTime32DataTypeClass {
-    var parent_class : GArrowTimeDataTypeClass;
-  }
   extern proc garrow_time32_data_type_new(unit : GArrowTimeUnit, ref error : c_ptr(GError)) : c_ptr(GArrowTime32DataType);
   extern proc garrow_time32_data_type_new(unit : GArrowTimeUnit, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTime32DataType);
   extern proc garrow_time64_data_type_get_type() : GType;
-  extern record _GArrowTime64DataType {
-    var parent_instance : GArrowTimeDataType;
-  }
   extern proc GARROW_TIME64_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowTime64DataType);
   extern proc GARROW_TIME64_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowTime64DataTypeClass);
   extern proc GARROW_IS_TIME64_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME64_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME64_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime64DataTypeClass);
-  extern record _GArrowTime64DataTypeClass {
-    var parent_class : GArrowTimeDataTypeClass;
-  }
   extern proc garrow_time64_data_type_new(unit : GArrowTimeUnit, ref error : c_ptr(GError)) : c_ptr(GArrowTime64DataType);
   extern proc garrow_time64_data_type_new(unit : GArrowTimeUnit, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTime64DataType);
   extern proc garrow_decimal_data_type_get_type() : GType;
-  extern record _GArrowDecimalDataType {
-    var parent_instance : GArrowFixedSizeBinaryDataType;
-  }
   extern proc GARROW_DECIMAL_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDecimalDataType);
   extern proc GARROW_DECIMAL_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDecimalDataTypeClass);
   extern proc GARROW_IS_DECIMAL_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimalDataTypeClass);
-  extern record _GArrowDecimalDataTypeClass {
-    var parent_class : GArrowFixedSizeBinaryDataTypeClass;
-  }
   extern proc garrow_decimal_data_type_new(precision : gint32, scale : gint32) : c_ptr(GArrowDecimalDataType);
   extern proc garrow_decimal_data_type_get_precision(ref decimal_data_type : GArrowDecimalDataType) : gint32;
   extern proc garrow_decimal_data_type_get_precision(decimal_data_type : c_ptr(GArrowDecimalDataType)) : gint32;
   extern proc garrow_decimal_data_type_get_scale(ref decimal_data_type : GArrowDecimalDataType) : gint32;
   extern proc garrow_decimal_data_type_get_scale(decimal_data_type : c_ptr(GArrowDecimalDataType)) : gint32;
   extern proc garrow_decimal128_data_type_get_type() : GType;
-  extern record _GArrowDecimal128DataType {
-    var parent_instance : GArrowDecimalDataType;
-  }
   extern proc GARROW_DECIMAL128_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDecimal128DataType);
   extern proc GARROW_DECIMAL128_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128DataTypeClass);
   extern proc GARROW_IS_DECIMAL128_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL128_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL128_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128DataTypeClass);
-  extern record _GArrowDecimal128DataTypeClass {
-    var parent_class : GArrowDecimalDataTypeClass;
-  }
   extern proc garrow_decimal128_data_type_max_precision() : gint32;
   extern proc garrow_decimal128_data_type_new(precision : gint32, scale : gint32) : c_ptr(GArrowDecimal128DataType);
   extern proc garrow_decimal256_data_type_get_type() : GType;
-  extern record _GArrowDecimal256DataType {
-    var parent_instance : GArrowDecimalDataType;
-  }
   extern proc GARROW_DECIMAL256_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDecimal256DataType);
   extern proc GARROW_DECIMAL256_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256DataTypeClass);
   extern proc GARROW_IS_DECIMAL256_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL256_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL256_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256DataTypeClass);
-  extern record _GArrowDecimal256DataTypeClass {
-    var parent_class : GArrowDecimalDataTypeClass;
-  }
   extern proc garrow_decimal256_data_type_max_precision() : gint32;
   extern proc garrow_decimal256_data_type_new(precision : gint32, scale : gint32) : c_ptr(GArrowDecimal256DataType);
   extern proc garrow_extension_data_type_get_type() : GType;
-  extern record _GArrowExtensionDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_EXTENSION_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowExtensionDataType);
   extern proc GARROW_EXTENSION_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionDataTypeClass);
   extern proc GARROW_IS_EXTENSION_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EXTENSION_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EXTENSION_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionDataTypeClass);
-  extern record _GArrowExtensionDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-    var get_extension_name : c_ptr(c_fn_ptr);
-    var equal : c_ptr(c_fn_ptr);
-    var deserialize : c_ptr(c_fn_ptr);
-    var serialize : c_ptr(c_fn_ptr);
-    var get_array_gtype : c_ptr(c_fn_ptr);
-  }
   extern proc garrow_extension_data_type_get_extension_name(ref data_type : GArrowExtensionDataType) : c_ptr(gchar);
   extern proc garrow_extension_data_type_get_extension_name(data_type : c_ptr(GArrowExtensionDataType)) : c_ptr(gchar);
   extern proc garrow_extension_data_type_wrap_array(ref data_type : GArrowExtensionDataType, ref storage : GArrowArray) : c_ptr(GArrowExtensionArray);
@@ -1167,17 +3699,11 @@ module ArrowAll {
   extern proc garrow_extension_data_type_wrap_chunked_array(ref data_type : GArrowExtensionDataType, ref storage : GArrowChunkedArray) : c_ptr(GArrowChunkedArray);
   extern proc garrow_extension_data_type_wrap_chunked_array(data_type : c_ptr(GArrowExtensionDataType), storage : c_ptr(GArrowChunkedArray)) : c_ptr(GArrowChunkedArray);
   extern proc garrow_extension_data_type_registry_get_type() : GType;
-  extern record _GArrowExtensionDataTypeRegistry {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_EXTENSION_DATA_TYPE_REGISTRY(ptr : gpointer) : c_ptr(GArrowExtensionDataTypeRegistry);
   extern proc GARROW_EXTENSION_DATA_TYPE_REGISTRY_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionDataTypeRegistryClass);
   extern proc GARROW_IS_EXTENSION_DATA_TYPE_REGISTRY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EXTENSION_DATA_TYPE_REGISTRY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EXTENSION_DATA_TYPE_REGISTRY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionDataTypeRegistryClass);
-  extern record _GArrowExtensionDataTypeRegistryClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_extension_data_type_registry_default() : c_ptr(GArrowExtensionDataTypeRegistry);
   extern proc garrow_extension_data_type_registry_register(ref registry : GArrowExtensionDataTypeRegistry, ref data_type : GArrowExtensionDataType, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_extension_data_type_registry_register(registry : c_ptr(GArrowExtensionDataTypeRegistry), data_type : c_ptr(GArrowExtensionDataType), error : c_ptr(c_ptr(GError))) : gboolean;
@@ -1186,17 +3712,11 @@ module ArrowAll {
   extern proc garrow_extension_data_type_registry_lookup(ref registry : GArrowExtensionDataTypeRegistry, ref name : gchar) : c_ptr(GArrowExtensionDataType);
   extern proc garrow_extension_data_type_registry_lookup(registry : c_ptr(GArrowExtensionDataTypeRegistry), name : c_ptr(gchar)) : c_ptr(GArrowExtensionDataType);
   extern proc garrow_buffer_get_type() : GType;
-  extern record _GArrowBuffer {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_BUFFER(ptr : gpointer) : c_ptr(GArrowBuffer);
   extern proc GARROW_BUFFER_CLASS(ptr : gpointer) : c_ptr(GArrowBufferClass);
   extern proc GARROW_IS_BUFFER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BUFFER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BUFFER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBufferClass);
-  extern record _GArrowBufferClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_buffer_new(ref data : guint8, size : gint64) : c_ptr(GArrowBuffer);
   extern proc garrow_buffer_new(data : c_ptr(guint8), size : gint64) : c_ptr(GArrowBuffer);
   extern proc garrow_buffer_new_bytes(ref data : GBytes) : c_ptr(GArrowBuffer);
@@ -1222,17 +3742,11 @@ module ArrowAll {
   extern proc garrow_buffer_slice(ref buffer : GArrowBuffer, offset : gint64, size : gint64) : c_ptr(GArrowBuffer);
   extern proc garrow_buffer_slice(buffer : c_ptr(GArrowBuffer), offset : gint64, size : gint64) : c_ptr(GArrowBuffer);
   extern proc garrow_mutable_buffer_get_type() : GType;
-  extern record _GArrowMutableBuffer {
-    var parent_instance : GArrowBuffer;
-  }
   extern proc GARROW_MUTABLE_BUFFER(ptr : gpointer) : c_ptr(GArrowMutableBuffer);
   extern proc GARROW_MUTABLE_BUFFER_CLASS(ptr : gpointer) : c_ptr(GArrowMutableBufferClass);
   extern proc GARROW_IS_MUTABLE_BUFFER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MUTABLE_BUFFER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MUTABLE_BUFFER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMutableBufferClass);
-  extern record _GArrowMutableBufferClass {
-    var parent_class : GArrowBufferClass;
-  }
   extern proc garrow_mutable_buffer_new(ref data : guint8, size : gint64) : c_ptr(GArrowMutableBuffer);
   extern proc garrow_mutable_buffer_new(data : c_ptr(guint8), size : gint64) : c_ptr(GArrowMutableBuffer);
   extern proc garrow_mutable_buffer_new_bytes(ref data : GBytes) : c_ptr(GArrowMutableBuffer);
@@ -1242,17 +3756,11 @@ module ArrowAll {
   extern proc garrow_mutable_buffer_set_data(ref buffer : GArrowMutableBuffer, offset : gint64, ref data : guint8, size : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_mutable_buffer_set_data(buffer : c_ptr(GArrowMutableBuffer), offset : gint64, data : c_ptr(guint8), size : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_resizable_buffer_get_type() : GType;
-  extern record _GArrowResizableBuffer {
-    var parent_instance : GArrowMutableBuffer;
-  }
   extern proc GARROW_RESIZABLE_BUFFER(ptr : gpointer) : c_ptr(GArrowResizableBuffer);
   extern proc GARROW_RESIZABLE_BUFFER_CLASS(ptr : gpointer) : c_ptr(GArrowResizableBufferClass);
   extern proc GARROW_IS_RESIZABLE_BUFFER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RESIZABLE_BUFFER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RESIZABLE_BUFFER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowResizableBufferClass);
-  extern record _GArrowResizableBufferClass {
-    var parent_class : GArrowMutableBufferClass;
-  }
   extern proc garrow_resizable_buffer_new(initial_size : gint64, ref error : c_ptr(GError)) : c_ptr(GArrowResizableBuffer);
   extern proc garrow_resizable_buffer_new(initial_size : gint64, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowResizableBuffer);
   extern proc garrow_resizable_buffer_resize(ref buffer : GArrowResizableBuffer, new_size : gint64, ref error : c_ptr(GError)) : gboolean;
@@ -1260,32 +3768,20 @@ module ArrowAll {
   extern proc garrow_resizable_buffer_reserve(ref buffer : GArrowResizableBuffer, new_capacity : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_resizable_buffer_reserve(buffer : c_ptr(GArrowResizableBuffer), new_capacity : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_equal_options_get_type() : GType;
-  extern record _GArrowEqualOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_EQUAL_OPTIONS(ptr : gpointer) : c_ptr(GArrowEqualOptions);
   extern proc GARROW_EQUAL_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowEqualOptionsClass);
   extern proc GARROW_IS_EQUAL_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EQUAL_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EQUAL_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowEqualOptionsClass);
-  extern record _GArrowEqualOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_equal_options_new() : c_ptr(GArrowEqualOptions);
   extern proc garrow_equal_options_is_approx(ref options : GArrowEqualOptions) : gboolean;
   extern proc garrow_equal_options_is_approx(options : c_ptr(GArrowEqualOptions)) : gboolean;
   extern proc garrow_array_get_type() : GType;
-  extern record _GArrowArray {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_ARRAY(ptr : gpointer) : c_ptr(GArrowArray);
   extern proc GARROW_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowArrayClass);
   extern proc GARROW_IS_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowArrayClass);
-  extern record _GArrowArrayClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_array_equal(ref array : GArrowArray, ref other_array : GArrowArray) : gboolean;
   extern proc garrow_array_equal(array : c_ptr(GArrowArray), other_array : c_ptr(GArrowArray)) : gboolean;
   extern proc garrow_array_equal_options(ref array : GArrowArray, ref other_array : GArrowArray, ref options : GArrowEqualOptions) : gboolean;
@@ -1321,46 +3817,28 @@ module ArrowAll {
   extern proc garrow_array_concatenate(ref array : GArrowArray, ref other_arrays : GList, ref error : c_ptr(GError)) : c_ptr(GArrowArray);
   extern proc garrow_array_concatenate(array : c_ptr(GArrowArray), other_arrays : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowArray);
   extern proc garrow_null_array_get_type() : GType;
-  extern record _GArrowNullArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_NULL_ARRAY(ptr : gpointer) : c_ptr(GArrowNullArray);
   extern proc GARROW_NULL_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowNullArrayClass);
   extern proc GARROW_IS_NULL_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NULL_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NULL_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNullArrayClass);
-  extern record _GArrowNullArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_null_array_new(length : gint64) : c_ptr(GArrowNullArray);
   extern proc garrow_primitive_array_get_type() : GType;
-  extern record _GArrowPrimitiveArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_PRIMITIVE_ARRAY(ptr : gpointer) : c_ptr(GArrowPrimitiveArray);
   extern proc GARROW_PRIMITIVE_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowPrimitiveArrayClass);
   extern proc GARROW_IS_PRIMITIVE_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_PRIMITIVE_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_PRIMITIVE_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowPrimitiveArrayClass);
-  extern record _GArrowPrimitiveArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_primitive_array_get_buffer(ref array : GArrowPrimitiveArray) : c_ptr(GArrowBuffer);
   extern proc garrow_primitive_array_get_buffer(array : c_ptr(GArrowPrimitiveArray)) : c_ptr(GArrowBuffer);
   extern proc garrow_primitive_array_get_data_buffer(ref array : GArrowPrimitiveArray) : c_ptr(GArrowBuffer);
   extern proc garrow_primitive_array_get_data_buffer(array : c_ptr(GArrowPrimitiveArray)) : c_ptr(GArrowBuffer);
   extern proc garrow_boolean_array_get_type() : GType;
-  extern record _GArrowBooleanArray {
-    var parent_instance : GArrowPrimitiveArray;
-  }
   extern proc GARROW_BOOLEAN_ARRAY(ptr : gpointer) : c_ptr(GArrowBooleanArray);
   extern proc GARROW_BOOLEAN_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanArrayClass);
   extern proc GARROW_IS_BOOLEAN_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BOOLEAN_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BOOLEAN_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanArrayClass);
-  extern record _GArrowBooleanArrayClass {
-    var parent_class : GArrowPrimitiveArrayClass;
-  }
   extern proc garrow_boolean_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowBooleanArray);
   extern proc garrow_boolean_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowBooleanArray);
   extern proc garrow_boolean_array_get_value(ref array : GArrowBooleanArray, i : gint64) : gboolean;
@@ -1368,29 +3846,17 @@ module ArrowAll {
   extern proc garrow_boolean_array_get_values(ref array : GArrowBooleanArray, ref length : gint64) : c_ptr(gboolean);
   extern proc garrow_boolean_array_get_values(array : c_ptr(GArrowBooleanArray), length : c_ptr(gint64)) : c_ptr(gboolean);
   extern proc garrow_numeric_array_get_type() : GType;
-  extern record _GArrowNumericArray {
-    var parent_instance : GArrowPrimitiveArray;
-  }
   extern proc GARROW_NUMERIC_ARRAY(ptr : gpointer) : c_ptr(GArrowNumericArray);
   extern proc GARROW_NUMERIC_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowNumericArrayClass);
   extern proc GARROW_IS_NUMERIC_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NUMERIC_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NUMERIC_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNumericArrayClass);
-  extern record _GArrowNumericArrayClass {
-    var parent_class : GArrowPrimitiveArrayClass;
-  }
   extern proc garrow_int8_array_get_type() : GType;
-  extern record _GArrowInt8Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_INT8_ARRAY(ptr : gpointer) : c_ptr(GArrowInt8Array);
   extern proc GARROW_INT8_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ArrayClass);
   extern proc GARROW_IS_INT8_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT8_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT8_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ArrayClass);
-  extern record _GArrowInt8ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_int8_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowInt8Array);
   extern proc garrow_int8_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowInt8Array);
   extern proc garrow_int8_array_get_value(ref array : GArrowInt8Array, i : gint64) : gint8;
@@ -1398,17 +3864,11 @@ module ArrowAll {
   extern proc garrow_int8_array_get_values(ref array : GArrowInt8Array, ref length : gint64) : c_ptr(gint8);
   extern proc garrow_int8_array_get_values(array : c_ptr(GArrowInt8Array), length : c_ptr(gint64)) : c_ptr(gint8);
   extern proc garrow_uint8_array_get_type() : GType;
-  extern record _GArrowUInt8Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_UINT8_ARRAY(ptr : gpointer) : c_ptr(GArrowUInt8Array);
   extern proc GARROW_UINT8_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ArrayClass);
   extern proc GARROW_IS_UINT8_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT8_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT8_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ArrayClass);
-  extern record _GArrowUInt8ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_uint8_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowUInt8Array);
   extern proc garrow_uint8_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowUInt8Array);
   extern proc garrow_uint8_array_get_value(ref array : GArrowUInt8Array, i : gint64) : guint8;
@@ -1416,17 +3876,11 @@ module ArrowAll {
   extern proc garrow_uint8_array_get_values(ref array : GArrowUInt8Array, ref length : gint64) : c_ptr(guint8);
   extern proc garrow_uint8_array_get_values(array : c_ptr(GArrowUInt8Array), length : c_ptr(gint64)) : c_ptr(guint8);
   extern proc garrow_int16_array_get_type() : GType;
-  extern record _GArrowInt16Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_INT16_ARRAY(ptr : gpointer) : c_ptr(GArrowInt16Array);
   extern proc GARROW_INT16_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ArrayClass);
   extern proc GARROW_IS_INT16_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT16_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT16_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ArrayClass);
-  extern record _GArrowInt16ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_int16_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowInt16Array);
   extern proc garrow_int16_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowInt16Array);
   extern proc garrow_int16_array_get_value(ref array : GArrowInt16Array, i : gint64) : gint16;
@@ -1434,17 +3888,11 @@ module ArrowAll {
   extern proc garrow_int16_array_get_values(ref array : GArrowInt16Array, ref length : gint64) : c_ptr(gint16);
   extern proc garrow_int16_array_get_values(array : c_ptr(GArrowInt16Array), length : c_ptr(gint64)) : c_ptr(gint16);
   extern proc garrow_uint16_array_get_type() : GType;
-  extern record _GArrowUInt16Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_UINT16_ARRAY(ptr : gpointer) : c_ptr(GArrowUInt16Array);
   extern proc GARROW_UINT16_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ArrayClass);
   extern proc GARROW_IS_UINT16_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT16_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT16_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ArrayClass);
-  extern record _GArrowUInt16ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_uint16_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowUInt16Array);
   extern proc garrow_uint16_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowUInt16Array);
   extern proc garrow_uint16_array_get_value(ref array : GArrowUInt16Array, i : gint64) : guint16;
@@ -1452,17 +3900,11 @@ module ArrowAll {
   extern proc garrow_uint16_array_get_values(ref array : GArrowUInt16Array, ref length : gint64) : c_ptr(guint16);
   extern proc garrow_uint16_array_get_values(array : c_ptr(GArrowUInt16Array), length : c_ptr(gint64)) : c_ptr(guint16);
   extern proc garrow_int32_array_get_type() : GType;
-  extern record _GArrowInt32Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_INT32_ARRAY(ptr : gpointer) : c_ptr(GArrowInt32Array);
   extern proc GARROW_INT32_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ArrayClass);
   extern proc GARROW_IS_INT32_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT32_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT32_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ArrayClass);
-  extern record _GArrowInt32ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_int32_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowInt32Array);
   extern proc garrow_int32_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowInt32Array);
   extern proc garrow_int32_array_get_value(ref array : GArrowInt32Array, i : gint64) : gint32;
@@ -1470,17 +3912,11 @@ module ArrowAll {
   extern proc garrow_int32_array_get_values(ref array : GArrowInt32Array, ref length : gint64) : c_ptr(gint32);
   extern proc garrow_int32_array_get_values(array : c_ptr(GArrowInt32Array), length : c_ptr(gint64)) : c_ptr(gint32);
   extern proc garrow_uint32_array_get_type() : GType;
-  extern record _GArrowUInt32Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_UINT32_ARRAY(ptr : gpointer) : c_ptr(GArrowUInt32Array);
   extern proc GARROW_UINT32_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ArrayClass);
   extern proc GARROW_IS_UINT32_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT32_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT32_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ArrayClass);
-  extern record _GArrowUInt32ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_uint32_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowUInt32Array);
   extern proc garrow_uint32_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowUInt32Array);
   extern proc garrow_uint32_array_get_value(ref array : GArrowUInt32Array, i : gint64) : guint32;
@@ -1488,17 +3924,11 @@ module ArrowAll {
   extern proc garrow_uint32_array_get_values(ref array : GArrowUInt32Array, ref length : gint64) : c_ptr(guint32);
   extern proc garrow_uint32_array_get_values(array : c_ptr(GArrowUInt32Array), length : c_ptr(gint64)) : c_ptr(guint32);
   extern proc garrow_int64_array_get_type() : GType;
-  extern record _GArrowInt64Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_INT64_ARRAY(ptr : gpointer) : c_ptr(GArrowInt64Array);
   extern proc GARROW_INT64_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ArrayClass);
   extern proc GARROW_IS_INT64_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT64_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT64_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ArrayClass);
-  extern record _GArrowInt64ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_int64_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowInt64Array);
   extern proc garrow_int64_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowInt64Array);
   extern proc garrow_int64_array_get_value(ref array : GArrowInt64Array, i : gint64) : gint64;
@@ -1506,17 +3936,11 @@ module ArrowAll {
   extern proc garrow_int64_array_get_values(ref array : GArrowInt64Array, ref length : gint64) : c_ptr(gint64);
   extern proc garrow_int64_array_get_values(array : c_ptr(GArrowInt64Array), length : c_ptr(gint64)) : c_ptr(gint64);
   extern proc garrow_uint64_array_get_type() : GType;
-  extern record _GArrowUInt64Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_UINT64_ARRAY(ptr : gpointer) : c_ptr(GArrowUInt64Array);
   extern proc GARROW_UINT64_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ArrayClass);
   extern proc GARROW_IS_UINT64_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT64_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT64_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ArrayClass);
-  extern record _GArrowUInt64ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_uint64_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowUInt64Array);
   extern proc garrow_uint64_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowUInt64Array);
   extern proc garrow_uint64_array_get_value(ref array : GArrowUInt64Array, i : gint64) : guint64;
@@ -1524,17 +3948,11 @@ module ArrowAll {
   extern proc garrow_uint64_array_get_values(ref array : GArrowUInt64Array, ref length : gint64) : c_ptr(guint64);
   extern proc garrow_uint64_array_get_values(array : c_ptr(GArrowUInt64Array), length : c_ptr(gint64)) : c_ptr(guint64);
   extern proc garrow_float_array_get_type() : GType;
-  extern record _GArrowFloatArray {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_FLOAT_ARRAY(ptr : gpointer) : c_ptr(GArrowFloatArray);
   extern proc GARROW_FLOAT_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowFloatArrayClass);
   extern proc GARROW_IS_FLOAT_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FLOAT_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FLOAT_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFloatArrayClass);
-  extern record _GArrowFloatArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_float_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowFloatArray);
   extern proc garrow_float_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowFloatArray);
   extern proc garrow_float_array_get_value(ref array : GArrowFloatArray, i : gint64) : gfloat;
@@ -1542,17 +3960,11 @@ module ArrowAll {
   extern proc garrow_float_array_get_values(ref array : GArrowFloatArray, ref length : gint64) : c_ptr(gfloat);
   extern proc garrow_float_array_get_values(array : c_ptr(GArrowFloatArray), length : c_ptr(gint64)) : c_ptr(gfloat);
   extern proc garrow_double_array_get_type() : GType;
-  extern record _GArrowDoubleArray {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_DOUBLE_ARRAY(ptr : gpointer) : c_ptr(GArrowDoubleArray);
   extern proc GARROW_DOUBLE_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleArrayClass);
   extern proc GARROW_IS_DOUBLE_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DOUBLE_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DOUBLE_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleArrayClass);
-  extern record _GArrowDoubleArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_double_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowDoubleArray);
   extern proc garrow_double_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowDoubleArray);
   extern proc garrow_double_array_get_value(ref array : GArrowDoubleArray, i : gint64) : gdouble;
@@ -1560,17 +3972,11 @@ module ArrowAll {
   extern proc garrow_double_array_get_values(ref array : GArrowDoubleArray, ref length : gint64) : c_ptr(gdouble);
   extern proc garrow_double_array_get_values(array : c_ptr(GArrowDoubleArray), length : c_ptr(gint64)) : c_ptr(gdouble);
   extern proc garrow_binary_array_get_type() : GType;
-  extern record _GArrowBinaryArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_BINARY_ARRAY(ptr : gpointer) : c_ptr(GArrowBinaryArray);
   extern proc GARROW_BINARY_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryArrayClass);
   extern proc GARROW_IS_BINARY_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BINARY_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BINARY_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryArrayClass);
-  extern record _GArrowBinaryArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_binary_array_new(length : gint64, ref value_offsets : GArrowBuffer, ref value_data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowBinaryArray);
   extern proc garrow_binary_array_new(length : gint64, value_offsets : c_ptr(GArrowBuffer), value_data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowBinaryArray);
   extern proc garrow_binary_array_get_value(ref array : GArrowBinaryArray, i : gint64) : c_ptr(GBytes);
@@ -1582,17 +3988,11 @@ module ArrowAll {
   extern proc garrow_binary_array_get_offsets_buffer(ref array : GArrowBinaryArray) : c_ptr(GArrowBuffer);
   extern proc garrow_binary_array_get_offsets_buffer(array : c_ptr(GArrowBinaryArray)) : c_ptr(GArrowBuffer);
   extern proc garrow_large_binary_array_get_type() : GType;
-  extern record _GArrowLargeBinaryArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_LARGE_BINARY_ARRAY(ptr : gpointer) : c_ptr(GArrowLargeBinaryArray);
   extern proc GARROW_LARGE_BINARY_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryArrayClass);
   extern proc GARROW_IS_LARGE_BINARY_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_BINARY_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_BINARY_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryArrayClass);
-  extern record _GArrowLargeBinaryArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_large_binary_array_new(length : gint64, ref value_offsets : GArrowBuffer, ref value_data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowLargeBinaryArray);
   extern proc garrow_large_binary_array_new(length : gint64, value_offsets : c_ptr(GArrowBuffer), value_data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowLargeBinaryArray);
   extern proc garrow_large_binary_array_get_value(ref array : GArrowLargeBinaryArray, i : gint64) : c_ptr(GBytes);
@@ -1604,49 +4004,31 @@ module ArrowAll {
   extern proc garrow_large_binary_array_get_offsets_buffer(ref array : GArrowLargeBinaryArray) : c_ptr(GArrowBuffer);
   extern proc garrow_large_binary_array_get_offsets_buffer(array : c_ptr(GArrowLargeBinaryArray)) : c_ptr(GArrowBuffer);
   extern proc garrow_string_array_get_type() : GType;
-  extern record _GArrowStringArray {
-    var parent_instance : GArrowBinaryArray;
-  }
   extern proc GARROW_STRING_ARRAY(ptr : gpointer) : c_ptr(GArrowStringArray);
   extern proc GARROW_STRING_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowStringArrayClass);
   extern proc GARROW_IS_STRING_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRING_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRING_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStringArrayClass);
-  extern record _GArrowStringArrayClass {
-    var parent_class : GArrowBinaryArrayClass;
-  }
   extern proc garrow_string_array_new(length : gint64, ref value_offsets : GArrowBuffer, ref value_data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowStringArray);
   extern proc garrow_string_array_new(length : gint64, value_offsets : c_ptr(GArrowBuffer), value_data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowStringArray);
   extern proc garrow_string_array_get_string(ref array : GArrowStringArray, i : gint64) : c_ptr(gchar);
   extern proc garrow_string_array_get_string(array : c_ptr(GArrowStringArray), i : gint64) : c_ptr(gchar);
   extern proc garrow_large_string_array_get_type() : GType;
-  extern record _GArrowLargeStringArray {
-    var parent_instance : GArrowLargeBinaryArray;
-  }
   extern proc GARROW_LARGE_STRING_ARRAY(ptr : gpointer) : c_ptr(GArrowLargeStringArray);
   extern proc GARROW_LARGE_STRING_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringArrayClass);
   extern proc GARROW_IS_LARGE_STRING_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_STRING_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_STRING_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringArrayClass);
-  extern record _GArrowLargeStringArrayClass {
-    var parent_class : GArrowLargeBinaryArrayClass;
-  }
   extern proc garrow_large_string_array_new(length : gint64, ref value_offsets : GArrowBuffer, ref value_data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowLargeStringArray);
   extern proc garrow_large_string_array_new(length : gint64, value_offsets : c_ptr(GArrowBuffer), value_data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowLargeStringArray);
   extern proc garrow_large_string_array_get_string(ref array : GArrowLargeStringArray, i : gint64) : c_ptr(gchar);
   extern proc garrow_large_string_array_get_string(array : c_ptr(GArrowLargeStringArray), i : gint64) : c_ptr(gchar);
   extern proc garrow_date32_array_get_type() : GType;
-  extern record _GArrowDate32Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_DATE32_ARRAY(ptr : gpointer) : c_ptr(GArrowDate32Array);
   extern proc GARROW_DATE32_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ArrayClass);
   extern proc GARROW_IS_DATE32_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE32_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE32_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ArrayClass);
-  extern record _GArrowDate32ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_date32_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowDate32Array);
   extern proc garrow_date32_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowDate32Array);
   extern proc garrow_date32_array_get_value(ref array : GArrowDate32Array, i : gint64) : gint32;
@@ -1654,17 +4036,11 @@ module ArrowAll {
   extern proc garrow_date32_array_get_values(ref array : GArrowDate32Array, ref length : gint64) : c_ptr(gint32);
   extern proc garrow_date32_array_get_values(array : c_ptr(GArrowDate32Array), length : c_ptr(gint64)) : c_ptr(gint32);
   extern proc garrow_date64_array_get_type() : GType;
-  extern record _GArrowDate64Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_DATE64_ARRAY(ptr : gpointer) : c_ptr(GArrowDate64Array);
   extern proc GARROW_DATE64_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ArrayClass);
   extern proc GARROW_IS_DATE64_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE64_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE64_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ArrayClass);
-  extern record _GArrowDate64ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_date64_array_new(length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowDate64Array);
   extern proc garrow_date64_array_new(length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowDate64Array);
   extern proc garrow_date64_array_get_value(ref array : GArrowDate64Array, i : gint64) : gint64;
@@ -1672,17 +4048,11 @@ module ArrowAll {
   extern proc garrow_date64_array_get_values(ref array : GArrowDate64Array, ref length : gint64) : c_ptr(gint64);
   extern proc garrow_date64_array_get_values(array : c_ptr(GArrowDate64Array), length : c_ptr(gint64)) : c_ptr(gint64);
   extern proc garrow_timestamp_array_get_type() : GType;
-  extern record _GArrowTimestampArray {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_TIMESTAMP_ARRAY(ptr : gpointer) : c_ptr(GArrowTimestampArray);
   extern proc GARROW_TIMESTAMP_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampArrayClass);
   extern proc GARROW_IS_TIMESTAMP_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIMESTAMP_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIMESTAMP_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampArrayClass);
-  extern record _GArrowTimestampArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_timestamp_array_new(ref data_type : GArrowTimestampDataType, length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowTimestampArray);
   extern proc garrow_timestamp_array_new(data_type : c_ptr(GArrowTimestampDataType), length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowTimestampArray);
   extern proc garrow_timestamp_array_get_value(ref array : GArrowTimestampArray, i : gint64) : gint64;
@@ -1690,17 +4060,11 @@ module ArrowAll {
   extern proc garrow_timestamp_array_get_values(ref array : GArrowTimestampArray, ref length : gint64) : c_ptr(gint64);
   extern proc garrow_timestamp_array_get_values(array : c_ptr(GArrowTimestampArray), length : c_ptr(gint64)) : c_ptr(gint64);
   extern proc garrow_time32_array_get_type() : GType;
-  extern record _GArrowTime32Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_TIME32_ARRAY(ptr : gpointer) : c_ptr(GArrowTime32Array);
   extern proc GARROW_TIME32_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ArrayClass);
   extern proc GARROW_IS_TIME32_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME32_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME32_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ArrayClass);
-  extern record _GArrowTime32ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_time32_array_new(ref data_type : GArrowTime32DataType, length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowTime32Array);
   extern proc garrow_time32_array_new(data_type : c_ptr(GArrowTime32DataType), length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowTime32Array);
   extern proc garrow_time32_array_get_value(ref array : GArrowTime32Array, i : gint64) : gint32;
@@ -1708,17 +4072,11 @@ module ArrowAll {
   extern proc garrow_time32_array_get_values(ref array : GArrowTime32Array, ref length : gint64) : c_ptr(gint32);
   extern proc garrow_time32_array_get_values(array : c_ptr(GArrowTime32Array), length : c_ptr(gint64)) : c_ptr(gint32);
   extern proc garrow_time64_array_get_type() : GType;
-  extern record _GArrowTime64Array {
-    var parent_instance : GArrowNumericArray;
-  }
   extern proc GARROW_TIME64_ARRAY(ptr : gpointer) : c_ptr(GArrowTime64Array);
   extern proc GARROW_TIME64_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ArrayClass);
   extern proc GARROW_IS_TIME64_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME64_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME64_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ArrayClass);
-  extern record _GArrowTime64ArrayClass {
-    var parent_class : GArrowNumericArrayClass;
-  }
   extern proc garrow_time64_array_new(ref data_type : GArrowTime64DataType, length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowTime64Array);
   extern proc garrow_time64_array_new(data_type : c_ptr(GArrowTime64DataType), length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowTime64Array);
   extern proc garrow_time64_array_get_value(ref array : GArrowTime64Array, i : gint64) : gint64;
@@ -1726,17 +4084,11 @@ module ArrowAll {
   extern proc garrow_time64_array_get_values(ref array : GArrowTime64Array, ref length : gint64) : c_ptr(gint64);
   extern proc garrow_time64_array_get_values(array : c_ptr(GArrowTime64Array), length : c_ptr(gint64)) : c_ptr(gint64);
   extern proc garrow_fixed_size_binary_array_get_type() : GType;
-  extern record _GArrowFixedSizeBinaryArray {
-    var parent_instance : GArrowPrimitiveArray;
-  }
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArray);
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArrayClass);
   extern proc GARROW_IS_FIXED_SIZE_BINARY_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIXED_SIZE_BINARY_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArrayClass);
-  extern record _GArrowFixedSizeBinaryArrayClass {
-    var parent_class : GArrowPrimitiveArrayClass;
-  }
   extern proc garrow_fixed_size_binary_array_new(ref data_type : GArrowFixedSizeBinaryDataType, length : gint64, ref data : GArrowBuffer, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowFixedSizeBinaryArray);
   extern proc garrow_fixed_size_binary_array_new(data_type : c_ptr(GArrowFixedSizeBinaryDataType), length : gint64, data : c_ptr(GArrowBuffer), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowFixedSizeBinaryArray);
   extern proc garrow_fixed_size_binary_array_get_byte_width(ref array : GArrowFixedSizeBinaryArray) : gint32;
@@ -1746,63 +4098,39 @@ module ArrowAll {
   extern proc garrow_fixed_size_binary_array_get_values_bytes(ref array : GArrowFixedSizeBinaryArray) : c_ptr(GBytes);
   extern proc garrow_fixed_size_binary_array_get_values_bytes(array : c_ptr(GArrowFixedSizeBinaryArray)) : c_ptr(GBytes);
   extern proc garrow_decimal128_array_get_type() : GType;
-  extern record _GArrowDecimal128Array {
-    var parent_instance : GArrowFixedSizeBinaryArray;
-  }
   extern proc GARROW_DECIMAL128_ARRAY(ptr : gpointer) : c_ptr(GArrowDecimal128Array);
   extern proc GARROW_DECIMAL128_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ArrayClass);
   extern proc GARROW_IS_DECIMAL128_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL128_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL128_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ArrayClass);
-  extern record _GArrowDecimal128ArrayClass {
-    var parent_class : GArrowFixedSizeBinaryArrayClass;
-  }
   extern proc garrow_decimal128_array_format_value(ref array : GArrowDecimal128Array, i : gint64) : c_ptr(gchar);
   extern proc garrow_decimal128_array_format_value(array : c_ptr(GArrowDecimal128Array), i : gint64) : c_ptr(gchar);
   extern proc garrow_decimal128_array_get_value(ref array : GArrowDecimal128Array, i : gint64) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal128_array_get_value(array : c_ptr(GArrowDecimal128Array), i : gint64) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal256_array_get_type() : GType;
-  extern record _GArrowDecimal256Array {
-    var parent_instance : GArrowFixedSizeBinaryArray;
-  }
   extern proc GARROW_DECIMAL256_ARRAY(ptr : gpointer) : c_ptr(GArrowDecimal256Array);
   extern proc GARROW_DECIMAL256_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ArrayClass);
   extern proc GARROW_IS_DECIMAL256_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL256_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL256_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ArrayClass);
-  extern record _GArrowDecimal256ArrayClass {
-    var parent_class : GArrowFixedSizeBinaryArrayClass;
-  }
   extern proc garrow_decimal256_array_format_value(ref array : GArrowDecimal256Array, i : gint64) : c_ptr(gchar);
   extern proc garrow_decimal256_array_format_value(array : c_ptr(GArrowDecimal256Array), i : gint64) : c_ptr(gchar);
   extern proc garrow_decimal256_array_get_value(ref array : GArrowDecimal256Array, i : gint64) : c_ptr(GArrowDecimal256);
   extern proc garrow_decimal256_array_get_value(array : c_ptr(GArrowDecimal256Array), i : gint64) : c_ptr(GArrowDecimal256);
   extern proc garrow_extension_array_get_type() : GType;
-  extern record _GArrowExtensionArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_EXTENSION_ARRAY(ptr : gpointer) : c_ptr(GArrowExtensionArray);
   extern proc GARROW_EXTENSION_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionArrayClass);
   extern proc GARROW_IS_EXTENSION_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EXTENSION_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EXTENSION_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionArrayClass);
-  extern record _GArrowExtensionArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_extension_array_get_storage(ref array : GArrowExtensionArray) : c_ptr(GArrowArray);
   extern proc garrow_extension_array_get_storage(array : c_ptr(GArrowExtensionArray)) : c_ptr(GArrowArray);
   extern proc garrow_field_get_type() : GType;
-  extern record _GArrowField {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FIELD(ptr : gpointer) : c_ptr(GArrowField);
   extern proc GARROW_FIELD_CLASS(ptr : gpointer) : c_ptr(GArrowFieldClass);
   extern proc GARROW_IS_FIELD(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIELD_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIELD_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFieldClass);
-  extern record _GArrowFieldClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_field_new(ref name : gchar, ref data_type : GArrowDataType) : c_ptr(GArrowField);
   extern proc garrow_field_new(name : c_ptr(gchar), data_type : c_ptr(GArrowDataType)) : c_ptr(GArrowField);
   extern proc garrow_field_new_full(ref name : gchar, ref data_type : GArrowDataType, nullable : gboolean) : c_ptr(GArrowField);
@@ -1830,17 +4158,11 @@ module ArrowAll {
   extern proc garrow_field_remove_metadata(ref field : GArrowField) : c_ptr(GArrowField);
   extern proc garrow_field_remove_metadata(field : c_ptr(GArrowField)) : c_ptr(GArrowField);
   extern proc garrow_list_data_type_get_type() : GType;
-  extern record _GArrowListDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_LIST_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowListDataType);
   extern proc GARROW_LIST_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowListDataTypeClass);
   extern proc GARROW_IS_LIST_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LIST_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LIST_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowListDataTypeClass);
-  extern record _GArrowListDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_list_data_type_new(ref field : GArrowField) : c_ptr(GArrowListDataType);
   extern proc garrow_list_data_type_new(field : c_ptr(GArrowField)) : c_ptr(GArrowListDataType);
   extern proc garrow_list_data_type_get_value_field(ref list_data_type : GArrowListDataType) : c_ptr(GArrowField);
@@ -1848,33 +4170,21 @@ module ArrowAll {
   extern proc garrow_list_data_type_get_field(ref list_data_type : GArrowListDataType) : c_ptr(GArrowField);
   extern proc garrow_list_data_type_get_field(list_data_type : c_ptr(GArrowListDataType)) : c_ptr(GArrowField);
   extern proc garrow_large_list_data_type_get_type() : GType;
-  extern record _GArrowLargeListDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_LARGE_LIST_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowLargeListDataType);
   extern proc GARROW_LARGE_LIST_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListDataTypeClass);
   extern proc GARROW_IS_LARGE_LIST_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_LIST_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_LIST_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListDataTypeClass);
-  extern record _GArrowLargeListDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_large_list_data_type_new(ref field : GArrowField) : c_ptr(GArrowLargeListDataType);
   extern proc garrow_large_list_data_type_new(field : c_ptr(GArrowField)) : c_ptr(GArrowLargeListDataType);
   extern proc garrow_large_list_data_type_get_field(ref large_list_data_type : GArrowLargeListDataType) : c_ptr(GArrowField);
   extern proc garrow_large_list_data_type_get_field(large_list_data_type : c_ptr(GArrowLargeListDataType)) : c_ptr(GArrowField);
   extern proc garrow_struct_data_type_get_type() : GType;
-  extern record _GArrowStructDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_STRUCT_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowStructDataType);
   extern proc GARROW_STRUCT_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowStructDataTypeClass);
   extern proc GARROW_IS_STRUCT_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRUCT_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRUCT_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStructDataTypeClass);
-  extern record _GArrowStructDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_struct_data_type_new(ref fields : GList) : c_ptr(GArrowStructDataType);
   extern proc garrow_struct_data_type_new(fields : c_ptr(GList)) : c_ptr(GArrowStructDataType);
   extern proc garrow_struct_data_type_get_n_fields(ref struct_data_type : GArrowStructDataType) : gint;
@@ -1888,17 +4198,11 @@ module ArrowAll {
   extern proc garrow_struct_data_type_get_field_index(ref struct_data_type : GArrowStructDataType, ref name : gchar) : gint;
   extern proc garrow_struct_data_type_get_field_index(struct_data_type : c_ptr(GArrowStructDataType), name : c_ptr(gchar)) : gint;
   extern proc garrow_map_data_type_get_type() : GType;
-  extern record _GArrowMapDataType {
-    var parent_instance : GArrowListDataType;
-  }
   extern proc GARROW_MAP_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowMapDataType);
   extern proc GARROW_MAP_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowMapDataTypeClass);
   extern proc GARROW_IS_MAP_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MAP_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MAP_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMapDataTypeClass);
-  extern record _GArrowMapDataTypeClass {
-    var parent_class : GArrowListDataTypeClass;
-  }
   extern proc garrow_map_data_type_new(ref key_type : GArrowDataType, ref item_type : GArrowDataType) : c_ptr(GArrowMapDataType);
   extern proc garrow_map_data_type_new(key_type : c_ptr(GArrowDataType), item_type : c_ptr(GArrowDataType)) : c_ptr(GArrowMapDataType);
   extern proc garrow_map_data_type_get_key_type(ref map_data_type : GArrowMapDataType) : c_ptr(GArrowDataType);
@@ -1906,17 +4210,11 @@ module ArrowAll {
   extern proc garrow_map_data_type_get_item_type(ref map_data_type : GArrowMapDataType) : c_ptr(GArrowDataType);
   extern proc garrow_map_data_type_get_item_type(map_data_type : c_ptr(GArrowMapDataType)) : c_ptr(GArrowDataType);
   extern proc garrow_union_data_type_get_type() : GType;
-  extern record _GArrowUnionDataType {
-    var parent_instance : GArrowDataType;
-  }
   extern proc GARROW_UNION_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowUnionDataType);
   extern proc GARROW_UNION_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowUnionDataTypeClass);
   extern proc GARROW_IS_UNION_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UNION_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UNION_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUnionDataTypeClass);
-  extern record _GArrowUnionDataTypeClass {
-    var parent_class : GArrowDataTypeClass;
-  }
   extern proc garrow_union_data_type_get_n_fields(ref union_data_type : GArrowUnionDataType) : gint;
   extern proc garrow_union_data_type_get_n_fields(union_data_type : c_ptr(GArrowUnionDataType)) : gint;
   extern proc garrow_union_data_type_get_fields(ref union_data_type : GArrowUnionDataType) : c_ptr(GList);
@@ -1926,45 +4224,27 @@ module ArrowAll {
   extern proc garrow_union_data_type_get_type_codes(ref union_data_type : GArrowUnionDataType, ref n_type_codes : gsize) : c_ptr(gint8);
   extern proc garrow_union_data_type_get_type_codes(union_data_type : c_ptr(GArrowUnionDataType), n_type_codes : c_ptr(gsize)) : c_ptr(gint8);
   extern proc garrow_sparse_union_data_type_get_type() : GType;
-  extern record _GArrowSparseUnionDataType {
-    var parent_instance : GArrowUnionDataType;
-  }
   extern proc GARROW_SPARSE_UNION_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowSparseUnionDataType);
   extern proc GARROW_SPARSE_UNION_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionDataTypeClass);
   extern proc GARROW_IS_SPARSE_UNION_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SPARSE_UNION_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SPARSE_UNION_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionDataTypeClass);
-  extern record _GArrowSparseUnionDataTypeClass {
-    var parent_class : GArrowUnionDataTypeClass;
-  }
   extern proc garrow_sparse_union_data_type_new(ref fields : GList, ref type_codes : gint8, n_type_codes : gsize) : c_ptr(GArrowSparseUnionDataType);
   extern proc garrow_sparse_union_data_type_new(fields : c_ptr(GList), type_codes : c_ptr(gint8), n_type_codes : gsize) : c_ptr(GArrowSparseUnionDataType);
   extern proc garrow_dense_union_data_type_get_type() : GType;
-  extern record _GArrowDenseUnionDataType {
-    var parent_instance : GArrowUnionDataType;
-  }
   extern proc GARROW_DENSE_UNION_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDenseUnionDataType);
   extern proc GARROW_DENSE_UNION_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionDataTypeClass);
   extern proc GARROW_IS_DENSE_UNION_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DENSE_UNION_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DENSE_UNION_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionDataTypeClass);
-  extern record _GArrowDenseUnionDataTypeClass {
-    var parent_class : GArrowUnionDataTypeClass;
-  }
   extern proc garrow_dense_union_data_type_new(ref fields : GList, ref type_codes : gint8, n_type_codes : gsize) : c_ptr(GArrowDenseUnionDataType);
   extern proc garrow_dense_union_data_type_new(fields : c_ptr(GList), type_codes : c_ptr(gint8), n_type_codes : gsize) : c_ptr(GArrowDenseUnionDataType);
   extern proc garrow_dictionary_data_type_get_type() : GType;
-  extern record _GArrowDictionaryDataType {
-    var parent_instance : GArrowFixedWidthDataType;
-  }
   extern proc GARROW_DICTIONARY_DATA_TYPE(ptr : gpointer) : c_ptr(GArrowDictionaryDataType);
   extern proc GARROW_DICTIONARY_DATA_TYPE_CLASS(ptr : gpointer) : c_ptr(GArrowDictionaryDataTypeClass);
   extern proc GARROW_IS_DICTIONARY_DATA_TYPE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DICTIONARY_DATA_TYPE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DICTIONARY_DATA_TYPE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDictionaryDataTypeClass);
-  extern record _GArrowDictionaryDataTypeClass {
-    var parent_class : GArrowFixedWidthDataTypeClass;
-  }
   extern proc garrow_dictionary_data_type_new(ref index_data_type : GArrowDataType, ref value_data_type : GArrowDataType, ordered : gboolean) : c_ptr(GArrowDictionaryDataType);
   extern proc garrow_dictionary_data_type_new(index_data_type : c_ptr(GArrowDataType), value_data_type : c_ptr(GArrowDataType), ordered : gboolean) : c_ptr(GArrowDictionaryDataType);
   extern proc garrow_dictionary_data_type_get_index_data_type(ref dictionary_data_type : GArrowDictionaryDataType) : c_ptr(GArrowDataType);
@@ -1974,17 +4254,11 @@ module ArrowAll {
   extern proc garrow_dictionary_data_type_is_ordered(ref dictionary_data_type : GArrowDictionaryDataType) : gboolean;
   extern proc garrow_dictionary_data_type_is_ordered(dictionary_data_type : c_ptr(GArrowDictionaryDataType)) : gboolean;
   extern proc garrow_list_array_get_type() : GType;
-  extern record _GArrowListArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_LIST_ARRAY(ptr : gpointer) : c_ptr(GArrowListArray);
   extern proc GARROW_LIST_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowListArrayClass);
   extern proc GARROW_IS_LIST_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LIST_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LIST_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowListArrayClass);
-  extern record _GArrowListArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_list_array_new(ref data_type : GArrowDataType, length : gint64, ref value_offsets : GArrowBuffer, ref values : GArrowArray, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowListArray);
   extern proc garrow_list_array_new(data_type : c_ptr(GArrowDataType), length : gint64, value_offsets : c_ptr(GArrowBuffer), values : c_ptr(GArrowArray), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowListArray);
   extern proc garrow_list_array_get_value_type(ref array : GArrowListArray) : c_ptr(GArrowDataType);
@@ -2000,17 +4274,11 @@ module ArrowAll {
   extern proc garrow_list_array_get_value_offsets(ref array : GArrowListArray, ref n_offsets : gint64) : c_ptr(gint32);
   extern proc garrow_list_array_get_value_offsets(array : c_ptr(GArrowListArray), n_offsets : c_ptr(gint64)) : c_ptr(gint32);
   extern proc garrow_large_list_array_get_type() : GType;
-  extern record _GArrowLargeListArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_LARGE_LIST_ARRAY(ptr : gpointer) : c_ptr(GArrowLargeListArray);
   extern proc GARROW_LARGE_LIST_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListArrayClass);
   extern proc GARROW_IS_LARGE_LIST_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_LIST_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_LIST_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListArrayClass);
-  extern record _GArrowLargeListArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_large_list_array_new(ref data_type : GArrowDataType, length : gint64, ref value_offsets : GArrowBuffer, ref values : GArrowArray, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowLargeListArray);
   extern proc garrow_large_list_array_new(data_type : c_ptr(GArrowDataType), length : gint64, value_offsets : c_ptr(GArrowBuffer), values : c_ptr(GArrowArray), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowLargeListArray);
   extern proc garrow_large_list_array_get_value_type(ref array : GArrowLargeListArray) : c_ptr(GArrowDataType);
@@ -2026,17 +4294,11 @@ module ArrowAll {
   extern proc garrow_large_list_array_get_value_offsets(ref array : GArrowLargeListArray, ref n_offsets : gint64) : c_ptr(gint64);
   extern proc garrow_large_list_array_get_value_offsets(array : c_ptr(GArrowLargeListArray), n_offsets : c_ptr(gint64)) : c_ptr(gint64);
   extern proc garrow_struct_array_get_type() : GType;
-  extern record _GArrowStructArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_STRUCT_ARRAY(ptr : gpointer) : c_ptr(GArrowStructArray);
   extern proc GARROW_STRUCT_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowStructArrayClass);
   extern proc GARROW_IS_STRUCT_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRUCT_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRUCT_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStructArrayClass);
-  extern record _GArrowStructArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_struct_array_new(ref data_type : GArrowDataType, length : gint64, ref fields : GList, ref null_bitmap : GArrowBuffer, n_nulls : gint64) : c_ptr(GArrowStructArray);
   extern proc garrow_struct_array_new(data_type : c_ptr(GArrowDataType), length : gint64, fields : c_ptr(GList), null_bitmap : c_ptr(GArrowBuffer), n_nulls : gint64) : c_ptr(GArrowStructArray);
   extern proc garrow_struct_array_get_field(ref array : GArrowStructArray, i : gint) : c_ptr(GArrowArray);
@@ -2046,17 +4308,11 @@ module ArrowAll {
   extern proc garrow_struct_array_flatten(ref array : GArrowStructArray, ref error : c_ptr(GError)) : c_ptr(GList);
   extern proc garrow_struct_array_flatten(array : c_ptr(GArrowStructArray), error : c_ptr(c_ptr(GError))) : c_ptr(GList);
   extern proc garrow_map_array_get_type() : GType;
-  extern record _GArrowMapArray {
-    var parent_instance : GArrowListArray;
-  }
   extern proc GARROW_MAP_ARRAY(ptr : gpointer) : c_ptr(GArrowMapArray);
   extern proc GARROW_MAP_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowMapArrayClass);
   extern proc GARROW_IS_MAP_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MAP_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MAP_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMapArrayClass);
-  extern record _GArrowMapArrayClass {
-    var parent_class : GArrowListArrayClass;
-  }
   extern proc garrow_map_array_new(ref offsets : GArrowArray, ref keys : GArrowArray, ref items : GArrowArray, ref error : c_ptr(GError)) : c_ptr(GArrowMapArray);
   extern proc garrow_map_array_new(offsets : c_ptr(GArrowArray), keys : c_ptr(GArrowArray), items : c_ptr(GArrowArray), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowMapArray);
   extern proc garrow_map_array_get_keys(ref array : GArrowMapArray) : c_ptr(GArrowArray);
@@ -2064,63 +4320,39 @@ module ArrowAll {
   extern proc garrow_map_array_get_items(ref array : GArrowMapArray) : c_ptr(GArrowArray);
   extern proc garrow_map_array_get_items(array : c_ptr(GArrowMapArray)) : c_ptr(GArrowArray);
   extern proc garrow_union_array_get_type() : GType;
-  extern record _GArrowUnionArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_UNION_ARRAY(ptr : gpointer) : c_ptr(GArrowUnionArray);
   extern proc GARROW_UNION_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowUnionArrayClass);
   extern proc GARROW_IS_UNION_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UNION_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UNION_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUnionArrayClass);
-  extern record _GArrowUnionArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_union_array_get_field(ref array : GArrowUnionArray, i : gint) : c_ptr(GArrowArray);
   extern proc garrow_union_array_get_field(array : c_ptr(GArrowUnionArray), i : gint) : c_ptr(GArrowArray);
   extern proc garrow_sparse_union_array_get_type() : GType;
-  extern record _GArrowSparseUnionArray {
-    var parent_instance : GArrowUnionArray;
-  }
   extern proc GARROW_SPARSE_UNION_ARRAY(ptr : gpointer) : c_ptr(GArrowSparseUnionArray);
   extern proc GARROW_SPARSE_UNION_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionArrayClass);
   extern proc GARROW_IS_SPARSE_UNION_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SPARSE_UNION_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SPARSE_UNION_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionArrayClass);
-  extern record _GArrowSparseUnionArrayClass {
-    var parent_class : GArrowUnionArrayClass;
-  }
   extern proc garrow_sparse_union_array_new(ref type_ids : GArrowInt8Array, ref fields : GList, ref error : c_ptr(GError)) : c_ptr(GArrowSparseUnionArray);
   extern proc garrow_sparse_union_array_new(type_ids : c_ptr(GArrowInt8Array), fields : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowSparseUnionArray);
   extern proc garrow_sparse_union_array_new_data_type(ref data_type : GArrowSparseUnionDataType, ref type_ids : GArrowInt8Array, ref fields : GList, ref error : c_ptr(GError)) : c_ptr(GArrowSparseUnionArray);
   extern proc garrow_sparse_union_array_new_data_type(data_type : c_ptr(GArrowSparseUnionDataType), type_ids : c_ptr(GArrowInt8Array), fields : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowSparseUnionArray);
   extern proc garrow_dense_union_array_get_type() : GType;
-  extern record _GArrowDenseUnionArray {
-    var parent_instance : GArrowUnionArray;
-  }
   extern proc GARROW_DENSE_UNION_ARRAY(ptr : gpointer) : c_ptr(GArrowDenseUnionArray);
   extern proc GARROW_DENSE_UNION_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionArrayClass);
   extern proc GARROW_IS_DENSE_UNION_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DENSE_UNION_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DENSE_UNION_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionArrayClass);
-  extern record _GArrowDenseUnionArrayClass {
-    var parent_class : GArrowUnionArrayClass;
-  }
   extern proc garrow_dense_union_array_new(ref type_ids : GArrowInt8Array, ref value_offsets : GArrowInt32Array, ref fields : GList, ref error : c_ptr(GError)) : c_ptr(GArrowDenseUnionArray);
   extern proc garrow_dense_union_array_new(type_ids : c_ptr(GArrowInt8Array), value_offsets : c_ptr(GArrowInt32Array), fields : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDenseUnionArray);
   extern proc garrow_dense_union_array_new_data_type(ref data_type : GArrowDenseUnionDataType, ref type_ids : GArrowInt8Array, ref value_offsets : GArrowInt32Array, ref fields : GList, ref error : c_ptr(GError)) : c_ptr(GArrowDenseUnionArray);
   extern proc garrow_dense_union_array_new_data_type(data_type : c_ptr(GArrowDenseUnionDataType), type_ids : c_ptr(GArrowInt8Array), value_offsets : c_ptr(GArrowInt32Array), fields : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDenseUnionArray);
   extern proc garrow_dictionary_array_get_type() : GType;
-  extern record _GArrowDictionaryArray {
-    var parent_instance : GArrowArray;
-  }
   extern proc GARROW_DICTIONARY_ARRAY(ptr : gpointer) : c_ptr(GArrowDictionaryArray);
   extern proc GARROW_DICTIONARY_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowDictionaryArrayClass);
   extern proc GARROW_IS_DICTIONARY_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DICTIONARY_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DICTIONARY_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDictionaryArrayClass);
-  extern record _GArrowDictionaryArrayClass {
-    var parent_class : GArrowArrayClass;
-  }
   extern proc garrow_dictionary_array_new(ref data_type : GArrowDataType, ref indices : GArrowArray, ref dictionary : GArrowArray, ref error : c_ptr(GError)) : c_ptr(GArrowDictionaryArray);
   extern proc garrow_dictionary_array_new(data_type : c_ptr(GArrowDataType), indices : c_ptr(GArrowArray), dictionary : c_ptr(GArrowArray), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDictionaryArray);
   extern proc garrow_dictionary_array_get_indices(ref array : GArrowDictionaryArray) : c_ptr(GArrowArray);
@@ -2130,17 +4362,11 @@ module ArrowAll {
   extern proc garrow_dictionary_array_get_dictionary_data_type(ref array : GArrowDictionaryArray) : c_ptr(GArrowDictionaryDataType);
   extern proc garrow_dictionary_array_get_dictionary_data_type(array : c_ptr(GArrowDictionaryArray)) : c_ptr(GArrowDictionaryDataType);
   extern proc garrow_array_builder_get_type() : GType;
-  extern record _GArrowArrayBuilder {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowArrayBuilder);
   extern proc GARROW_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowArrayBuilderClass);
   extern proc GARROW_IS_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowArrayBuilderClass);
-  extern record _GArrowArrayBuilderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_array_builder_release_ownership(ref builder : GArrowArrayBuilder) : void;
   extern proc garrow_array_builder_release_ownership(builder : c_ptr(GArrowArrayBuilder)) : void;
   extern proc garrow_array_builder_get_value_data_type(ref builder : GArrowArrayBuilder) : c_ptr(GArrowDataType);
@@ -2170,34 +4396,22 @@ module ArrowAll {
   extern proc garrow_array_builder_append_empty_values(ref builder : GArrowArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_array_builder_append_empty_values(builder : c_ptr(GArrowArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_null_array_builder_get_type() : GType;
-  extern record _GArrowNullArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_NULL_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowNullArrayBuilder);
   extern proc GARROW_NULL_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowNullArrayBuilderClass);
   extern proc GARROW_IS_NULL_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NULL_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NULL_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNullArrayBuilderClass);
-  extern record _GArrowNullArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_null_array_builder_new() : c_ptr(GArrowNullArrayBuilder);
   extern proc garrow_null_array_builder_append_null(ref builder : GArrowNullArrayBuilder, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_null_array_builder_append_null(builder : c_ptr(GArrowNullArrayBuilder), error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_null_array_builder_append_nulls(ref builder : GArrowNullArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_null_array_builder_append_nulls(builder : c_ptr(GArrowNullArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_boolean_array_builder_get_type() : GType;
-  extern record _GArrowBooleanArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_BOOLEAN_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowBooleanArrayBuilder);
   extern proc GARROW_BOOLEAN_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanArrayBuilderClass);
   extern proc GARROW_IS_BOOLEAN_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BOOLEAN_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BOOLEAN_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanArrayBuilderClass);
-  extern record _GArrowBooleanArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_boolean_array_builder_new() : c_ptr(GArrowBooleanArrayBuilder);
   extern proc garrow_boolean_array_builder_append(ref builder : GArrowBooleanArrayBuilder, value : gboolean, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_boolean_array_builder_append(builder : c_ptr(GArrowBooleanArrayBuilder), value : gboolean, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2210,17 +4424,11 @@ module ArrowAll {
   extern proc garrow_boolean_array_builder_append_nulls(ref builder : GArrowBooleanArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_boolean_array_builder_append_nulls(builder : c_ptr(GArrowBooleanArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_int_array_builder_get_type() : GType;
-  extern record _GArrowIntArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_INT_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowIntArrayBuilder);
   extern proc GARROW_INT_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowIntArrayBuilderClass);
   extern proc GARROW_IS_INT_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowIntArrayBuilderClass);
-  extern record _GArrowIntArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_int_array_builder_new() : c_ptr(GArrowIntArrayBuilder);
   extern proc garrow_int_array_builder_append(ref builder : GArrowIntArrayBuilder, value : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int_array_builder_append(builder : c_ptr(GArrowIntArrayBuilder), value : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2233,17 +4441,11 @@ module ArrowAll {
   extern proc garrow_int_array_builder_append_nulls(ref builder : GArrowIntArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int_array_builder_append_nulls(builder : c_ptr(GArrowIntArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_uint_array_builder_get_type() : GType;
-  extern record _GArrowUIntArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_UINT_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowUIntArrayBuilder);
   extern proc GARROW_UINT_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowUIntArrayBuilderClass);
   extern proc GARROW_IS_UINT_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUIntArrayBuilderClass);
-  extern record _GArrowUIntArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_uint_array_builder_new() : c_ptr(GArrowUIntArrayBuilder);
   extern proc garrow_uint_array_builder_append(ref builder : GArrowUIntArrayBuilder, value : guint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint_array_builder_append(builder : c_ptr(GArrowUIntArrayBuilder), value : guint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2256,17 +4458,11 @@ module ArrowAll {
   extern proc garrow_uint_array_builder_append_nulls(ref builder : GArrowUIntArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint_array_builder_append_nulls(builder : c_ptr(GArrowUIntArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_int8_array_builder_get_type() : GType;
-  extern record _GArrowInt8ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_INT8_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowInt8ArrayBuilder);
   extern proc GARROW_INT8_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ArrayBuilderClass);
   extern proc GARROW_IS_INT8_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT8_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT8_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ArrayBuilderClass);
-  extern record _GArrowInt8ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_int8_array_builder_new() : c_ptr(GArrowInt8ArrayBuilder);
   extern proc garrow_int8_array_builder_append(ref builder : GArrowInt8ArrayBuilder, value : gint8, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int8_array_builder_append(builder : c_ptr(GArrowInt8ArrayBuilder), value : gint8, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2279,17 +4475,11 @@ module ArrowAll {
   extern proc garrow_int8_array_builder_append_nulls(ref builder : GArrowInt8ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int8_array_builder_append_nulls(builder : c_ptr(GArrowInt8ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_uint8_array_builder_get_type() : GType;
-  extern record _GArrowUInt8ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_UINT8_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowUInt8ArrayBuilder);
   extern proc GARROW_UINT8_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ArrayBuilderClass);
   extern proc GARROW_IS_UINT8_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT8_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT8_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ArrayBuilderClass);
-  extern record _GArrowUInt8ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_uint8_array_builder_new() : c_ptr(GArrowUInt8ArrayBuilder);
   extern proc garrow_uint8_array_builder_append(ref builder : GArrowUInt8ArrayBuilder, value : guint8, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint8_array_builder_append(builder : c_ptr(GArrowUInt8ArrayBuilder), value : guint8, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2302,17 +4492,11 @@ module ArrowAll {
   extern proc garrow_uint8_array_builder_append_nulls(ref builder : GArrowUInt8ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint8_array_builder_append_nulls(builder : c_ptr(GArrowUInt8ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_int16_array_builder_get_type() : GType;
-  extern record _GArrowInt16ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_INT16_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowInt16ArrayBuilder);
   extern proc GARROW_INT16_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ArrayBuilderClass);
   extern proc GARROW_IS_INT16_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT16_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT16_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ArrayBuilderClass);
-  extern record _GArrowInt16ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_int16_array_builder_new() : c_ptr(GArrowInt16ArrayBuilder);
   extern proc garrow_int16_array_builder_append(ref builder : GArrowInt16ArrayBuilder, value : gint16, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int16_array_builder_append(builder : c_ptr(GArrowInt16ArrayBuilder), value : gint16, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2325,17 +4509,11 @@ module ArrowAll {
   extern proc garrow_int16_array_builder_append_nulls(ref builder : GArrowInt16ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int16_array_builder_append_nulls(builder : c_ptr(GArrowInt16ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_uint16_array_builder_get_type() : GType;
-  extern record _GArrowUInt16ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_UINT16_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowUInt16ArrayBuilder);
   extern proc GARROW_UINT16_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ArrayBuilderClass);
   extern proc GARROW_IS_UINT16_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT16_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT16_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ArrayBuilderClass);
-  extern record _GArrowUInt16ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_uint16_array_builder_new() : c_ptr(GArrowUInt16ArrayBuilder);
   extern proc garrow_uint16_array_builder_append(ref builder : GArrowUInt16ArrayBuilder, value : guint16, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint16_array_builder_append(builder : c_ptr(GArrowUInt16ArrayBuilder), value : guint16, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2348,17 +4526,11 @@ module ArrowAll {
   extern proc garrow_uint16_array_builder_append_nulls(ref builder : GArrowUInt16ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint16_array_builder_append_nulls(builder : c_ptr(GArrowUInt16ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_int32_array_builder_get_type() : GType;
-  extern record _GArrowInt32ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_INT32_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowInt32ArrayBuilder);
   extern proc GARROW_INT32_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ArrayBuilderClass);
   extern proc GARROW_IS_INT32_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT32_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT32_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ArrayBuilderClass);
-  extern record _GArrowInt32ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_int32_array_builder_new() : c_ptr(GArrowInt32ArrayBuilder);
   extern proc garrow_int32_array_builder_append(ref builder : GArrowInt32ArrayBuilder, value : gint32, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int32_array_builder_append(builder : c_ptr(GArrowInt32ArrayBuilder), value : gint32, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2371,17 +4543,11 @@ module ArrowAll {
   extern proc garrow_int32_array_builder_append_nulls(ref builder : GArrowInt32ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int32_array_builder_append_nulls(builder : c_ptr(GArrowInt32ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_uint32_array_builder_get_type() : GType;
-  extern record _GArrowUInt32ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_UINT32_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowUInt32ArrayBuilder);
   extern proc GARROW_UINT32_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ArrayBuilderClass);
   extern proc GARROW_IS_UINT32_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT32_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT32_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ArrayBuilderClass);
-  extern record _GArrowUInt32ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_uint32_array_builder_new() : c_ptr(GArrowUInt32ArrayBuilder);
   extern proc garrow_uint32_array_builder_append(ref builder : GArrowUInt32ArrayBuilder, value : guint32, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint32_array_builder_append(builder : c_ptr(GArrowUInt32ArrayBuilder), value : guint32, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2394,17 +4560,11 @@ module ArrowAll {
   extern proc garrow_uint32_array_builder_append_nulls(ref builder : GArrowUInt32ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint32_array_builder_append_nulls(builder : c_ptr(GArrowUInt32ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_int64_array_builder_get_type() : GType;
-  extern record _GArrowInt64ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_INT64_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowInt64ArrayBuilder);
   extern proc GARROW_INT64_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ArrayBuilderClass);
   extern proc GARROW_IS_INT64_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT64_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT64_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ArrayBuilderClass);
-  extern record _GArrowInt64ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_int64_array_builder_new() : c_ptr(GArrowInt64ArrayBuilder);
   extern proc garrow_int64_array_builder_append(ref builder : GArrowInt64ArrayBuilder, value : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int64_array_builder_append(builder : c_ptr(GArrowInt64ArrayBuilder), value : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2417,17 +4577,11 @@ module ArrowAll {
   extern proc garrow_int64_array_builder_append_nulls(ref builder : GArrowInt64ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_int64_array_builder_append_nulls(builder : c_ptr(GArrowInt64ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_uint64_array_builder_get_type() : GType;
-  extern record _GArrowUInt64ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_UINT64_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowUInt64ArrayBuilder);
   extern proc GARROW_UINT64_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ArrayBuilderClass);
   extern proc GARROW_IS_UINT64_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT64_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT64_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ArrayBuilderClass);
-  extern record _GArrowUInt64ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_uint64_array_builder_new() : c_ptr(GArrowUInt64ArrayBuilder);
   extern proc garrow_uint64_array_builder_append(ref builder : GArrowUInt64ArrayBuilder, value : guint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint64_array_builder_append(builder : c_ptr(GArrowUInt64ArrayBuilder), value : guint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2440,17 +4594,11 @@ module ArrowAll {
   extern proc garrow_uint64_array_builder_append_nulls(ref builder : GArrowUInt64ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_uint64_array_builder_append_nulls(builder : c_ptr(GArrowUInt64ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_float_array_builder_get_type() : GType;
-  extern record _GArrowFloatArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_FLOAT_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowFloatArrayBuilder);
   extern proc GARROW_FLOAT_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowFloatArrayBuilderClass);
   extern proc GARROW_IS_FLOAT_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FLOAT_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FLOAT_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFloatArrayBuilderClass);
-  extern record _GArrowFloatArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_float_array_builder_new() : c_ptr(GArrowFloatArrayBuilder);
   extern proc garrow_float_array_builder_append(ref builder : GArrowFloatArrayBuilder, value : gfloat, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_float_array_builder_append(builder : c_ptr(GArrowFloatArrayBuilder), value : gfloat, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2463,17 +4611,11 @@ module ArrowAll {
   extern proc garrow_float_array_builder_append_nulls(ref builder : GArrowFloatArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_float_array_builder_append_nulls(builder : c_ptr(GArrowFloatArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_double_array_builder_get_type() : GType;
-  extern record _GArrowDoubleArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_DOUBLE_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowDoubleArrayBuilder);
   extern proc GARROW_DOUBLE_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleArrayBuilderClass);
   extern proc GARROW_IS_DOUBLE_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DOUBLE_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DOUBLE_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleArrayBuilderClass);
-  extern record _GArrowDoubleArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_double_array_builder_new() : c_ptr(GArrowDoubleArrayBuilder);
   extern proc garrow_double_array_builder_append(ref builder : GArrowDoubleArrayBuilder, value : gdouble, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_double_array_builder_append(builder : c_ptr(GArrowDoubleArrayBuilder), value : gdouble, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2486,17 +4628,11 @@ module ArrowAll {
   extern proc garrow_double_array_builder_append_nulls(ref builder : GArrowDoubleArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_double_array_builder_append_nulls(builder : c_ptr(GArrowDoubleArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_binary_array_builder_get_type() : GType;
-  extern record _GArrowBinaryArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_BINARY_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowBinaryArrayBuilder);
   extern proc GARROW_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryArrayBuilderClass);
   extern proc GARROW_IS_BINARY_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BINARY_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryArrayBuilderClass);
-  extern record _GArrowBinaryArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_binary_array_builder_new() : c_ptr(GArrowBinaryArrayBuilder);
   extern proc garrow_binary_array_builder_append(ref builder : GArrowBinaryArrayBuilder, ref value : guint8, length : gint32, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_binary_array_builder_append(builder : c_ptr(GArrowBinaryArrayBuilder), value : c_ptr(guint8), length : gint32, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2511,17 +4647,11 @@ module ArrowAll {
   extern proc garrow_binary_array_builder_append_nulls(ref builder : GArrowBinaryArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_binary_array_builder_append_nulls(builder : c_ptr(GArrowBinaryArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_large_binary_array_builder_get_type() : GType;
-  extern record _GArrowLargeBinaryArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_LARGE_BINARY_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowLargeBinaryArrayBuilder);
   extern proc GARROW_LARGE_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryArrayBuilderClass);
   extern proc GARROW_IS_LARGE_BINARY_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_BINARY_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryArrayBuilderClass);
-  extern record _GArrowLargeBinaryArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_large_binary_array_builder_new() : c_ptr(GArrowLargeBinaryArrayBuilder);
   extern proc garrow_large_binary_array_builder_append_value(ref builder : GArrowLargeBinaryArrayBuilder, ref value : guint8, length : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_large_binary_array_builder_append_value(builder : c_ptr(GArrowLargeBinaryArrayBuilder), value : c_ptr(guint8), length : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2534,17 +4664,11 @@ module ArrowAll {
   extern proc garrow_large_binary_array_builder_append_nulls(ref builder : GArrowLargeBinaryArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_large_binary_array_builder_append_nulls(builder : c_ptr(GArrowLargeBinaryArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_string_array_builder_get_type() : GType;
-  extern record _GArrowStringArrayBuilder {
-    var parent_instance : GArrowBinaryArrayBuilder;
-  }
   extern proc GARROW_STRING_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowStringArrayBuilder);
   extern proc GARROW_STRING_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowStringArrayBuilderClass);
   extern proc GARROW_IS_STRING_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRING_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRING_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStringArrayBuilderClass);
-  extern record _GArrowStringArrayBuilderClass {
-    var parent_class : GArrowBinaryArrayBuilderClass;
-  }
   extern proc garrow_string_array_builder_new() : c_ptr(GArrowStringArrayBuilder);
   extern proc garrow_string_array_builder_append(ref builder : GArrowStringArrayBuilder, ref value : gchar, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_string_array_builder_append(builder : c_ptr(GArrowStringArrayBuilder), value : c_ptr(gchar), error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2557,34 +4681,22 @@ module ArrowAll {
   extern proc garrow_string_array_builder_append_strings(ref builder : GArrowStringArrayBuilder, ref values : c_ptr(gchar), values_length : gint64, ref is_valids : gboolean, is_valids_length : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_string_array_builder_append_strings(builder : c_ptr(GArrowStringArrayBuilder), values : c_ptr(c_ptr(gchar)), values_length : gint64, is_valids : c_ptr(gboolean), is_valids_length : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_large_string_array_builder_get_type() : GType;
-  extern record _GArrowLargeStringArrayBuilder {
-    var parent_instance : GArrowLargeBinaryArrayBuilder;
-  }
   extern proc GARROW_LARGE_STRING_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowLargeStringArrayBuilder);
   extern proc GARROW_LARGE_STRING_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringArrayBuilderClass);
   extern proc GARROW_IS_LARGE_STRING_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_STRING_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_STRING_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringArrayBuilderClass);
-  extern record _GArrowLargeStringArrayBuilderClass {
-    var parent_class : GArrowLargeBinaryArrayBuilderClass;
-  }
   extern proc garrow_large_string_array_builder_new() : c_ptr(GArrowLargeStringArrayBuilder);
   extern proc garrow_large_string_array_builder_append_string(ref builder : GArrowLargeStringArrayBuilder, ref value : gchar, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_large_string_array_builder_append_string(builder : c_ptr(GArrowLargeStringArrayBuilder), value : c_ptr(gchar), error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_large_string_array_builder_append_strings(ref builder : GArrowLargeStringArrayBuilder, ref values : c_ptr(gchar), values_length : gint64, ref is_valids : gboolean, is_valids_length : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_large_string_array_builder_append_strings(builder : c_ptr(GArrowLargeStringArrayBuilder), values : c_ptr(c_ptr(gchar)), values_length : gint64, is_valids : c_ptr(gboolean), is_valids_length : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_fixed_size_binary_array_builder_get_type() : GType;
-  extern record _GArrowFixedSizeBinaryArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArrayBuilder);
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArrayBuilderClass);
   extern proc GARROW_IS_FIXED_SIZE_BINARY_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIXED_SIZE_BINARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIXED_SIZE_BINARY_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryArrayBuilderClass);
-  extern record _GArrowFixedSizeBinaryArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_fixed_size_binary_array_builder_new(ref data_type : GArrowFixedSizeBinaryDataType) : c_ptr(GArrowFixedSizeBinaryArrayBuilder);
   extern proc garrow_fixed_size_binary_array_builder_new(data_type : c_ptr(GArrowFixedSizeBinaryDataType)) : c_ptr(GArrowFixedSizeBinaryArrayBuilder);
   extern proc garrow_fixed_size_binary_array_builder_append_value(ref builder : GArrowFixedSizeBinaryArrayBuilder, ref value : guint8, length : gint32, ref error : c_ptr(GError)) : gboolean;
@@ -2596,17 +4708,11 @@ module ArrowAll {
   extern proc garrow_fixed_size_binary_array_builder_append_values_packed(ref builder : GArrowFixedSizeBinaryArrayBuilder, ref values : GBytes, ref is_valids : gboolean, is_valids_length : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_fixed_size_binary_array_builder_append_values_packed(builder : c_ptr(GArrowFixedSizeBinaryArrayBuilder), values : c_ptr(GBytes), is_valids : c_ptr(gboolean), is_valids_length : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_date32_array_builder_get_type() : GType;
-  extern record _GArrowDate32ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_DATE32_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowDate32ArrayBuilder);
   extern proc GARROW_DATE32_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ArrayBuilderClass);
   extern proc GARROW_IS_DATE32_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE32_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE32_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ArrayBuilderClass);
-  extern record _GArrowDate32ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_date32_array_builder_new() : c_ptr(GArrowDate32ArrayBuilder);
   extern proc garrow_date32_array_builder_append(ref builder : GArrowDate32ArrayBuilder, value : gint32, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_date32_array_builder_append(builder : c_ptr(GArrowDate32ArrayBuilder), value : gint32, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2619,17 +4725,11 @@ module ArrowAll {
   extern proc garrow_date32_array_builder_append_nulls(ref builder : GArrowDate32ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_date32_array_builder_append_nulls(builder : c_ptr(GArrowDate32ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_date64_array_builder_get_type() : GType;
-  extern record _GArrowDate64ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_DATE64_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowDate64ArrayBuilder);
   extern proc GARROW_DATE64_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ArrayBuilderClass);
   extern proc GARROW_IS_DATE64_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE64_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE64_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ArrayBuilderClass);
-  extern record _GArrowDate64ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_date64_array_builder_new() : c_ptr(GArrowDate64ArrayBuilder);
   extern proc garrow_date64_array_builder_append(ref builder : GArrowDate64ArrayBuilder, value : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_date64_array_builder_append(builder : c_ptr(GArrowDate64ArrayBuilder), value : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2642,17 +4742,11 @@ module ArrowAll {
   extern proc garrow_date64_array_builder_append_nulls(ref builder : GArrowDate64ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_date64_array_builder_append_nulls(builder : c_ptr(GArrowDate64ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_timestamp_array_builder_get_type() : GType;
-  extern record _GArrowTimestampArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_TIMESTAMP_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowTimestampArrayBuilder);
   extern proc GARROW_TIMESTAMP_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampArrayBuilderClass);
   extern proc GARROW_IS_TIMESTAMP_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIMESTAMP_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIMESTAMP_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampArrayBuilderClass);
-  extern record _GArrowTimestampArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_timestamp_array_builder_new(ref data_type : GArrowTimestampDataType) : c_ptr(GArrowTimestampArrayBuilder);
   extern proc garrow_timestamp_array_builder_new(data_type : c_ptr(GArrowTimestampDataType)) : c_ptr(GArrowTimestampArrayBuilder);
   extern proc garrow_timestamp_array_builder_append(ref builder : GArrowTimestampArrayBuilder, value : gint64, ref error : c_ptr(GError)) : gboolean;
@@ -2666,17 +4760,11 @@ module ArrowAll {
   extern proc garrow_timestamp_array_builder_append_nulls(ref builder : GArrowTimestampArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_timestamp_array_builder_append_nulls(builder : c_ptr(GArrowTimestampArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_time32_array_builder_get_type() : GType;
-  extern record _GArrowTime32ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_TIME32_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowTime32ArrayBuilder);
   extern proc GARROW_TIME32_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ArrayBuilderClass);
   extern proc GARROW_IS_TIME32_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME32_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME32_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ArrayBuilderClass);
-  extern record _GArrowTime32ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_time32_array_builder_new(ref data_type : GArrowTime32DataType) : c_ptr(GArrowTime32ArrayBuilder);
   extern proc garrow_time32_array_builder_new(data_type : c_ptr(GArrowTime32DataType)) : c_ptr(GArrowTime32ArrayBuilder);
   extern proc garrow_time32_array_builder_append(ref builder : GArrowTime32ArrayBuilder, value : gint32, ref error : c_ptr(GError)) : gboolean;
@@ -2690,17 +4778,11 @@ module ArrowAll {
   extern proc garrow_time32_array_builder_append_nulls(ref builder : GArrowTime32ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_time32_array_builder_append_nulls(builder : c_ptr(GArrowTime32ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_time64_array_builder_get_type() : GType;
-  extern record _GArrowTime64ArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_TIME64_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowTime64ArrayBuilder);
   extern proc GARROW_TIME64_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ArrayBuilderClass);
   extern proc GARROW_IS_TIME64_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME64_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME64_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ArrayBuilderClass);
-  extern record _GArrowTime64ArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_time64_array_builder_new(ref data_type : GArrowTime64DataType) : c_ptr(GArrowTime64ArrayBuilder);
   extern proc garrow_time64_array_builder_new(data_type : c_ptr(GArrowTime64DataType)) : c_ptr(GArrowTime64ArrayBuilder);
   extern proc garrow_time64_array_builder_append(ref builder : GArrowTime64ArrayBuilder, value : gint64, ref error : c_ptr(GError)) : gboolean;
@@ -2714,17 +4796,11 @@ module ArrowAll {
   extern proc garrow_time64_array_builder_append_nulls(ref builder : GArrowTime64ArrayBuilder, n : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_time64_array_builder_append_nulls(builder : c_ptr(GArrowTime64ArrayBuilder), n : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_binary_dictionary_array_builder_get_type() : GType;
-  extern record _GArrowBinaryDictionaryArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_BINARY_DICTIONARY_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowBinaryDictionaryArrayBuilder);
   extern proc GARROW_BINARY_DICTIONARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryDictionaryArrayBuilderClass);
   extern proc GARROW_IS_BINARY_DICTIONARY_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BINARY_DICTIONARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BINARY_DICTIONARY_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryDictionaryArrayBuilderClass);
-  extern record _GArrowBinaryDictionaryArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_binary_dictionary_array_builder_new() : c_ptr(GArrowBinaryDictionaryArrayBuilder);
   extern proc garrow_binary_dictionary_array_builder_append_null(ref builder : GArrowBinaryDictionaryArrayBuilder, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_binary_dictionary_array_builder_append_null(builder : c_ptr(GArrowBinaryDictionaryArrayBuilder), error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2745,17 +4821,11 @@ module ArrowAll {
   extern proc garrow_binary_dictionary_array_builder_reset_full(ref builder : GArrowBinaryDictionaryArrayBuilder) : void;
   extern proc garrow_binary_dictionary_array_builder_reset_full(builder : c_ptr(GArrowBinaryDictionaryArrayBuilder)) : void;
   extern proc garrow_string_dictionary_array_builder_get_type() : GType;
-  extern record _GArrowStringDictionaryArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_STRING_DICTIONARY_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowStringDictionaryArrayBuilder);
   extern proc GARROW_STRING_DICTIONARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowStringDictionaryArrayBuilderClass);
   extern proc GARROW_IS_STRING_DICTIONARY_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRING_DICTIONARY_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRING_DICTIONARY_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStringDictionaryArrayBuilderClass);
-  extern record _GArrowStringDictionaryArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_string_dictionary_array_builder_new() : c_ptr(GArrowStringDictionaryArrayBuilder);
   extern proc garrow_string_dictionary_array_builder_append_null(ref builder : GArrowStringDictionaryArrayBuilder, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_string_dictionary_array_builder_append_null(builder : c_ptr(GArrowStringDictionaryArrayBuilder), error : c_ptr(c_ptr(GError))) : gboolean;
@@ -2774,17 +4844,11 @@ module ArrowAll {
   extern proc garrow_string_dictionary_array_builder_reset_full(ref builder : GArrowStringDictionaryArrayBuilder) : void;
   extern proc garrow_string_dictionary_array_builder_reset_full(builder : c_ptr(GArrowStringDictionaryArrayBuilder)) : void;
   extern proc garrow_list_array_builder_get_type() : GType;
-  extern record _GArrowListArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_LIST_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowListArrayBuilder);
   extern proc GARROW_LIST_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowListArrayBuilderClass);
   extern proc GARROW_IS_LIST_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LIST_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LIST_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowListArrayBuilderClass);
-  extern record _GArrowListArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_list_array_builder_new(ref data_type : GArrowListDataType, ref error : c_ptr(GError)) : c_ptr(GArrowListArrayBuilder);
   extern proc garrow_list_array_builder_new(data_type : c_ptr(GArrowListDataType), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowListArrayBuilder);
   extern proc garrow_list_array_builder_append(ref builder : GArrowListArrayBuilder, ref error : c_ptr(GError)) : gboolean;
@@ -2796,17 +4860,11 @@ module ArrowAll {
   extern proc garrow_list_array_builder_get_value_builder(ref builder : GArrowListArrayBuilder) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_list_array_builder_get_value_builder(builder : c_ptr(GArrowListArrayBuilder)) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_large_list_array_builder_get_type() : GType;
-  extern record _GArrowLargeListArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_LARGE_LIST_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowLargeListArrayBuilder);
   extern proc GARROW_LARGE_LIST_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListArrayBuilderClass);
   extern proc GARROW_IS_LARGE_LIST_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_LIST_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_LIST_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListArrayBuilderClass);
-  extern record _GArrowLargeListArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_large_list_array_builder_new(ref data_type : GArrowLargeListDataType, ref error : c_ptr(GError)) : c_ptr(GArrowLargeListArrayBuilder);
   extern proc garrow_large_list_array_builder_new(data_type : c_ptr(GArrowLargeListDataType), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowLargeListArrayBuilder);
   extern proc garrow_large_list_array_builder_append_value(ref builder : GArrowLargeListArrayBuilder, ref error : c_ptr(GError)) : gboolean;
@@ -2816,17 +4874,11 @@ module ArrowAll {
   extern proc garrow_large_list_array_builder_get_value_builder(ref builder : GArrowLargeListArrayBuilder) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_large_list_array_builder_get_value_builder(builder : c_ptr(GArrowLargeListArrayBuilder)) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_struct_array_builder_get_type() : GType;
-  extern record _GArrowStructArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_STRUCT_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowStructArrayBuilder);
   extern proc GARROW_STRUCT_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowStructArrayBuilderClass);
   extern proc GARROW_IS_STRUCT_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRUCT_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRUCT_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStructArrayBuilderClass);
-  extern record _GArrowStructArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_struct_array_builder_new(ref data_type : GArrowStructDataType, ref error : c_ptr(GError)) : c_ptr(GArrowStructArrayBuilder);
   extern proc garrow_struct_array_builder_new(data_type : c_ptr(GArrowStructDataType), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowStructArrayBuilder);
   extern proc garrow_struct_array_builder_append(ref builder : GArrowStructArrayBuilder, ref error : c_ptr(GError)) : gboolean;
@@ -2840,17 +4892,11 @@ module ArrowAll {
   extern proc garrow_struct_array_builder_get_field_builders(ref builder : GArrowStructArrayBuilder) : c_ptr(GList);
   extern proc garrow_struct_array_builder_get_field_builders(builder : c_ptr(GArrowStructArrayBuilder)) : c_ptr(GList);
   extern proc garrow_map_array_builder_get_type() : GType;
-  extern record _GArrowMapArrayBuilder {
-    var parent_instance : GArrowArrayBuilder;
-  }
   extern proc GARROW_MAP_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowMapArrayBuilder);
   extern proc GARROW_MAP_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowMapArrayBuilderClass);
   extern proc GARROW_IS_MAP_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MAP_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MAP_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMapArrayBuilderClass);
-  extern record _GArrowMapArrayBuilderClass {
-    var parent_class : GArrowArrayBuilderClass;
-  }
   extern proc garrow_map_array_builder_new(ref data_type : GArrowMapDataType, ref error : c_ptr(GError)) : c_ptr(GArrowMapArrayBuilder);
   extern proc garrow_map_array_builder_new(data_type : c_ptr(GArrowMapDataType), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowMapArrayBuilder);
   extern proc garrow_map_array_builder_append_value(ref builder : GArrowMapArrayBuilder, ref error : c_ptr(GError)) : gboolean;
@@ -2868,17 +4914,11 @@ module ArrowAll {
   extern proc garrow_map_array_builder_get_value_builder(ref builder : GArrowMapArrayBuilder) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_map_array_builder_get_value_builder(builder : c_ptr(GArrowMapArrayBuilder)) : c_ptr(GArrowArrayBuilder);
   extern proc garrow_decimal128_array_builder_get_type() : GType;
-  extern record _GArrowDecimal128ArrayBuilder {
-    var parent_instance : GArrowFixedSizeBinaryArrayBuilder;
-  }
   extern proc GARROW_DECIMAL128_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowDecimal128ArrayBuilder);
   extern proc GARROW_DECIMAL128_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ArrayBuilderClass);
   extern proc GARROW_IS_DECIMAL128_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL128_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL128_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ArrayBuilderClass);
-  extern record _GArrowDecimal128ArrayBuilderClass {
-    var parent_class : GArrowFixedSizeBinaryArrayBuilderClass;
-  }
   extern proc garrow_decimal128_array_builder_new(ref data_type : GArrowDecimal128DataType) : c_ptr(GArrowDecimal128ArrayBuilder);
   extern proc garrow_decimal128_array_builder_new(data_type : c_ptr(GArrowDecimal128DataType)) : c_ptr(GArrowDecimal128ArrayBuilder);
   extern proc garrow_decimal128_array_builder_append(ref builder : GArrowDecimal128ArrayBuilder, ref value : GArrowDecimal128, ref error : c_ptr(GError)) : gboolean;
@@ -2890,17 +4930,11 @@ module ArrowAll {
   extern proc garrow_decimal128_array_builder_append_null(ref builder : GArrowDecimal128ArrayBuilder, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_decimal128_array_builder_append_null(builder : c_ptr(GArrowDecimal128ArrayBuilder), error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_decimal256_array_builder_get_type() : GType;
-  extern record _GArrowDecimal256ArrayBuilder {
-    var parent_instance : GArrowFixedSizeBinaryArrayBuilder;
-  }
   extern proc GARROW_DECIMAL256_ARRAY_BUILDER(ptr : gpointer) : c_ptr(GArrowDecimal256ArrayBuilder);
   extern proc GARROW_DECIMAL256_ARRAY_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ArrayBuilderClass);
   extern proc GARROW_IS_DECIMAL256_ARRAY_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL256_ARRAY_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL256_ARRAY_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ArrayBuilderClass);
-  extern record _GArrowDecimal256ArrayBuilderClass {
-    var parent_class : GArrowFixedSizeBinaryArrayBuilderClass;
-  }
   extern proc garrow_decimal256_array_builder_new(ref data_type : GArrowDecimal256DataType) : c_ptr(GArrowDecimal256ArrayBuilder);
   extern proc garrow_decimal256_array_builder_new(data_type : c_ptr(GArrowDecimal256DataType)) : c_ptr(GArrowDecimal256ArrayBuilder);
   extern proc garrow_decimal256_array_builder_append_value(ref builder : GArrowDecimal256ArrayBuilder, ref value : GArrowDecimal256, ref error : c_ptr(GError)) : gboolean;
@@ -2908,17 +4942,11 @@ module ArrowAll {
   extern proc garrow_decimal256_array_builder_append_values(ref builder : GArrowDecimal256ArrayBuilder, ref values : c_ptr(GArrowDecimal256), values_length : gint64, ref is_valids : gboolean, is_valids_length : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_decimal256_array_builder_append_values(builder : c_ptr(GArrowDecimal256ArrayBuilder), values : c_ptr(c_ptr(GArrowDecimal256)), values_length : gint64, is_valids : c_ptr(gboolean), is_valids_length : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_chunked_array_get_type() : GType;
-  extern record _GArrowChunkedArray {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_CHUNKED_ARRAY(ptr : gpointer) : c_ptr(GArrowChunkedArray);
   extern proc GARROW_CHUNKED_ARRAY_CLASS(ptr : gpointer) : c_ptr(GArrowChunkedArrayClass);
   extern proc GARROW_IS_CHUNKED_ARRAY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CHUNKED_ARRAY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CHUNKED_ARRAY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowChunkedArrayClass);
-  extern record _GArrowChunkedArrayClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_chunked_array_new(ref chunks : GList) : c_ptr(GArrowChunkedArray);
   extern proc garrow_chunked_array_new(chunks : c_ptr(GList)) : c_ptr(GArrowChunkedArray);
   extern proc garrow_chunked_array_equal(ref chunked_array : GArrowChunkedArray, ref other_chunked_array : GArrowChunkedArray) : gboolean;
@@ -2946,17 +4974,11 @@ module ArrowAll {
   extern proc garrow_chunked_array_combine(ref chunked_array : GArrowChunkedArray, ref error : c_ptr(GError)) : c_ptr(GArrowArray);
   extern proc garrow_chunked_array_combine(chunked_array : c_ptr(GArrowChunkedArray), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowArray);
   extern proc garrow_codec_get_type() : GType;
-  extern record _GArrowCodec {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_CODEC(ptr : gpointer) : c_ptr(GArrowCodec);
   extern proc GARROW_CODEC_CLASS(ptr : gpointer) : c_ptr(GArrowCodecClass);
   extern proc GARROW_IS_CODEC(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CODEC_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CODEC_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCodecClass);
-  extern record _GArrowCodecClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_codec_new(type_arg : GArrowCompressionType, ref error : c_ptr(GError)) : c_ptr(GArrowCodec);
   extern proc garrow_codec_new(type_arg : GArrowCompressionType, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowCodec);
   extern proc garrow_codec_get_name(ref codec : GArrowCodec) : c_ptr(gchar);
@@ -2966,47 +4988,29 @@ module ArrowAll {
   extern proc garrow_codec_get_compression_level(ref codec : GArrowCodec) : gint;
   extern proc garrow_codec_get_compression_level(codec : c_ptr(GArrowCodec)) : gint;
   extern proc garrow_read_options_get_type() : GType;
-  extern record _GArrowReadOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_READ_OPTIONS(ptr : gpointer) : c_ptr(GArrowReadOptions);
   extern proc GARROW_READ_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowReadOptionsClass);
   extern proc GARROW_IS_READ_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_READ_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_READ_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowReadOptionsClass);
-  extern record _GArrowReadOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_read_options_new() : c_ptr(GArrowReadOptions);
   extern proc garrow_read_options_get_included_fields(ref options : GArrowReadOptions, ref n_fields : gsize) : c_ptr(c_int);
   extern proc garrow_read_options_get_included_fields(options : c_ptr(GArrowReadOptions), n_fields : c_ptr(gsize)) : c_ptr(c_int);
   extern proc garrow_read_options_set_included_fields(ref options : GArrowReadOptions, ref fields : c_int, n_fields : gsize) : void;
   extern proc garrow_read_options_set_included_fields(options : c_ptr(GArrowReadOptions), fields : c_ptr(c_int), n_fields : gsize) : void;
   extern proc garrow_write_options_get_type() : GType;
-  extern record _GArrowWriteOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_WRITE_OPTIONS(ptr : gpointer) : c_ptr(GArrowWriteOptions);
   extern proc GARROW_WRITE_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowWriteOptionsClass);
   extern proc GARROW_IS_WRITE_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_WRITE_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_WRITE_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowWriteOptionsClass);
-  extern record _GArrowWriteOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_write_options_new() : c_ptr(GArrowWriteOptions);
   extern proc garrow_schema_get_type() : GType;
-  extern record _GArrowSchema {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_SCHEMA(ptr : gpointer) : c_ptr(GArrowSchema);
   extern proc GARROW_SCHEMA_CLASS(ptr : gpointer) : c_ptr(GArrowSchemaClass);
   extern proc GARROW_IS_SCHEMA(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SCHEMA_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SCHEMA_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSchemaClass);
-  extern record _GArrowSchemaClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_schema_new(ref fields : GList) : c_ptr(GArrowSchema);
   extern proc garrow_schema_new(fields : c_ptr(GList)) : c_ptr(GArrowSchema);
   extern proc garrow_schema_equal(ref schema : GArrowSchema, ref other_schema : GArrowSchema) : gboolean;
@@ -3038,17 +5042,11 @@ module ArrowAll {
   extern proc garrow_schema_with_metadata(ref schema : GArrowSchema, ref metadata : GHashTable) : c_ptr(GArrowSchema);
   extern proc garrow_schema_with_metadata(schema : c_ptr(GArrowSchema), metadata : c_ptr(GHashTable)) : c_ptr(GArrowSchema);
   extern proc garrow_record_batch_get_type() : GType;
-  extern record _GArrowRecordBatch {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_RECORD_BATCH(ptr : gpointer) : c_ptr(GArrowRecordBatch);
   extern proc GARROW_RECORD_BATCH_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchClass);
   extern proc GARROW_IS_RECORD_BATCH(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RECORD_BATCH_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RECORD_BATCH_GET_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchClass);
-  extern record _GArrowRecordBatchClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_new(ref schema : GArrowSchema, n_rows : guint32, ref columns : GList, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
   extern proc garrow_record_batch_new(schema : c_ptr(GArrowSchema), n_rows : guint32, columns : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatch);
   extern proc garrow_record_batch_equal(ref record_batch : GArrowRecordBatch, ref other_record_batch : GArrowRecordBatch) : gboolean;
@@ -3076,17 +5074,11 @@ module ArrowAll {
   extern proc garrow_record_batch_serialize(ref record_batch : GArrowRecordBatch, ref options : GArrowWriteOptions, ref error : c_ptr(GError)) : c_ptr(GArrowBuffer);
   extern proc garrow_record_batch_serialize(record_batch : c_ptr(GArrowRecordBatch), options : c_ptr(GArrowWriteOptions), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowBuffer);
   extern proc garrow_record_batch_iterator_get_type() : GType;
-  extern record _GArrowRecordBatchIterator {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_RECORD_BATCH_ITERATOR(ptr : gpointer) : c_ptr(GArrowRecordBatchIterator);
   extern proc GARROW_RECORD_BATCH_ITERATOR_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchIteratorClass);
   extern proc GARROW_IS_RECORD_BATCH_ITERATOR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RECORD_BATCH_ITERATOR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RECORD_BATCH_ITERATOR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchIteratorClass);
-  extern record _GArrowRecordBatchIteratorClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_iterator_new(ref record_batches : GList) : c_ptr(GArrowRecordBatchIterator);
   extern proc garrow_record_batch_iterator_new(record_batches : c_ptr(GList)) : c_ptr(GArrowRecordBatchIterator);
   extern proc garrow_record_batch_iterator_next(ref iterator : GArrowRecordBatchIterator, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
@@ -3096,17 +5088,11 @@ module ArrowAll {
   extern proc garrow_record_batch_iterator_to_list(ref iterator : GArrowRecordBatchIterator, ref error : c_ptr(GError)) : c_ptr(GList);
   extern proc garrow_record_batch_iterator_to_list(iterator : c_ptr(GArrowRecordBatchIterator), error : c_ptr(c_ptr(GError))) : c_ptr(GList);
   extern proc garrow_scalar_get_type() : GType;
-  extern record _GArrowScalar {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_SCALAR(ptr : gpointer) : c_ptr(GArrowScalar);
   extern proc GARROW_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowScalarClass);
   extern proc GARROW_IS_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowScalarClass);
-  extern record _GArrowScalarClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_scalar_parse(ref data_type : GArrowDataType, ref data : guint8, size : gsize, ref error : c_ptr(GError)) : c_ptr(GArrowScalar);
   extern proc garrow_scalar_parse(data_type : c_ptr(GArrowDataType), data : c_ptr(guint8), size : gsize, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowScalar);
   extern proc garrow_scalar_get_data_type(ref scalar : GArrowScalar) : c_ptr(GArrowDataType);
@@ -3122,1957 +5108,337 @@ module ArrowAll {
   extern proc garrow_scalar_cast(ref scalar : GArrowScalar, ref data_type : GArrowDataType, ref options : GArrowCastOptions, ref error : c_ptr(GError)) : c_ptr(GArrowScalar);
   extern proc garrow_scalar_cast(scalar : c_ptr(GArrowScalar), data_type : c_ptr(GArrowDataType), options : c_ptr(GArrowCastOptions), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowScalar);
   extern proc garrow_null_scalar_get_type() : GType;
-  extern record _GArrowNullScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_NULL_SCALAR(ptr : gpointer) : c_ptr(GArrowNullScalar);
   extern proc GARROW_NULL_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowNullScalarClass);
   extern proc GARROW_IS_NULL_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_NULL_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_NULL_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowNullScalarClass);
-  extern record _GArrowNullScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_null_scalar_new() : c_ptr(GArrowNullScalar);
   extern proc garrow_boolean_scalar_get_type() : GType;
-  extern record _GArrowBooleanScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_BOOLEAN_SCALAR(ptr : gpointer) : c_ptr(GArrowBooleanScalar);
   extern proc GARROW_BOOLEAN_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanScalarClass);
   extern proc GARROW_IS_BOOLEAN_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BOOLEAN_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BOOLEAN_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBooleanScalarClass);
-  extern record _GArrowBooleanScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_boolean_scalar_new(value : gboolean) : c_ptr(GArrowBooleanScalar);
   extern proc garrow_boolean_scalar_get_value(ref scalar : GArrowBooleanScalar) : gboolean;
   extern proc garrow_boolean_scalar_get_value(scalar : c_ptr(GArrowBooleanScalar)) : gboolean;
   extern proc garrow_int8_scalar_get_type() : GType;
-  extern record _GArrowInt8Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_INT8_SCALAR(ptr : gpointer) : c_ptr(GArrowInt8Scalar);
   extern proc GARROW_INT8_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ScalarClass);
   extern proc GARROW_IS_INT8_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT8_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT8_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt8ScalarClass);
-  extern record _GArrowInt8ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_int8_scalar_new(value : gint8) : c_ptr(GArrowInt8Scalar);
   extern proc garrow_int8_scalar_get_value(ref scalar : GArrowInt8Scalar) : gint8;
   extern proc garrow_int8_scalar_get_value(scalar : c_ptr(GArrowInt8Scalar)) : gint8;
   extern proc garrow_int16_scalar_get_type() : GType;
-  extern record _GArrowInt16Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_INT16_SCALAR(ptr : gpointer) : c_ptr(GArrowInt16Scalar);
   extern proc GARROW_INT16_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ScalarClass);
   extern proc GARROW_IS_INT16_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT16_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT16_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt16ScalarClass);
-  extern record _GArrowInt16ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_int16_scalar_new(value : gint16) : c_ptr(GArrowInt16Scalar);
   extern proc garrow_int16_scalar_get_value(ref scalar : GArrowInt16Scalar) : gint16;
   extern proc garrow_int16_scalar_get_value(scalar : c_ptr(GArrowInt16Scalar)) : gint16;
   extern proc garrow_int32_scalar_get_type() : GType;
-  extern record _GArrowInt32Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_INT32_SCALAR(ptr : gpointer) : c_ptr(GArrowInt32Scalar);
   extern proc GARROW_INT32_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ScalarClass);
   extern proc GARROW_IS_INT32_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT32_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT32_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt32ScalarClass);
-  extern record _GArrowInt32ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_int32_scalar_new(value : gint32) : c_ptr(GArrowInt32Scalar);
   extern proc garrow_int32_scalar_get_value(ref scalar : GArrowInt32Scalar) : gint32;
   extern proc garrow_int32_scalar_get_value(scalar : c_ptr(GArrowInt32Scalar)) : gint32;
   extern proc garrow_int64_scalar_get_type() : GType;
-  extern record _GArrowInt64Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_INT64_SCALAR(ptr : gpointer) : c_ptr(GArrowInt64Scalar);
   extern proc GARROW_INT64_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ScalarClass);
   extern proc GARROW_IS_INT64_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INT64_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INT64_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInt64ScalarClass);
-  extern record _GArrowInt64ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_int64_scalar_new(value : gint64) : c_ptr(GArrowInt64Scalar);
   extern proc garrow_int64_scalar_get_value(ref scalar : GArrowInt64Scalar) : gint64;
   extern proc garrow_int64_scalar_get_value(scalar : c_ptr(GArrowInt64Scalar)) : gint64;
   extern proc garrow_uint8_scalar_get_type() : GType;
-  extern record _GArrowUInt8Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_UINT8_SCALAR(ptr : gpointer) : c_ptr(GArrowUInt8Scalar);
   extern proc GARROW_UINT8_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ScalarClass);
   extern proc GARROW_IS_UINT8_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT8_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT8_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt8ScalarClass);
-  extern record _GArrowUInt8ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_uint8_scalar_new(value : guint8) : c_ptr(GArrowUInt8Scalar);
   extern proc garrow_uint8_scalar_get_value(ref scalar : GArrowUInt8Scalar) : guint8;
   extern proc garrow_uint8_scalar_get_value(scalar : c_ptr(GArrowUInt8Scalar)) : guint8;
   extern proc garrow_uint16_scalar_get_type() : GType;
-  extern record _GArrowUInt16Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_UINT16_SCALAR(ptr : gpointer) : c_ptr(GArrowUInt16Scalar);
   extern proc GARROW_UINT16_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ScalarClass);
   extern proc GARROW_IS_UINT16_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT16_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT16_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt16ScalarClass);
-  extern record _GArrowUInt16ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_uint16_scalar_new(value : guint16) : c_ptr(GArrowUInt16Scalar);
   extern proc garrow_uint16_scalar_get_value(ref scalar : GArrowUInt16Scalar) : guint16;
   extern proc garrow_uint16_scalar_get_value(scalar : c_ptr(GArrowUInt16Scalar)) : guint16;
   extern proc garrow_uint32_scalar_get_type() : GType;
-  extern record _GArrowUInt32Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_UINT32_SCALAR(ptr : gpointer) : c_ptr(GArrowUInt32Scalar);
   extern proc GARROW_UINT32_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ScalarClass);
   extern proc GARROW_IS_UINT32_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT32_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT32_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt32ScalarClass);
-  extern record _GArrowUInt32ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_uint32_scalar_new(value : guint32) : c_ptr(GArrowUInt32Scalar);
   extern proc garrow_uint32_scalar_get_value(ref scalar : GArrowUInt32Scalar) : guint32;
   extern proc garrow_uint32_scalar_get_value(scalar : c_ptr(GArrowUInt32Scalar)) : guint32;
   extern proc garrow_uint64_scalar_get_type() : GType;
-  extern record _GArrowUInt64Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_UINT64_SCALAR(ptr : gpointer) : c_ptr(GArrowUInt64Scalar);
   extern proc GARROW_UINT64_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ScalarClass);
   extern proc GARROW_IS_UINT64_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UINT64_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UINT64_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUInt64ScalarClass);
-  extern record _GArrowUInt64ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_uint64_scalar_new(value : guint64) : c_ptr(GArrowUInt64Scalar);
   extern proc garrow_uint64_scalar_get_value(ref scalar : GArrowUInt64Scalar) : guint64;
   extern proc garrow_uint64_scalar_get_value(scalar : c_ptr(GArrowUInt64Scalar)) : guint64;
   extern proc garrow_float_scalar_get_type() : GType;
-  extern record _GArrowFloatScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_FLOAT_SCALAR(ptr : gpointer) : c_ptr(GArrowFloatScalar);
   extern proc GARROW_FLOAT_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowFloatScalarClass);
   extern proc GARROW_IS_FLOAT_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FLOAT_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FLOAT_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFloatScalarClass);
-  extern record _GArrowFloatScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_float_scalar_new(value : gfloat) : c_ptr(GArrowFloatScalar);
   extern proc garrow_float_scalar_get_value(ref scalar : GArrowFloatScalar) : gfloat;
   extern proc garrow_float_scalar_get_value(scalar : c_ptr(GArrowFloatScalar)) : gfloat;
   extern proc garrow_double_scalar_get_type() : GType;
-  extern record _GArrowDoubleScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_DOUBLE_SCALAR(ptr : gpointer) : c_ptr(GArrowDoubleScalar);
   extern proc GARROW_DOUBLE_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleScalarClass);
   extern proc GARROW_IS_DOUBLE_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DOUBLE_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DOUBLE_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDoubleScalarClass);
-  extern record _GArrowDoubleScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_double_scalar_new(value : gdouble) : c_ptr(GArrowDoubleScalar);
   extern proc garrow_double_scalar_get_value(ref scalar : GArrowDoubleScalar) : gdouble;
   extern proc garrow_double_scalar_get_value(scalar : c_ptr(GArrowDoubleScalar)) : gdouble;
   extern proc garrow_base_binary_scalar_get_type() : GType;
-  extern record _GArrowBaseBinaryScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_BASE_BINARY_SCALAR(ptr : gpointer) : c_ptr(GArrowBaseBinaryScalar);
   extern proc GARROW_BASE_BINARY_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowBaseBinaryScalarClass);
   extern proc GARROW_IS_BASE_BINARY_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BASE_BINARY_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BASE_BINARY_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBaseBinaryScalarClass);
-  extern record _GArrowBaseBinaryScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_base_binary_scalar_get_value(ref scalar : GArrowBaseBinaryScalar) : c_ptr(GArrowBuffer);
   extern proc garrow_base_binary_scalar_get_value(scalar : c_ptr(GArrowBaseBinaryScalar)) : c_ptr(GArrowBuffer);
   extern proc garrow_binary_scalar_get_type() : GType;
-  extern record _GArrowBinaryScalar {
-    var parent_instance : GArrowBaseBinaryScalar;
-  }
   extern proc GARROW_BINARY_SCALAR(ptr : gpointer) : c_ptr(GArrowBinaryScalar);
   extern proc GARROW_BINARY_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryScalarClass);
   extern proc GARROW_IS_BINARY_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BINARY_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BINARY_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBinaryScalarClass);
-  extern record _GArrowBinaryScalarClass {
-    var parent_class : GArrowBaseBinaryScalarClass;
-  }
   extern proc garrow_binary_scalar_new(ref value : GArrowBuffer) : c_ptr(GArrowBinaryScalar);
   extern proc garrow_binary_scalar_new(value : c_ptr(GArrowBuffer)) : c_ptr(GArrowBinaryScalar);
   extern proc garrow_string_scalar_get_type() : GType;
-  extern record _GArrowStringScalar {
-    var parent_instance : GArrowBaseBinaryScalar;
-  }
   extern proc GARROW_STRING_SCALAR(ptr : gpointer) : c_ptr(GArrowStringScalar);
   extern proc GARROW_STRING_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowStringScalarClass);
   extern proc GARROW_IS_STRING_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRING_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRING_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStringScalarClass);
-  extern record _GArrowStringScalarClass {
-    var parent_class : GArrowBaseBinaryScalarClass;
-  }
   extern proc garrow_string_scalar_new(ref value : GArrowBuffer) : c_ptr(GArrowStringScalar);
   extern proc garrow_string_scalar_new(value : c_ptr(GArrowBuffer)) : c_ptr(GArrowStringScalar);
   extern proc garrow_large_binary_scalar_get_type() : GType;
-  extern record _GArrowLargeBinaryScalar {
-    var parent_instance : GArrowBaseBinaryScalar;
-  }
   extern proc GARROW_LARGE_BINARY_SCALAR(ptr : gpointer) : c_ptr(GArrowLargeBinaryScalar);
   extern proc GARROW_LARGE_BINARY_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryScalarClass);
   extern proc GARROW_IS_LARGE_BINARY_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_BINARY_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_BINARY_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeBinaryScalarClass);
-  extern record _GArrowLargeBinaryScalarClass {
-    var parent_class : GArrowBaseBinaryScalarClass;
-  }
   extern proc garrow_large_binary_scalar_new(ref value : GArrowBuffer) : c_ptr(GArrowLargeBinaryScalar);
   extern proc garrow_large_binary_scalar_new(value : c_ptr(GArrowBuffer)) : c_ptr(GArrowLargeBinaryScalar);
   extern proc garrow_large_string_scalar_get_type() : GType;
-  extern record _GArrowLargeStringScalar {
-    var parent_instance : GArrowBaseBinaryScalar;
-  }
   extern proc GARROW_LARGE_STRING_SCALAR(ptr : gpointer) : c_ptr(GArrowLargeStringScalar);
   extern proc GARROW_LARGE_STRING_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringScalarClass);
   extern proc GARROW_IS_LARGE_STRING_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_STRING_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_STRING_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeStringScalarClass);
-  extern record _GArrowLargeStringScalarClass {
-    var parent_class : GArrowBaseBinaryScalarClass;
-  }
   extern proc garrow_large_string_scalar_new(ref value : GArrowBuffer) : c_ptr(GArrowLargeStringScalar);
   extern proc garrow_large_string_scalar_new(value : c_ptr(GArrowBuffer)) : c_ptr(GArrowLargeStringScalar);
   extern proc garrow_fixed_size_binary_scalar_get_type() : GType;
-  extern record _GArrowFixedSizeBinaryScalar {
-    var parent_instance : GArrowBaseBinaryScalar;
-  }
   extern proc GARROW_FIXED_SIZE_BINARY_SCALAR(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryScalar);
   extern proc GARROW_FIXED_SIZE_BINARY_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryScalarClass);
   extern proc GARROW_IS_FIXED_SIZE_BINARY_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FIXED_SIZE_BINARY_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FIXED_SIZE_BINARY_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFixedSizeBinaryScalarClass);
-  extern record _GArrowFixedSizeBinaryScalarClass {
-    var parent_class : GArrowBaseBinaryScalarClass;
-  }
   extern proc garrow_fixed_size_binary_scalar_new(ref data_type : GArrowFixedSizeBinaryDataType, ref value : GArrowBuffer) : c_ptr(GArrowFixedSizeBinaryScalar);
   extern proc garrow_fixed_size_binary_scalar_new(data_type : c_ptr(GArrowFixedSizeBinaryDataType), value : c_ptr(GArrowBuffer)) : c_ptr(GArrowFixedSizeBinaryScalar);
   extern proc garrow_date32_scalar_get_type() : GType;
-  extern record _GArrowDate32Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_DATE32_SCALAR(ptr : gpointer) : c_ptr(GArrowDate32Scalar);
   extern proc GARROW_DATE32_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ScalarClass);
   extern proc GARROW_IS_DATE32_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE32_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE32_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate32ScalarClass);
-  extern record _GArrowDate32ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_date32_scalar_new(value : gint32) : c_ptr(GArrowDate32Scalar);
   extern proc garrow_date32_scalar_get_value(ref scalar : GArrowDate32Scalar) : gint32;
   extern proc garrow_date32_scalar_get_value(scalar : c_ptr(GArrowDate32Scalar)) : gint32;
   extern proc garrow_date64_scalar_get_type() : GType;
-  extern record _GArrowDate64Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_DATE64_SCALAR(ptr : gpointer) : c_ptr(GArrowDate64Scalar);
   extern proc GARROW_DATE64_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ScalarClass);
   extern proc GARROW_IS_DATE64_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATE64_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATE64_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDate64ScalarClass);
-  extern record _GArrowDate64ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_date64_scalar_new(value : gint64) : c_ptr(GArrowDate64Scalar);
   extern proc garrow_date64_scalar_get_value(ref scalar : GArrowDate64Scalar) : gint64;
   extern proc garrow_date64_scalar_get_value(scalar : c_ptr(GArrowDate64Scalar)) : gint64;
   extern proc garrow_time32_scalar_get_type() : GType;
-  extern record _GArrowTime32Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_TIME32_SCALAR(ptr : gpointer) : c_ptr(GArrowTime32Scalar);
   extern proc GARROW_TIME32_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ScalarClass);
   extern proc GARROW_IS_TIME32_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME32_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME32_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime32ScalarClass);
-  extern record _GArrowTime32ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_time32_scalar_new(ref data_type : GArrowTime32DataType, value : gint32) : c_ptr(GArrowTime32Scalar);
   extern proc garrow_time32_scalar_new(data_type : c_ptr(GArrowTime32DataType), value : gint32) : c_ptr(GArrowTime32Scalar);
   extern proc garrow_time32_scalar_get_value(ref scalar : GArrowTime32Scalar) : gint32;
   extern proc garrow_time32_scalar_get_value(scalar : c_ptr(GArrowTime32Scalar)) : gint32;
   extern proc garrow_time64_scalar_get_type() : GType;
-  extern record _GArrowTime64Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_TIME64_SCALAR(ptr : gpointer) : c_ptr(GArrowTime64Scalar);
   extern proc GARROW_TIME64_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ScalarClass);
   extern proc GARROW_IS_TIME64_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIME64_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIME64_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTime64ScalarClass);
-  extern record _GArrowTime64ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_time64_scalar_new(ref data_type : GArrowTime64DataType, value : gint64) : c_ptr(GArrowTime64Scalar);
   extern proc garrow_time64_scalar_new(data_type : c_ptr(GArrowTime64DataType), value : gint64) : c_ptr(GArrowTime64Scalar);
   extern proc garrow_time64_scalar_get_value(ref scalar : GArrowTime64Scalar) : gint64;
   extern proc garrow_time64_scalar_get_value(scalar : c_ptr(GArrowTime64Scalar)) : gint64;
   extern proc garrow_timestamp_scalar_get_type() : GType;
-  extern record _GArrowTimestampScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_TIMESTAMP_SCALAR(ptr : gpointer) : c_ptr(GArrowTimestampScalar);
   extern proc GARROW_TIMESTAMP_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampScalarClass);
   extern proc GARROW_IS_TIMESTAMP_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TIMESTAMP_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TIMESTAMP_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTimestampScalarClass);
-  extern record _GArrowTimestampScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_timestamp_scalar_new(ref data_type : GArrowTimestampDataType, value : gint64) : c_ptr(GArrowTimestampScalar);
   extern proc garrow_timestamp_scalar_new(data_type : c_ptr(GArrowTimestampDataType), value : gint64) : c_ptr(GArrowTimestampScalar);
   extern proc garrow_timestamp_scalar_get_value(ref scalar : GArrowTimestampScalar) : gint64;
   extern proc garrow_timestamp_scalar_get_value(scalar : c_ptr(GArrowTimestampScalar)) : gint64;
   extern proc garrow_decimal128_scalar_get_type() : GType;
-  extern record _GArrowDecimal128Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_DECIMAL128_SCALAR(ptr : gpointer) : c_ptr(GArrowDecimal128Scalar);
   extern proc GARROW_DECIMAL128_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ScalarClass);
   extern proc GARROW_IS_DECIMAL128_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL128_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL128_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal128ScalarClass);
-  extern record _GArrowDecimal128ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_decimal128_scalar_new(ref data_type : GArrowDecimal128DataType, ref value : GArrowDecimal128) : c_ptr(GArrowDecimal128Scalar);
   extern proc garrow_decimal128_scalar_new(data_type : c_ptr(GArrowDecimal128DataType), value : c_ptr(GArrowDecimal128)) : c_ptr(GArrowDecimal128Scalar);
   extern proc garrow_decimal128_scalar_get_value(ref scalar : GArrowDecimal128Scalar) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal128_scalar_get_value(scalar : c_ptr(GArrowDecimal128Scalar)) : c_ptr(GArrowDecimal128);
   extern proc garrow_decimal256_scalar_get_type() : GType;
-  extern record _GArrowDecimal256Scalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_DECIMAL256_SCALAR(ptr : gpointer) : c_ptr(GArrowDecimal256Scalar);
   extern proc GARROW_DECIMAL256_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ScalarClass);
   extern proc GARROW_IS_DECIMAL256_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DECIMAL256_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DECIMAL256_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDecimal256ScalarClass);
-  extern record _GArrowDecimal256ScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_decimal256_scalar_new(ref data_type : GArrowDecimal256DataType, ref value : GArrowDecimal256) : c_ptr(GArrowDecimal256Scalar);
   extern proc garrow_decimal256_scalar_new(data_type : c_ptr(GArrowDecimal256DataType), value : c_ptr(GArrowDecimal256)) : c_ptr(GArrowDecimal256Scalar);
   extern proc garrow_decimal256_scalar_get_value(ref scalar : GArrowDecimal256Scalar) : c_ptr(GArrowDecimal256);
   extern proc garrow_decimal256_scalar_get_value(scalar : c_ptr(GArrowDecimal256Scalar)) : c_ptr(GArrowDecimal256);
   extern proc garrow_base_list_scalar_get_type() : GType;
-  extern record _GArrowBaseListScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_BASE_LIST_SCALAR(ptr : gpointer) : c_ptr(GArrowBaseListScalar);
   extern proc GARROW_BASE_LIST_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowBaseListScalarClass);
   extern proc GARROW_IS_BASE_LIST_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BASE_LIST_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BASE_LIST_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBaseListScalarClass);
-  extern record _GArrowBaseListScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_base_list_scalar_get_value(ref scalar : GArrowBaseListScalar) : c_ptr(GArrowArray);
   extern proc garrow_base_list_scalar_get_value(scalar : c_ptr(GArrowBaseListScalar)) : c_ptr(GArrowArray);
   extern proc garrow_list_scalar_get_type() : GType;
-  extern record _GArrowListScalar {
-    var parent_instance : GArrowBaseListScalar;
-  }
   extern proc GARROW_LIST_SCALAR(ptr : gpointer) : c_ptr(GArrowListScalar);
   extern proc GARROW_LIST_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowListScalarClass);
   extern proc GARROW_IS_LIST_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LIST_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LIST_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowListScalarClass);
-  extern record _GArrowListScalarClass {
-    var parent_class : GArrowBaseListScalarClass;
-  }
   extern proc garrow_list_scalar_new(ref value : GArrowListArray) : c_ptr(GArrowListScalar);
   extern proc garrow_list_scalar_new(value : c_ptr(GArrowListArray)) : c_ptr(GArrowListScalar);
   extern proc garrow_large_list_scalar_get_type() : GType;
-  extern record _GArrowLargeListScalar {
-    var parent_instance : GArrowBaseListScalar;
-  }
   extern proc GARROW_LARGE_LIST_SCALAR(ptr : gpointer) : c_ptr(GArrowLargeListScalar);
   extern proc GARROW_LARGE_LIST_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListScalarClass);
   extern proc GARROW_IS_LARGE_LIST_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LARGE_LIST_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LARGE_LIST_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLargeListScalarClass);
-  extern record _GArrowLargeListScalarClass {
-    var parent_class : GArrowBaseListScalarClass;
-  }
   extern proc garrow_large_list_scalar_new(ref value : GArrowLargeListArray) : c_ptr(GArrowLargeListScalar);
   extern proc garrow_large_list_scalar_new(value : c_ptr(GArrowLargeListArray)) : c_ptr(GArrowLargeListScalar);
   extern proc garrow_map_scalar_get_type() : GType;
-  extern record _GArrowMapScalar {
-    var parent_instance : GArrowBaseListScalar;
-  }
   extern proc GARROW_MAP_SCALAR(ptr : gpointer) : c_ptr(GArrowMapScalar);
   extern proc GARROW_MAP_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowMapScalarClass);
   extern proc GARROW_IS_MAP_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MAP_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MAP_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMapScalarClass);
-  extern record _GArrowMapScalarClass {
-    var parent_class : GArrowBaseListScalarClass;
-  }
   extern proc garrow_map_scalar_new(ref value : GArrowStructArray) : c_ptr(GArrowMapScalar);
   extern proc garrow_map_scalar_new(value : c_ptr(GArrowStructArray)) : c_ptr(GArrowMapScalar);
   extern proc garrow_struct_scalar_get_type() : GType;
-  extern record _GArrowStructScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_STRUCT_SCALAR(ptr : gpointer) : c_ptr(GArrowStructScalar);
   extern proc GARROW_STRUCT_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowStructScalarClass);
   extern proc GARROW_IS_STRUCT_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_STRUCT_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_STRUCT_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowStructScalarClass);
-  extern record _GArrowStructScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_struct_scalar_new(ref data_type : GArrowStructDataType, ref value : GList) : c_ptr(GArrowStructScalar);
   extern proc garrow_struct_scalar_new(data_type : c_ptr(GArrowStructDataType), value : c_ptr(GList)) : c_ptr(GArrowStructScalar);
   extern proc garrow_struct_scalar_get_value(ref scalar : GArrowStructScalar) : c_ptr(GList);
   extern proc garrow_struct_scalar_get_value(scalar : c_ptr(GArrowStructScalar)) : c_ptr(GList);
   extern proc garrow_union_scalar_get_type() : GType;
-  extern record _GArrowUnionScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_UNION_SCALAR(ptr : gpointer) : c_ptr(GArrowUnionScalar);
   extern proc GARROW_UNION_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowUnionScalarClass);
   extern proc GARROW_IS_UNION_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_UNION_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_UNION_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowUnionScalarClass);
-  extern record _GArrowUnionScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
   extern proc garrow_union_scalar_get_value(ref scalar : GArrowUnionScalar) : c_ptr(GArrowScalar);
   extern proc garrow_union_scalar_get_value(scalar : c_ptr(GArrowUnionScalar)) : c_ptr(GArrowScalar);
   extern proc garrow_sparse_union_scalar_get_type() : GType;
-  extern record _GArrowSparseUnionScalar {
-    var parent_instance : GArrowUnionScalar;
-  }
   extern proc GARROW_SPARSE_UNION_SCALAR(ptr : gpointer) : c_ptr(GArrowSparseUnionScalar);
   extern proc GARROW_SPARSE_UNION_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionScalarClass);
   extern proc GARROW_IS_SPARSE_UNION_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SPARSE_UNION_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SPARSE_UNION_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSparseUnionScalarClass);
-  extern record _GArrowSparseUnionScalarClass {
-    var parent_class : GArrowUnionScalarClass;
-  }
   extern proc garrow_sparse_union_scalar_new(ref data_type : GArrowSparseUnionDataType, ref value : GArrowScalar) : c_ptr(GArrowSparseUnionScalar);
   extern proc garrow_sparse_union_scalar_new(data_type : c_ptr(GArrowSparseUnionDataType), value : c_ptr(GArrowScalar)) : c_ptr(GArrowSparseUnionScalar);
   extern proc garrow_dense_union_scalar_get_type() : GType;
-  extern record _GArrowDenseUnionScalar {
-    var parent_instance : GArrowUnionScalar;
-  }
   extern proc GARROW_DENSE_UNION_SCALAR(ptr : gpointer) : c_ptr(GArrowDenseUnionScalar);
   extern proc GARROW_DENSE_UNION_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionScalarClass);
   extern proc GARROW_IS_DENSE_UNION_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DENSE_UNION_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DENSE_UNION_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDenseUnionScalarClass);
-  extern record _GArrowDenseUnionScalarClass {
-    var parent_class : GArrowUnionScalarClass;
-  }
   extern proc garrow_dense_union_scalar_new(ref data_type : GArrowDenseUnionDataType, ref value : GArrowScalar) : c_ptr(GArrowDenseUnionScalar);
   extern proc garrow_dense_union_scalar_new(data_type : c_ptr(GArrowDenseUnionDataType), value : c_ptr(GArrowScalar)) : c_ptr(GArrowDenseUnionScalar);
   extern proc garrow_extension_scalar_get_type() : GType;
-  extern record _GArrowExtensionScalar {
-    var parent_instance : GArrowScalar;
-  }
   extern proc GARROW_EXTENSION_SCALAR(ptr : gpointer) : c_ptr(GArrowExtensionScalar);
   extern proc GARROW_EXTENSION_SCALAR_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionScalarClass);
   extern proc GARROW_IS_EXTENSION_SCALAR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EXTENSION_SCALAR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EXTENSION_SCALAR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowExtensionScalarClass);
-  extern record _GArrowExtensionScalarClass {
-    var parent_class : GArrowScalarClass;
-  }
-  extern record _GInputVector {
-    var buffer : gpointer;
-    var size : gsize;
-  }
-  extern record _GInputMessage {
-    var address : c_ptr(c_ptr(GSocketAddress));
-    var vectors : c_ptr(GInputVector);
-    var num_vectors : guint;
-    var bytes_received : gsize;
-    var flags : gint;
-    var control_messages : c_ptr(c_ptr(c_ptr(GSocketControlMessage)));
-    var num_control_messages : c_ptr(guint);
-  }
-  extern record _GOutputVector {
-    var buffer : gconstpointer;
-    var size : gsize;
-  }
-  extern record _GOutputMessage {
-    var address : c_ptr(GSocketAddress);
-    var vectors : c_ptr(GOutputVector);
-    var num_vectors : guint;
-    var bytes_sent : guint;
-    var control_messages : c_ptr(c_ptr(GSocketControlMessage));
-    var num_control_messages : guint;
-  }
-  extern record _GActionInterface {
-    var g_iface : GTypeInterface;
-    var get_name : c_ptr(c_fn_ptr);
-    var get_parameter_type : c_ptr(c_fn_ptr);
-    var get_state_type : c_ptr(c_fn_ptr);
-    var get_state_hint : c_ptr(c_fn_ptr);
-    var get_enabled : c_ptr(c_fn_ptr);
-    var get_state : c_ptr(c_fn_ptr);
-    var change_state : c_ptr(c_fn_ptr);
-    var activate : c_ptr(c_fn_ptr);
-  }
-  extern record _GActionGroupInterface {
-    var g_iface : GTypeInterface;
-    var has_action : c_ptr(c_fn_ptr);
-    var list_actions : c_ptr(c_fn_ptr);
-    var get_action_enabled : c_ptr(c_fn_ptr);
-    var get_action_parameter_type : c_ptr(c_fn_ptr);
-    var get_action_state_type : c_ptr(c_fn_ptr);
-    var get_action_state_hint : c_ptr(c_fn_ptr);
-    var get_action_state : c_ptr(c_fn_ptr);
-    var change_action_state : c_ptr(c_fn_ptr);
-    var activate_action : c_ptr(c_fn_ptr);
-    var action_added : c_ptr(c_fn_ptr);
-    var action_removed : c_ptr(c_fn_ptr);
-    var action_enabled_changed : c_ptr(c_fn_ptr);
-    var action_state_changed : c_ptr(c_fn_ptr);
-    var query_action : c_ptr(c_fn_ptr);
-  }
-  extern record _GActionMapInterface {
-    var g_iface : GTypeInterface;
-    var lookup_action : c_ptr(c_fn_ptr);
-    var add_action : c_ptr(c_fn_ptr);
-    var remove_action : c_ptr(c_fn_ptr);
-  }
-  extern record _GActionEntry {
-    var name : c_ptr(gchar);
-    var activate : c_ptr(c_fn_ptr);
-    var parameter_type : c_ptr(gchar);
-    var state : c_ptr(gchar);
-    var change_state : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gsize);
-  }
-  extern record _GAppInfoIface {
-    var g_iface : GTypeInterface;
-    var dup : c_ptr(c_fn_ptr);
-    var equal : c_ptr(c_fn_ptr);
-    var get_id : c_ptr(c_fn_ptr);
-    var get_name : c_ptr(c_fn_ptr);
-    var get_description : c_ptr(c_fn_ptr);
-    var get_executable : c_ptr(c_fn_ptr);
-    var get_icon : c_ptr(c_fn_ptr);
-    var launch : c_ptr(c_fn_ptr);
-    var supports_uris : c_ptr(c_fn_ptr);
-    var supports_files : c_ptr(c_fn_ptr);
-    var launch_uris : c_ptr(c_fn_ptr);
-    var should_show : c_ptr(c_fn_ptr);
-    var set_as_default_for_type : c_ptr(c_fn_ptr);
-    var set_as_default_for_extension : c_ptr(c_fn_ptr);
-    var add_supports_type : c_ptr(c_fn_ptr);
-    var can_remove_supports_type : c_ptr(c_fn_ptr);
-    var remove_supports_type : c_ptr(c_fn_ptr);
-    var can_delete : c_ptr(c_fn_ptr);
-    var do_delete : c_ptr(c_fn_ptr);
-    var get_commandline : c_ptr(c_fn_ptr);
-    var get_display_name : c_ptr(c_fn_ptr);
-    var set_as_last_used_for_type : c_ptr(c_fn_ptr);
-    var get_supported_types : c_ptr(c_fn_ptr);
-    var launch_uris_async : c_ptr(c_fn_ptr);
-    var launch_uris_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GAppLaunchContext {
-    var parent_instance : GObject;
-    var priv : c_ptr(GAppLaunchContextPrivate);
-  }
-  extern record _GAppLaunchContextClass {
-    var parent_class : GObjectClass;
-    var get_display : c_ptr(c_fn_ptr);
-    var get_startup_notify_id : c_ptr(c_fn_ptr);
-    var launch_failed : c_ptr(c_fn_ptr);
-    var launched : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-  }
-  extern record _GApplication {
-    var parent_instance : GObject;
-    var priv : c_ptr(GApplicationPrivate);
-  }
-  extern record _GApplicationClass {
-    var parent_class : GObjectClass;
-    var startup : c_ptr(c_fn_ptr);
-    var activate : c_ptr(c_fn_ptr);
-    var open : c_ptr(c_fn_ptr);
-    var command_line : c_ptr(c_fn_ptr);
-    var local_command_line : c_ptr(c_fn_ptr);
-    var before_emit : c_ptr(c_fn_ptr);
-    var after_emit : c_ptr(c_fn_ptr);
-    var add_platform_data : c_ptr(c_fn_ptr);
-    var quit_mainloop : c_ptr(c_fn_ptr);
-    var run_mainloop : c_ptr(c_fn_ptr);
-    var shutdown : c_ptr(c_fn_ptr);
-    var dbus_register : c_ptr(c_fn_ptr);
-    var dbus_unregister : c_ptr(c_fn_ptr);
-    var handle_local_options : c_ptr(c_fn_ptr);
-    var name_lost : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GApplicationCommandLine {
-    var parent_instance : GObject;
-    var priv : c_ptr(GApplicationCommandLinePrivate);
-  }
-  extern record _GApplicationCommandLineClass {
-    var parent_class : GObjectClass;
-    var print_literal : c_ptr(c_fn_ptr);
-    var printerr_literal : c_ptr(c_fn_ptr);
-    var get_stdin : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
   // Overload for empty varargs
   // Overload for empty varargs
-  extern record _GInitableIface {
-    var g_iface : GTypeInterface;
-    var init : c_ptr(c_fn_ptr);
-  }
   // Overload for empty varargs
   // Unable to generate function 'g_initable_new_valist' due to va_list argument
-  extern record _GAsyncInitableIface {
-    var g_iface : GTypeInterface;
-    var init_async : c_ptr(c_fn_ptr);
-    var init_finish : c_ptr(c_fn_ptr);
-  }
   // Overload for empty varargs
   // Unable to generate function 'g_async_initable_new_valist_async' due to va_list argument
-  extern record _GAsyncResultIface {
-    var g_iface : GTypeInterface;
-    var get_user_data : c_ptr(c_fn_ptr);
-    var get_source_object : c_ptr(c_fn_ptr);
-    var is_tagged : c_ptr(c_fn_ptr);
-  }
-  extern record _GInputStream {
-    var parent_instance : GObject;
-    var priv : c_ptr(GInputStreamPrivate);
-  }
-  extern record _GInputStreamClass {
-    var parent_class : GObjectClass;
-    var read_fn : c_ptr(c_fn_ptr);
-    var skip : c_ptr(c_fn_ptr);
-    var close_fn : c_ptr(c_fn_ptr);
-    var read_async : c_ptr(c_fn_ptr);
-    var read_finish : c_ptr(c_fn_ptr);
-    var skip_async : c_ptr(c_fn_ptr);
-    var skip_finish : c_ptr(c_fn_ptr);
-    var close_async : c_ptr(c_fn_ptr);
-    var close_finish : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFilterInputStream {
-    var parent_instance : GInputStream;
-    var base_stream : c_ptr(GInputStream);
-  }
-  extern record _GFilterInputStreamClass {
-    var parent_class : GInputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-  }
-  extern record _GBufferedInputStream {
-    var parent_instance : GFilterInputStream;
-    var priv : c_ptr(GBufferedInputStreamPrivate);
-  }
-  extern record _GBufferedInputStreamClass {
-    var parent_class : GFilterInputStreamClass;
-    var fill : c_ptr(c_fn_ptr);
-    var fill_async : c_ptr(c_fn_ptr);
-    var fill_finish : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GOutputStream {
-    var parent_instance : GObject;
-    var priv : c_ptr(GOutputStreamPrivate);
-  }
-  extern record _GOutputStreamClass {
-    var parent_class : GObjectClass;
-    var write_fn : c_ptr(c_fn_ptr);
-    var splice : c_ptr(c_fn_ptr);
-    var flush : c_ptr(c_fn_ptr);
-    var close_fn : c_ptr(c_fn_ptr);
-    var write_async : c_ptr(c_fn_ptr);
-    var write_finish : c_ptr(c_fn_ptr);
-    var splice_async : c_ptr(c_fn_ptr);
-    var splice_finish : c_ptr(c_fn_ptr);
-    var flush_async : c_ptr(c_fn_ptr);
-    var flush_finish : c_ptr(c_fn_ptr);
-    var close_async : c_ptr(c_fn_ptr);
-    var close_finish : c_ptr(c_fn_ptr);
-    var writev_fn : c_ptr(c_fn_ptr);
-    var writev_async : c_ptr(c_fn_ptr);
-    var writev_finish : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-    var _g_reserved8 : c_ptr(c_fn_ptr);
-  }
   // Overload for empty varargs
   // Unable to generate function 'g_output_stream_vprintf' due to va_list argument
-  extern record _GFilterOutputStream {
-    var parent_instance : GOutputStream;
-    var base_stream : c_ptr(GOutputStream);
-  }
-  extern record _GFilterOutputStreamClass {
-    var parent_class : GOutputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-  }
-  extern record _GBufferedOutputStream {
-    var parent_instance : GFilterOutputStream;
-    var priv : c_ptr(GBufferedOutputStreamPrivate);
-  }
-  extern record _GBufferedOutputStreamClass {
-    var parent_class : GFilterOutputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-  }
-  extern record _GCancellable {
-    var parent_instance : GObject;
-    var priv : c_ptr(GCancellablePrivate);
-  }
-  extern record _GCancellableClass {
-    var parent_class : GObjectClass;
-    var cancelled : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GConverterIface {
-    var g_iface : GTypeInterface;
-    var convert : c_ptr(c_fn_ptr);
-    var reset : c_ptr(c_fn_ptr);
-  }
-  extern record _GCharsetConverterClass {
-    var parent_class : GObjectClass;
-  }
-  extern record _GConverterInputStream {
-    var parent_instance : GFilterInputStream;
-    var priv : c_ptr(GConverterInputStreamPrivate);
-  }
-  extern record _GConverterInputStreamClass {
-    var parent_class : GFilterInputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GConverterOutputStream {
-    var parent_instance : GFilterOutputStream;
-    var priv : c_ptr(GConverterOutputStreamPrivate);
-  }
-  extern record _GConverterOutputStreamClass {
-    var parent_class : GFilterOutputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GDatagramBasedInterface {
-    var g_iface : GTypeInterface;
-    var receive_messages : c_ptr(c_fn_ptr);
-    var send_messages : c_ptr(c_fn_ptr);
-    var create_source : c_ptr(c_fn_ptr);
-    var condition_check : c_ptr(c_fn_ptr);
-    var condition_wait : c_ptr(c_fn_ptr);
-  }
-  extern record _GDataInputStream {
-    var parent_instance : GBufferedInputStream;
-    var priv : c_ptr(GDataInputStreamPrivate);
-  }
-  extern record _GDataInputStreamClass {
-    var parent_class : GBufferedInputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GDataOutputStream {
-    var parent_instance : GFilterOutputStream;
-    var priv : c_ptr(GDataOutputStreamPrivate);
-  }
-  extern record _GDataOutputStreamClass {
-    var parent_class : GFilterOutputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GDBusInterfaceVTable {
-    var method_call : GDBusInterfaceMethodCallFunc;
-    var get_property : GDBusInterfaceGetPropertyFunc;
-    var set_property : GDBusInterfaceSetPropertyFunc;
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusSubtreeVTable {
-    var enumerate : GDBusSubtreeEnumerateFunc;
-    var introspect : GDBusSubtreeIntrospectFunc;
-    var dispatch : GDBusSubtreeDispatchFunc;
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusErrorEntry {
-    var error_code : gint;
-    var dbus_error_name : c_ptr(gchar);
-  }
   // Overload for empty varargs
   // Unable to generate function 'g_dbus_error_set_dbus_error_valist' due to va_list argument
-  extern record _GDBusInterfaceIface {
-    var parent_iface : GTypeInterface;
-    var get_info : c_ptr(c_fn_ptr);
-    var get_object : c_ptr(c_fn_ptr);
-    var set_object : c_ptr(c_fn_ptr);
-    var dup_object : c_ptr(c_fn_ptr);
-  }
-  extern record _GDBusInterfaceSkeleton {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusInterfaceSkeletonPrivate);
-  }
-  extern record _GDBusInterfaceSkeletonClass {
-    var parent_class : GObjectClass;
-    var get_info : c_ptr(c_fn_ptr);
-    var get_vtable : c_ptr(c_fn_ptr);
-    var get_properties : c_ptr(c_fn_ptr);
-    var flush : c_ptr(c_fn_ptr);
-    var vfunc_padding : c_ptr(gpointer);
-    var g_authorize_method : c_ptr(c_fn_ptr);
-    var signal_padding : c_ptr(gpointer);
-  }
-  extern record _GDBusAnnotationInfo {
-    var ref_count : gint;
-    var key : c_ptr(gchar);
-    var value : c_ptr(gchar);
-    var annotations : c_ptr(c_ptr(_GDBusAnnotationInfo));
-  }
-  extern record _GDBusArgInfo {
-    var ref_count : gint;
-    var name : c_ptr(gchar);
-    var signature : c_ptr(gchar);
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
-  extern record _GDBusMethodInfo {
-    var ref_count : gint;
-    var name : c_ptr(gchar);
-    var in_args : c_ptr(c_ptr(GDBusArgInfo));
-    var out_args : c_ptr(c_ptr(GDBusArgInfo));
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
-  extern record _GDBusSignalInfo {
-    var ref_count : gint;
-    var name : c_ptr(gchar);
-    var args : c_ptr(c_ptr(GDBusArgInfo));
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
-  extern record _GDBusPropertyInfo {
-    var ref_count : gint;
-    var name : c_ptr(gchar);
-    var signature : c_ptr(gchar);
-    var flags : GDBusPropertyInfoFlags;
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
-  extern record _GDBusInterfaceInfo {
-    var ref_count : gint;
-    var name : c_ptr(gchar);
-    var methods : c_ptr(c_ptr(GDBusMethodInfo));
-    var signals : c_ptr(c_ptr(GDBusSignalInfo));
-    var properties : c_ptr(c_ptr(GDBusPropertyInfo));
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
-  extern record _GDBusNodeInfo {
-    var ref_count : gint;
-    var path : c_ptr(gchar);
-    var interfaces : c_ptr(c_ptr(GDBusInterfaceInfo));
-    var nodes : c_ptr(c_ptr(_GDBusNodeInfo));
-    var annotations : c_ptr(c_ptr(GDBusAnnotationInfo));
-  }
   // Overload for empty varargs
   // Unable to generate function 'g_dbus_message_new_method_error_valist' due to va_list argument
   // Overload for empty varargs
   // Unable to generate function 'g_dbus_method_invocation_return_error_valist' due to va_list argument
-  extern record _GDBusObjectIface {
-    var parent_iface : GTypeInterface;
-    var get_object_path : c_ptr(c_fn_ptr);
-    var get_interfaces : c_ptr(c_fn_ptr);
-    var get_interface : c_ptr(c_fn_ptr);
-    var interface_added : c_ptr(c_fn_ptr);
-    var interface_removed : c_ptr(c_fn_ptr);
-  }
-  extern record _GDBusObjectManagerIface {
-    var parent_iface : GTypeInterface;
-    var get_object_path : c_ptr(c_fn_ptr);
-    var get_objects : c_ptr(c_fn_ptr);
-    var get_object : c_ptr(c_fn_ptr);
-    var get_interface : c_ptr(c_fn_ptr);
-    var object_added : c_ptr(c_fn_ptr);
-    var object_removed : c_ptr(c_fn_ptr);
-    var interface_added : c_ptr(c_fn_ptr);
-    var interface_removed : c_ptr(c_fn_ptr);
-  }
-  extern record _GDBusObjectManagerClient {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusObjectManagerClientPrivate);
-  }
-  extern record _GDBusObjectManagerClientClass {
-    var parent_class : GObjectClass;
-    var interface_proxy_signal : c_ptr(c_fn_ptr);
-    var interface_proxy_properties_changed : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusObjectManagerServer {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusObjectManagerServerPrivate);
-  }
-  extern record _GDBusObjectManagerServerClass {
-    var parent_class : GObjectClass;
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusObjectProxy {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusObjectProxyPrivate);
-  }
-  extern record _GDBusObjectProxyClass {
-    var parent_class : GObjectClass;
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusObjectSkeleton {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusObjectSkeletonPrivate);
-  }
-  extern record _GDBusObjectSkeletonClass {
-    var parent_class : GObjectClass;
-    var authorize_method : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDBusProxy {
-    var parent_instance : GObject;
-    var priv : c_ptr(GDBusProxyPrivate);
-  }
-  extern record _GDBusProxyClass {
-    var parent_class : GObjectClass;
-    var g_properties_changed : c_ptr(c_fn_ptr);
-    var g_signal : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GDriveIface {
-    var g_iface : GTypeInterface;
-    var changed : c_ptr(c_fn_ptr);
-    var disconnected : c_ptr(c_fn_ptr);
-    var eject_button : c_ptr(c_fn_ptr);
-    var get_name : c_ptr(c_fn_ptr);
-    var get_icon : c_ptr(c_fn_ptr);
-    var has_volumes : c_ptr(c_fn_ptr);
-    var get_volumes : c_ptr(c_fn_ptr);
-    var is_media_removable : c_ptr(c_fn_ptr);
-    var has_media : c_ptr(c_fn_ptr);
-    var is_media_check_automatic : c_ptr(c_fn_ptr);
-    var can_eject : c_ptr(c_fn_ptr);
-    var can_poll_for_media : c_ptr(c_fn_ptr);
-    var eject : c_ptr(c_fn_ptr);
-    var eject_finish : c_ptr(c_fn_ptr);
-    var poll_for_media : c_ptr(c_fn_ptr);
-    var poll_for_media_finish : c_ptr(c_fn_ptr);
-    var get_identifier : c_ptr(c_fn_ptr);
-    var enumerate_identifiers : c_ptr(c_fn_ptr);
-    var get_start_stop_type : c_ptr(c_fn_ptr);
-    var can_start : c_ptr(c_fn_ptr);
-    var can_start_degraded : c_ptr(c_fn_ptr);
-    var start : c_ptr(c_fn_ptr);
-    var start_finish : c_ptr(c_fn_ptr);
-    var can_stop : c_ptr(c_fn_ptr);
-    var stop : c_ptr(c_fn_ptr);
-    var stop_finish : c_ptr(c_fn_ptr);
-    var stop_button : c_ptr(c_fn_ptr);
-    var eject_with_operation : c_ptr(c_fn_ptr);
-    var eject_with_operation_finish : c_ptr(c_fn_ptr);
-    var get_sort_key : c_ptr(c_fn_ptr);
-    var get_symbolic_icon : c_ptr(c_fn_ptr);
-    var is_removable : c_ptr(c_fn_ptr);
-  }
-  extern record _GDtlsConnectionInterface {
-    var g_iface : GTypeInterface;
-    var accept_certificate : c_ptr(c_fn_ptr);
-    var handshake : c_ptr(c_fn_ptr);
-    var handshake_async : c_ptr(c_fn_ptr);
-    var handshake_finish : c_ptr(c_fn_ptr);
-    var shutdown : c_ptr(c_fn_ptr);
-    var shutdown_async : c_ptr(c_fn_ptr);
-    var shutdown_finish : c_ptr(c_fn_ptr);
-    var set_advertised_protocols : c_ptr(c_fn_ptr);
-    var get_negotiated_protocol : c_ptr(c_fn_ptr);
-  }
-  extern record _GDtlsClientConnectionInterface {
-    var g_iface : GTypeInterface;
-  }
-  extern record _GDtlsServerConnectionInterface {
-    var g_iface : GTypeInterface;
-  }
-  extern record _GIconIface {
-    var g_iface : GTypeInterface;
-    var hash : c_ptr(c_fn_ptr);
-    var equal : c_ptr(c_fn_ptr);
-    var to_tokens : c_ptr(c_fn_ptr);
-    var from_tokens : c_ptr(c_fn_ptr);
-    var serialize : c_ptr(c_fn_ptr);
-  }
-  extern record _GEmblemedIcon {
-    var parent_instance : GObject;
-    var priv : c_ptr(GEmblemedIconPrivate);
-  }
-  extern record _GEmblemedIconClass {
-    var parent_class : GObjectClass;
-  }
-  extern record _GFileIface {
-    var g_iface : GTypeInterface;
-    var dup : c_ptr(c_fn_ptr);
-    var hash : c_ptr(c_fn_ptr);
-    var equal : c_ptr(c_fn_ptr);
-    var is_native : c_ptr(c_fn_ptr);
-    var has_uri_scheme : c_ptr(c_fn_ptr);
-    var get_uri_scheme : c_ptr(c_fn_ptr);
-    var get_basename : c_ptr(c_fn_ptr);
-    var get_path : c_ptr(c_fn_ptr);
-    var get_uri : c_ptr(c_fn_ptr);
-    var get_parse_name : c_ptr(c_fn_ptr);
-    var get_parent : c_ptr(c_fn_ptr);
-    var prefix_matches : c_ptr(c_fn_ptr);
-    var get_relative_path : c_ptr(c_fn_ptr);
-    var resolve_relative_path : c_ptr(c_fn_ptr);
-    var get_child_for_display_name : c_ptr(c_fn_ptr);
-    var enumerate_children : c_ptr(c_fn_ptr);
-    var enumerate_children_async : c_ptr(c_fn_ptr);
-    var enumerate_children_finish : c_ptr(c_fn_ptr);
-    var query_info : c_ptr(c_fn_ptr);
-    var query_info_async : c_ptr(c_fn_ptr);
-    var query_info_finish : c_ptr(c_fn_ptr);
-    var query_filesystem_info : c_ptr(c_fn_ptr);
-    var query_filesystem_info_async : c_ptr(c_fn_ptr);
-    var query_filesystem_info_finish : c_ptr(c_fn_ptr);
-    var find_enclosing_mount : c_ptr(c_fn_ptr);
-    var find_enclosing_mount_async : c_ptr(c_fn_ptr);
-    var find_enclosing_mount_finish : c_ptr(c_fn_ptr);
-    var set_display_name : c_ptr(c_fn_ptr);
-    var set_display_name_async : c_ptr(c_fn_ptr);
-    var set_display_name_finish : c_ptr(c_fn_ptr);
-    var query_settable_attributes : c_ptr(c_fn_ptr);
-    var _query_settable_attributes_async : c_ptr(c_fn_ptr);
-    var _query_settable_attributes_finish : c_ptr(c_fn_ptr);
-    var query_writable_namespaces : c_ptr(c_fn_ptr);
-    var _query_writable_namespaces_async : c_ptr(c_fn_ptr);
-    var _query_writable_namespaces_finish : c_ptr(c_fn_ptr);
-    var set_attribute : c_ptr(c_fn_ptr);
-    var set_attributes_from_info : c_ptr(c_fn_ptr);
-    var set_attributes_async : c_ptr(c_fn_ptr);
-    var set_attributes_finish : c_ptr(c_fn_ptr);
-    var read_fn : c_ptr(c_fn_ptr);
-    var read_async : c_ptr(c_fn_ptr);
-    var read_finish : c_ptr(c_fn_ptr);
-    var append_to : c_ptr(c_fn_ptr);
-    var append_to_async : c_ptr(c_fn_ptr);
-    var append_to_finish : c_ptr(c_fn_ptr);
-    var create : c_ptr(c_fn_ptr);
-    var create_async : c_ptr(c_fn_ptr);
-    var create_finish : c_ptr(c_fn_ptr);
-    var replace : c_ptr(c_fn_ptr);
-    var replace_async : c_ptr(c_fn_ptr);
-    var replace_finish : c_ptr(c_fn_ptr);
-    var delete_file : c_ptr(c_fn_ptr);
-    var delete_file_async : c_ptr(c_fn_ptr);
-    var delete_file_finish : c_ptr(c_fn_ptr);
-    var trash : c_ptr(c_fn_ptr);
-    var trash_async : c_ptr(c_fn_ptr);
-    var trash_finish : c_ptr(c_fn_ptr);
-    var make_directory : c_ptr(c_fn_ptr);
-    var make_directory_async : c_ptr(c_fn_ptr);
-    var make_directory_finish : c_ptr(c_fn_ptr);
-    var make_symbolic_link : c_ptr(c_fn_ptr);
-    var _make_symbolic_link_async : c_ptr(c_fn_ptr);
-    var _make_symbolic_link_finish : c_ptr(c_fn_ptr);
-    var copy : c_ptr(c_fn_ptr);
-    var copy_async : c_ptr(c_fn_ptr);
-    var copy_finish : c_ptr(c_fn_ptr);
-    var move : c_ptr(c_fn_ptr);
-    var _move_async : c_ptr(c_fn_ptr);
-    var _move_finish : c_ptr(c_fn_ptr);
-    var mount_mountable : c_ptr(c_fn_ptr);
-    var mount_mountable_finish : c_ptr(c_fn_ptr);
-    var unmount_mountable : c_ptr(c_fn_ptr);
-    var unmount_mountable_finish : c_ptr(c_fn_ptr);
-    var eject_mountable : c_ptr(c_fn_ptr);
-    var eject_mountable_finish : c_ptr(c_fn_ptr);
-    var mount_enclosing_volume : c_ptr(c_fn_ptr);
-    var mount_enclosing_volume_finish : c_ptr(c_fn_ptr);
-    var monitor_dir : c_ptr(c_fn_ptr);
-    var monitor_file : c_ptr(c_fn_ptr);
-    var open_readwrite : c_ptr(c_fn_ptr);
-    var open_readwrite_async : c_ptr(c_fn_ptr);
-    var open_readwrite_finish : c_ptr(c_fn_ptr);
-    var create_readwrite : c_ptr(c_fn_ptr);
-    var create_readwrite_async : c_ptr(c_fn_ptr);
-    var create_readwrite_finish : c_ptr(c_fn_ptr);
-    var replace_readwrite : c_ptr(c_fn_ptr);
-    var replace_readwrite_async : c_ptr(c_fn_ptr);
-    var replace_readwrite_finish : c_ptr(c_fn_ptr);
-    var start_mountable : c_ptr(c_fn_ptr);
-    var start_mountable_finish : c_ptr(c_fn_ptr);
-    var stop_mountable : c_ptr(c_fn_ptr);
-    var stop_mountable_finish : c_ptr(c_fn_ptr);
-    var supports_thread_contexts : gboolean;
-    var unmount_mountable_with_operation : c_ptr(c_fn_ptr);
-    var unmount_mountable_with_operation_finish : c_ptr(c_fn_ptr);
-    var eject_mountable_with_operation : c_ptr(c_fn_ptr);
-    var eject_mountable_with_operation_finish : c_ptr(c_fn_ptr);
-    var poll_mountable : c_ptr(c_fn_ptr);
-    var poll_mountable_finish : c_ptr(c_fn_ptr);
-    var measure_disk_usage : c_ptr(c_fn_ptr);
-    var measure_disk_usage_async : c_ptr(c_fn_ptr);
-    var measure_disk_usage_finish : c_ptr(c_fn_ptr);
-  }
   // Overload for empty varargs
   // Fields omitted because one or more of the identifiers is a Chapel keyword
-  extern record _GFileAttributeInfo {}
-  extern record _GFileAttributeInfoList {
-    var infos : c_ptr(GFileAttributeInfo);
-    var n_infos : c_int;
-  }
-  extern record _GFileEnumerator {
-    var parent_instance : GObject;
-    var priv : c_ptr(GFileEnumeratorPrivate);
-  }
-  extern record _GFileEnumeratorClass {
-    var parent_class : GObjectClass;
-    var next_file : c_ptr(c_fn_ptr);
-    var close_fn : c_ptr(c_fn_ptr);
-    var next_files_async : c_ptr(c_fn_ptr);
-    var next_files_finish : c_ptr(c_fn_ptr);
-    var close_async : c_ptr(c_fn_ptr);
-    var close_finish : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFileInputStream {
-    var parent_instance : GInputStream;
-    var priv : c_ptr(GFileInputStreamPrivate);
-  }
-  extern record _GFileInputStreamClass {
-    var parent_class : GInputStreamClass;
-    var tell : c_ptr(c_fn_ptr);
-    var can_seek : c_ptr(c_fn_ptr);
-    var seek : c_ptr(c_fn_ptr);
-    var query_info : c_ptr(c_fn_ptr);
-    var query_info_async : c_ptr(c_fn_ptr);
-    var query_info_finish : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GIOStream {
-    var parent_instance : GObject;
-    var priv : c_ptr(GIOStreamPrivate);
-  }
-  extern record _GIOStreamClass {
-    var parent_class : GObjectClass;
-    var get_input_stream : c_ptr(c_fn_ptr);
-    var get_output_stream : c_ptr(c_fn_ptr);
-    var close_fn : c_ptr(c_fn_ptr);
-    var close_async : c_ptr(c_fn_ptr);
-    var close_finish : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-    var _g_reserved8 : c_ptr(c_fn_ptr);
-    var _g_reserved9 : c_ptr(c_fn_ptr);
-    var _g_reserved10 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFileIOStream {
-    var parent_instance : GIOStream;
-    var priv : c_ptr(GFileIOStreamPrivate);
-  }
-  extern record _GFileIOStreamClass {
-    var parent_class : GIOStreamClass;
-    var tell : c_ptr(c_fn_ptr);
-    var can_seek : c_ptr(c_fn_ptr);
-    var seek : c_ptr(c_fn_ptr);
-    var can_truncate : c_ptr(c_fn_ptr);
-    var truncate_fn : c_ptr(c_fn_ptr);
-    var query_info : c_ptr(c_fn_ptr);
-    var query_info_async : c_ptr(c_fn_ptr);
-    var query_info_finish : c_ptr(c_fn_ptr);
-    var get_etag : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFileMonitor {
-    var parent_instance : GObject;
-    var priv : c_ptr(GFileMonitorPrivate);
-  }
-  extern record _GFileMonitorClass {
-    var parent_class : GObjectClass;
-    var changed : c_ptr(c_fn_ptr);
-    var cancel : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFilenameCompleterClass {
-    var parent_class : GObjectClass;
-    var got_completion_data : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-  }
-  extern record _GFileOutputStream {
-    var parent_instance : GOutputStream;
-    var priv : c_ptr(GFileOutputStreamPrivate);
-  }
-  extern record _GFileOutputStreamClass {
-    var parent_class : GOutputStreamClass;
-    var tell : c_ptr(c_fn_ptr);
-    var can_seek : c_ptr(c_fn_ptr);
-    var seek : c_ptr(c_fn_ptr);
-    var can_truncate : c_ptr(c_fn_ptr);
-    var truncate_fn : c_ptr(c_fn_ptr);
-    var query_info : c_ptr(c_fn_ptr);
-    var query_info_async : c_ptr(c_fn_ptr);
-    var query_info_finish : c_ptr(c_fn_ptr);
-    var get_etag : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GInetAddress {
-    var parent_instance : GObject;
-    var priv : c_ptr(GInetAddressPrivate);
-  }
-  extern record _GInetAddressClass {
-    var parent_class : GObjectClass;
-    var to_string : c_ptr(c_fn_ptr);
-    var to_bytes : c_ptr(c_fn_ptr);
-  }
-  extern record _GInetAddressMask {
-    var parent_instance : GObject;
-    var priv : c_ptr(GInetAddressMaskPrivate);
-  }
-  extern record _GInetAddressMaskClass {
-    var parent_class : GObjectClass;
-  }
-  extern record _GSocketAddress {
-    var parent_instance : GObject;
-  }
-  extern record _GSocketAddressClass {
-    var parent_class : GObjectClass;
-    var get_family : c_ptr(c_fn_ptr);
-    var get_native_size : c_ptr(c_fn_ptr);
-    var to_native : c_ptr(c_fn_ptr);
-  }
-  extern record _GInetSocketAddress {
-    var parent_instance : GSocketAddress;
-    var priv : c_ptr(GInetSocketAddressPrivate);
-  }
-  extern record _GInetSocketAddressClass {
-    var parent_class : GSocketAddressClass;
-  }
-  extern record _GListModelInterface {
-    var g_iface : GTypeInterface;
-    var get_item_type : c_ptr(c_fn_ptr);
-    var get_n_items : c_ptr(c_fn_ptr);
-    var get_item : c_ptr(c_fn_ptr);
-  }
-  extern record _GLoadableIconIface {
-    var g_iface : GTypeInterface;
-    var load : c_ptr(c_fn_ptr);
-    var load_async : c_ptr(c_fn_ptr);
-    var load_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GMemoryInputStream {
-    var parent_instance : GInputStream;
-    var priv : c_ptr(GMemoryInputStreamPrivate);
-  }
-  extern record _GMemoryInputStreamClass {
-    var parent_class : GInputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GMemoryMonitorInterface {
-    var g_iface : GTypeInterface;
-    var low_memory_warning : c_ptr(c_fn_ptr);
-  }
-  extern record _GMemoryOutputStream {
-    var parent_instance : GOutputStream;
-    var priv : c_ptr(GMemoryOutputStreamPrivate);
-  }
-  extern record _GMemoryOutputStreamClass {
-    var parent_class : GOutputStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GMenuModel {
-    var parent_instance : GObject;
-    var priv : c_ptr(GMenuModelPrivate);
-  }
-  extern record _GMenuModelClass {
-    var parent_class : GObjectClass;
-    var is_mutable : c_ptr(c_fn_ptr);
-    var get_n_items : c_ptr(c_fn_ptr);
-    var get_item_attributes : c_ptr(c_fn_ptr);
-    var iterate_item_attributes : c_ptr(c_fn_ptr);
-    var get_item_attribute_value : c_ptr(c_fn_ptr);
-    var get_item_links : c_ptr(c_fn_ptr);
-    var iterate_item_links : c_ptr(c_fn_ptr);
-    var get_item_link : c_ptr(c_fn_ptr);
-  }
-  // Overload for empty varargs
-  extern record _GMenuAttributeIter {
-    var parent_instance : GObject;
-    var priv : c_ptr(GMenuAttributeIterPrivate);
-  }
-  extern record _GMenuAttributeIterClass {
-    var parent_class : GObjectClass;
-    var get_next : c_ptr(c_fn_ptr);
-  }
-  extern record _GMenuLinkIter {
-    var parent_instance : GObject;
-    var priv : c_ptr(GMenuLinkIterPrivate);
-  }
-  extern record _GMenuLinkIterClass {
-    var parent_class : GObjectClass;
-    var get_next : c_ptr(c_fn_ptr);
-  }
   // Overload for empty varargs
   // Overload for empty varargs
   // Overload for empty varargs
-  extern record _GMountIface {
-    var g_iface : GTypeInterface;
-    var changed : c_ptr(c_fn_ptr);
-    var unmounted : c_ptr(c_fn_ptr);
-    var get_root : c_ptr(c_fn_ptr);
-    var get_name : c_ptr(c_fn_ptr);
-    var get_icon : c_ptr(c_fn_ptr);
-    var get_uuid : c_ptr(c_fn_ptr);
-    var get_volume : c_ptr(c_fn_ptr);
-    var get_drive : c_ptr(c_fn_ptr);
-    var can_unmount : c_ptr(c_fn_ptr);
-    var can_eject : c_ptr(c_fn_ptr);
-    var unmount : c_ptr(c_fn_ptr);
-    var unmount_finish : c_ptr(c_fn_ptr);
-    var eject : c_ptr(c_fn_ptr);
-    var eject_finish : c_ptr(c_fn_ptr);
-    var remount : c_ptr(c_fn_ptr);
-    var remount_finish : c_ptr(c_fn_ptr);
-    var guess_content_type : c_ptr(c_fn_ptr);
-    var guess_content_type_finish : c_ptr(c_fn_ptr);
-    var guess_content_type_sync : c_ptr(c_fn_ptr);
-    var pre_unmount : c_ptr(c_fn_ptr);
-    var unmount_with_operation : c_ptr(c_fn_ptr);
-    var unmount_with_operation_finish : c_ptr(c_fn_ptr);
-    var eject_with_operation : c_ptr(c_fn_ptr);
-    var eject_with_operation_finish : c_ptr(c_fn_ptr);
-    var get_default_location : c_ptr(c_fn_ptr);
-    var get_sort_key : c_ptr(c_fn_ptr);
-    var get_symbolic_icon : c_ptr(c_fn_ptr);
-  }
-  extern record _GMountOperation {
-    var parent_instance : GObject;
-    var priv : c_ptr(GMountOperationPrivate);
-  }
-  extern record _GMountOperationClass {
-    var parent_class : GObjectClass;
-    var ask_password : c_ptr(c_fn_ptr);
-    var ask_question : c_ptr(c_fn_ptr);
-    var reply : c_ptr(c_fn_ptr);
-    var aborted : c_ptr(c_fn_ptr);
-    var show_processes : c_ptr(c_fn_ptr);
-    var show_unmount_progress : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-    var _g_reserved8 : c_ptr(c_fn_ptr);
-    var _g_reserved9 : c_ptr(c_fn_ptr);
-  }
-  extern record _GNativeSocketAddress {
-    var parent_instance : GSocketAddress;
-    var priv : c_ptr(GNativeSocketAddressPrivate);
-  }
-  extern record _GNativeSocketAddressClass {
-    var parent_class : GSocketAddressClass;
-  }
-  extern record _GVolumeMonitor {
-    var parent_instance : GObject;
-    var priv : gpointer;
-  }
-  extern record _GVolumeMonitorClass {
-    var parent_class : GObjectClass;
-    var volume_added : c_ptr(c_fn_ptr);
-    var volume_removed : c_ptr(c_fn_ptr);
-    var volume_changed : c_ptr(c_fn_ptr);
-    var mount_added : c_ptr(c_fn_ptr);
-    var mount_removed : c_ptr(c_fn_ptr);
-    var mount_pre_unmount : c_ptr(c_fn_ptr);
-    var mount_changed : c_ptr(c_fn_ptr);
-    var drive_connected : c_ptr(c_fn_ptr);
-    var drive_disconnected : c_ptr(c_fn_ptr);
-    var drive_changed : c_ptr(c_fn_ptr);
-    var is_supported : c_ptr(c_fn_ptr);
-    var get_connected_drives : c_ptr(c_fn_ptr);
-    var get_volumes : c_ptr(c_fn_ptr);
-    var get_mounts : c_ptr(c_fn_ptr);
-    var get_volume_for_uuid : c_ptr(c_fn_ptr);
-    var get_mount_for_uuid : c_ptr(c_fn_ptr);
-    var adopt_orphan_mount : c_ptr(c_fn_ptr);
-    var drive_eject_button : c_ptr(c_fn_ptr);
-    var drive_stop_button : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-  }
-  extern record _GNativeVolumeMonitor {
-    var parent_instance : GVolumeMonitor;
-  }
-  extern record _GNativeVolumeMonitorClass {
-    var parent_class : GVolumeMonitorClass;
-    var get_mount_for_mount_path : c_ptr(c_fn_ptr);
-  }
-  extern record _GNetworkAddress {
-    var parent_instance : GObject;
-    var priv : c_ptr(GNetworkAddressPrivate);
-  }
-  extern record _GNetworkAddressClass {
-    var parent_class : GObjectClass;
-  }
-  extern record _GNetworkMonitorInterface {
-    var g_iface : GTypeInterface;
-    var network_changed : c_ptr(c_fn_ptr);
-    var can_reach : c_ptr(c_fn_ptr);
-    var can_reach_async : c_ptr(c_fn_ptr);
-    var can_reach_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GNetworkService {
-    var parent_instance : GObject;
-    var priv : c_ptr(GNetworkServicePrivate);
-  }
-  extern record _GNetworkServiceClass {
-    var parent_class : GObjectClass;
-  }
   // Overload for empty varargs
   // Overload for empty varargs
-  extern record _GPermission {
-    var parent_instance : GObject;
-    var priv : c_ptr(GPermissionPrivate);
-  }
-  extern record _GPermissionClass {
-    var parent_class : GObjectClass;
-    var acquire : c_ptr(c_fn_ptr);
-    var acquire_async : c_ptr(c_fn_ptr);
-    var acquire_finish : c_ptr(c_fn_ptr);
-    var release : c_ptr(c_fn_ptr);
-    var release_async : c_ptr(c_fn_ptr);
-    var release_finish : c_ptr(c_fn_ptr);
-    var reserved : c_ptr(gpointer);
-  }
-  extern record _GPollableInputStreamInterface {
-    var g_iface : GTypeInterface;
-    var can_poll : c_ptr(c_fn_ptr);
-    var is_readable : c_ptr(c_fn_ptr);
-    var create_source : c_ptr(c_fn_ptr);
-    var read_nonblocking : c_ptr(c_fn_ptr);
-  }
-  extern record _GPollableOutputStreamInterface {
-    var g_iface : GTypeInterface;
-    var can_poll : c_ptr(c_fn_ptr);
-    var is_writable : c_ptr(c_fn_ptr);
-    var create_source : c_ptr(c_fn_ptr);
-    var write_nonblocking : c_ptr(c_fn_ptr);
-    var writev_nonblocking : c_ptr(c_fn_ptr);
-  }
-  extern record _GProxyInterface {
-    var g_iface : GTypeInterface;
-    var connect : c_ptr(c_fn_ptr);
-    var connect_async : c_ptr(c_fn_ptr);
-    var connect_finish : c_ptr(c_fn_ptr);
-    var supports_hostname : c_ptr(c_fn_ptr);
-  }
-  extern record _GProxyAddress {
-    var parent_instance : GInetSocketAddress;
-    var priv : c_ptr(GProxyAddressPrivate);
-  }
-  extern record _GProxyAddressClass {
-    var parent_class : GInetSocketAddressClass;
-  }
-  extern record _GSocketAddressEnumerator {
-    var parent_instance : GObject;
-  }
-  extern record _GSocketAddressEnumeratorClass {
-    var parent_class : GObjectClass;
-    var next : c_ptr(c_fn_ptr);
-    var next_async : c_ptr(c_fn_ptr);
-    var next_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GProxyAddressEnumerator {
-    var parent_instance : GSocketAddressEnumerator;
-    var priv : c_ptr(GProxyAddressEnumeratorPrivate);
-  }
-  extern record _GProxyAddressEnumeratorClass {
-    var parent_class : GSocketAddressEnumeratorClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-  }
-  extern record _GProxyResolverInterface {
-    var g_iface : GTypeInterface;
-    var is_supported : c_ptr(c_fn_ptr);
-    var lookup : c_ptr(c_fn_ptr);
-    var lookup_async : c_ptr(c_fn_ptr);
-    var lookup_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GRemoteActionGroupInterface {
-    var g_iface : GTypeInterface;
-    var activate_action_full : c_ptr(c_fn_ptr);
-    var change_action_state_full : c_ptr(c_fn_ptr);
-  }
-  extern record _GResolver {
-    var parent_instance : GObject;
-    var priv : c_ptr(GResolverPrivate);
-  }
-  extern record _GResolverClass {
-    var parent_class : GObjectClass;
-    var reload : c_ptr(c_fn_ptr);
-    var lookup_by_name : c_ptr(c_fn_ptr);
-    var lookup_by_name_async : c_ptr(c_fn_ptr);
-    var lookup_by_name_finish : c_ptr(c_fn_ptr);
-    var lookup_by_address : c_ptr(c_fn_ptr);
-    var lookup_by_address_async : c_ptr(c_fn_ptr);
-    var lookup_by_address_finish : c_ptr(c_fn_ptr);
-    var lookup_service : c_ptr(c_fn_ptr);
-    var lookup_service_async : c_ptr(c_fn_ptr);
-    var lookup_service_finish : c_ptr(c_fn_ptr);
-    var lookup_records : c_ptr(c_fn_ptr);
-    var lookup_records_async : c_ptr(c_fn_ptr);
-    var lookup_records_finish : c_ptr(c_fn_ptr);
-    var lookup_by_name_with_flags_async : c_ptr(c_fn_ptr);
-    var lookup_by_name_with_flags_finish : c_ptr(c_fn_ptr);
-    var lookup_by_name_with_flags : c_ptr(c_fn_ptr);
-  }
-  extern record _GStaticResource {
-    var data : c_ptr(guint8);
-    var data_len : gsize;
-    var resource : c_ptr(GResource);
-    var next : c_ptr(_GStaticResource);
-    var padding : gpointer;
-  }
-  extern record _GSeekableIface {
-    var g_iface : GTypeInterface;
-    var tell : c_ptr(c_fn_ptr);
-    var can_seek : c_ptr(c_fn_ptr);
-    var seek : c_ptr(c_fn_ptr);
-    var can_truncate : c_ptr(c_fn_ptr);
-    var truncate_fn : c_ptr(c_fn_ptr);
-  }
-  extern record _GSettingsClass {
-    var parent_class : GObjectClass;
-    var writable_changed : c_ptr(c_fn_ptr);
-    var changed : c_ptr(c_fn_ptr);
-    var writable_change_event : c_ptr(c_fn_ptr);
-    var change_event : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GSettings {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSettingsPrivate);
-  }
   // Overload for empty varargs
   // Overload for empty varargs
-  extern record _GSimpleActionGroup {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSimpleActionGroupPrivate);
-  }
-  extern record _GSimpleActionGroupClass {
-    var parent_class : GObjectClass;
-    var padding : c_ptr(gpointer);
-  }
+  // Overload for empty varargs
   // Overload for empty varargs
   // Overload for empty varargs
   // Unable to generate function 'g_simple_async_result_set_error_va' due to va_list argument
   // Overload for empty varargs
-  extern record _GSimpleProxyResolver {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSimpleProxyResolverPrivate);
-  }
-  extern record _GSimpleProxyResolverClass {
-    var parent_class : GObjectClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketClass {
-    var parent_class : GObjectClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-    var _g_reserved7 : c_ptr(c_fn_ptr);
-    var _g_reserved8 : c_ptr(c_fn_ptr);
-    var _g_reserved9 : c_ptr(c_fn_ptr);
-    var _g_reserved10 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocket {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSocketPrivate);
-  }
-  extern record _GSocketClientClass {
-    var parent_class : GObjectClass;
-    var event : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketClient {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSocketClientPrivate);
-  }
-  extern record _GSocketConnectableIface {
-    var g_iface : GTypeInterface;
-    var enumerate : c_ptr(c_fn_ptr);
-    var proxy_enumerate : c_ptr(c_fn_ptr);
-    var to_string : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketConnectionClass {
-    var parent_class : GIOStreamClass;
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketConnection {
-    var parent_instance : GIOStream;
-    var priv : c_ptr(GSocketConnectionPrivate);
-  }
-  extern record _GSocketControlMessageClass {
-    var parent_class : GObjectClass;
-    var get_size : c_ptr(c_fn_ptr);
-    var get_level : c_ptr(c_fn_ptr);
-    var get_type : c_ptr(c_fn_ptr);
-    var serialize : c_ptr(c_fn_ptr);
-    var deserialize : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketControlMessage {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSocketControlMessagePrivate);
-  }
-  extern record _GSocketListenerClass {
-    var parent_class : GObjectClass;
-    var changed : c_ptr(c_fn_ptr);
-    var event : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketListener {
-    var parent_instance : GObject;
-    var priv : c_ptr(GSocketListenerPrivate);
-  }
-  extern record _GSocketServiceClass {
-    var parent_class : GSocketListenerClass;
-    var incoming : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-  }
-  extern record _GSocketService {
-    var parent_instance : GSocketListener;
-    var priv : c_ptr(GSocketServicePrivate);
-  }
   // Overload for empty varargs
   // Overload for empty varargs
   // Overload for empty varargs
   // Overload for empty varargs
-  extern record _GTcpConnectionClass {
-    var parent_class : GSocketConnectionClass;
-  }
-  extern record _GTcpConnection {
-    var parent_instance : GSocketConnection;
-    var priv : c_ptr(GTcpConnectionPrivate);
-  }
-  extern record _GTcpWrapperConnectionClass {
-    var parent_class : GTcpConnectionClass;
-  }
-  extern record _GTcpWrapperConnection {
-    var parent_instance : GTcpConnection;
-    var priv : c_ptr(GTcpWrapperConnectionPrivate);
-  }
-  extern record _GThreadedSocketServiceClass {
-    var parent_class : GSocketServiceClass;
-    var run : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-  }
-  extern record _GThreadedSocketService {
-    var parent_instance : GSocketService;
-    var priv : c_ptr(GThreadedSocketServicePrivate);
-  }
-  extern record _GTlsBackendInterface {
-    var g_iface : GTypeInterface;
-    var supports_tls : c_ptr(c_fn_ptr);
-    var get_certificate_type : c_ptr(c_fn_ptr);
-    var get_client_connection_type : c_ptr(c_fn_ptr);
-    var get_server_connection_type : c_ptr(c_fn_ptr);
-    var get_file_database_type : c_ptr(c_fn_ptr);
-    var get_default_database : c_ptr(c_fn_ptr);
-    var supports_dtls : c_ptr(c_fn_ptr);
-    var get_dtls_client_connection_type : c_ptr(c_fn_ptr);
-    var get_dtls_server_connection_type : c_ptr(c_fn_ptr);
-  }
-  extern record _GTlsCertificate {
-    var parent_instance : GObject;
-    var priv : c_ptr(GTlsCertificatePrivate);
-  }
-  extern record _GTlsCertificateClass {
-    var parent_class : GObjectClass;
-    var verify : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GTlsConnection {
-    var parent_instance : GIOStream;
-    var priv : c_ptr(GTlsConnectionPrivate);
-  }
-  extern record _GTlsConnectionClass {
-    var parent_class : GIOStreamClass;
-    var accept_certificate : c_ptr(c_fn_ptr);
-    var handshake : c_ptr(c_fn_ptr);
-    var handshake_async : c_ptr(c_fn_ptr);
-    var handshake_finish : c_ptr(c_fn_ptr);
-  }
-  extern record _GTlsClientConnectionInterface {
-    var g_iface : GTypeInterface;
-    var copy_session_state : c_ptr(c_fn_ptr);
-  }
-  extern record _GTlsDatabase {
-    var parent_instance : GObject;
-    var priv : c_ptr(GTlsDatabasePrivate);
-  }
-  extern record _GTlsDatabaseClass {
-    var parent_class : GObjectClass;
-    var verify_chain : c_ptr(c_fn_ptr);
-    var verify_chain_async : c_ptr(c_fn_ptr);
-    var verify_chain_finish : c_ptr(c_fn_ptr);
-    var create_certificate_handle : c_ptr(c_fn_ptr);
-    var lookup_certificate_for_handle : c_ptr(c_fn_ptr);
-    var lookup_certificate_for_handle_async : c_ptr(c_fn_ptr);
-    var lookup_certificate_for_handle_finish : c_ptr(c_fn_ptr);
-    var lookup_certificate_issuer : c_ptr(c_fn_ptr);
-    var lookup_certificate_issuer_async : c_ptr(c_fn_ptr);
-    var lookup_certificate_issuer_finish : c_ptr(c_fn_ptr);
-    var lookup_certificates_issued_by : c_ptr(c_fn_ptr);
-    var lookup_certificates_issued_by_async : c_ptr(c_fn_ptr);
-    var lookup_certificates_issued_by_finish : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GTlsFileDatabaseInterface {
-    var g_iface : GTypeInterface;
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GTlsInteraction {
-    var parent_instance : GObject;
-    var priv : c_ptr(GTlsInteractionPrivate);
-  }
-  extern record _GTlsInteractionClass {
-    var parent_class : GObjectClass;
-    var ask_password : c_ptr(c_fn_ptr);
-    var ask_password_async : c_ptr(c_fn_ptr);
-    var ask_password_finish : c_ptr(c_fn_ptr);
-    var request_certificate : c_ptr(c_fn_ptr);
-    var request_certificate_async : c_ptr(c_fn_ptr);
-    var request_certificate_finish : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GTlsPassword {
-    var parent_instance : GObject;
-    var priv : c_ptr(GTlsPasswordPrivate);
-  }
-  extern record _GTlsPasswordClass {
-    var parent_class : GObjectClass;
-    var get_value : c_ptr(c_fn_ptr);
-    var set_value : c_ptr(c_fn_ptr);
-    var get_default_warning : c_ptr(c_fn_ptr);
-    var padding : c_ptr(gpointer);
-  }
-  extern record _GTlsServerConnectionInterface {
-    var g_iface : GTypeInterface;
-  }
-  extern record _GVfs {
-    var parent_instance : GObject;
-  }
-  extern record _GVfsClass {
-    var parent_class : GObjectClass;
-    var is_active : c_ptr(c_fn_ptr);
-    var get_file_for_path : c_ptr(c_fn_ptr);
-    var get_file_for_uri : c_ptr(c_fn_ptr);
-    var get_supported_uri_schemes : c_ptr(c_fn_ptr);
-    var parse_name : c_ptr(c_fn_ptr);
-    var local_file_add_info : c_ptr(c_fn_ptr);
-    var add_writable_namespaces : c_ptr(c_fn_ptr);
-    var local_file_set_attributes : c_ptr(c_fn_ptr);
-    var local_file_removed : c_ptr(c_fn_ptr);
-    var local_file_moved : c_ptr(c_fn_ptr);
-    var deserialize_icon : c_ptr(c_fn_ptr);
-    var _g_reserved1 : c_ptr(c_fn_ptr);
-    var _g_reserved2 : c_ptr(c_fn_ptr);
-    var _g_reserved3 : c_ptr(c_fn_ptr);
-    var _g_reserved4 : c_ptr(c_fn_ptr);
-    var _g_reserved5 : c_ptr(c_fn_ptr);
-    var _g_reserved6 : c_ptr(c_fn_ptr);
-  }
-  extern record _GVolumeIface {
-    var g_iface : GTypeInterface;
-    var changed : c_ptr(c_fn_ptr);
-    var removed : c_ptr(c_fn_ptr);
-    var get_name : c_ptr(c_fn_ptr);
-    var get_icon : c_ptr(c_fn_ptr);
-    var get_uuid : c_ptr(c_fn_ptr);
-    var get_drive : c_ptr(c_fn_ptr);
-    var get_mount : c_ptr(c_fn_ptr);
-    var can_mount : c_ptr(c_fn_ptr);
-    var can_eject : c_ptr(c_fn_ptr);
-    var mount_fn : c_ptr(c_fn_ptr);
-    var mount_finish : c_ptr(c_fn_ptr);
-    var eject : c_ptr(c_fn_ptr);
-    var eject_finish : c_ptr(c_fn_ptr);
-    var get_identifier : c_ptr(c_fn_ptr);
-    var enumerate_identifiers : c_ptr(c_fn_ptr);
-    var should_automount : c_ptr(c_fn_ptr);
-    var get_activation_root : c_ptr(c_fn_ptr);
-    var eject_with_operation : c_ptr(c_fn_ptr);
-    var eject_with_operation_finish : c_ptr(c_fn_ptr);
-    var get_sort_key : c_ptr(c_fn_ptr);
-    var get_symbolic_icon : c_ptr(c_fn_ptr);
-  }
-  extern record _GZlibCompressorClass {
-    var parent_class : GObjectClass;
-  }
-  extern record _GZlibDecompressorClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_tensor_get_type() : GType;
-  extern record _GArrowTensor {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_TENSOR(ptr : gpointer) : c_ptr(GArrowTensor);
   extern proc GARROW_TENSOR_CLASS(ptr : gpointer) : c_ptr(GArrowTensorClass);
   extern proc GARROW_IS_TENSOR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TENSOR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TENSOR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTensorClass);
-  extern record _GArrowTensorClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_tensor_new(ref data_type : GArrowDataType, ref data : GArrowBuffer, ref shape : gint64, n_dimensions : gsize, ref strides : gint64, n_strides : gsize, ref dimension_names : c_ptr(gchar), n_dimension_names : gsize) : c_ptr(GArrowTensor);
   extern proc garrow_tensor_new(data_type : c_ptr(GArrowDataType), data : c_ptr(GArrowBuffer), shape : c_ptr(gint64), n_dimensions : gsize, strides : c_ptr(gint64), n_strides : gsize, dimension_names : c_ptr(c_ptr(gchar)), n_dimension_names : gsize) : c_ptr(GArrowTensor);
   extern proc garrow_tensor_equal(ref tensor : GArrowTensor, ref other_tensor : GArrowTensor) : gboolean;
@@ -5102,78 +5468,42 @@ module ArrowAll {
   extern proc garrow_tensor_is_column_major(ref tensor : GArrowTensor) : gboolean;
   extern proc garrow_tensor_is_column_major(tensor : c_ptr(GArrowTensor)) : gboolean;
   extern proc garrow_output_stream_get_type() : GType;
-  extern record _GArrowOutputStream {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_OUTPUT_STREAM(ptr : gpointer) : c_ptr(GArrowOutputStream);
   extern proc GARROW_OUTPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowOutputStreamClass);
   extern proc GARROW_IS_OUTPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_OUTPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_OUTPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowOutputStreamClass);
-  extern record _GArrowOutputStreamClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_output_stream_align(ref stream : GArrowOutputStream, alignment : gint32, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_output_stream_align(stream : c_ptr(GArrowOutputStream), alignment : gint32, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_output_stream_write_tensor(ref stream : GArrowOutputStream, ref tensor : GArrowTensor, ref error : c_ptr(GError)) : gint64;
   extern proc garrow_output_stream_write_tensor(stream : c_ptr(GArrowOutputStream), tensor : c_ptr(GArrowTensor), error : c_ptr(c_ptr(GError))) : gint64;
   extern proc garrow_output_stream_write_record_batch(ref stream : GArrowOutputStream, ref record_batch : GArrowRecordBatch, ref options : GArrowWriteOptions, ref error : c_ptr(GError)) : gint64;
   extern proc garrow_output_stream_write_record_batch(stream : c_ptr(GArrowOutputStream), record_batch : c_ptr(GArrowRecordBatch), options : c_ptr(GArrowWriteOptions), error : c_ptr(c_ptr(GError))) : gint64;
-  extern record _GArrowFileOutputStream {
-    var parent_instance : GArrowOutputStream;
-  }
-  extern record _GArrowFileOutputStreamClass {
-    var parent_class : GArrowOutputStreamClass;
-  }
   extern proc garrow_file_output_stream_get_type() : GType;
   extern proc garrow_file_output_stream_new(ref path : gchar, append : gboolean, ref error : c_ptr(GError)) : c_ptr(GArrowFileOutputStream);
   extern proc garrow_file_output_stream_new(path : c_ptr(gchar), append : gboolean, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowFileOutputStream);
-  extern record _GArrowBufferOutputStream {
-    var parent_instance : GArrowOutputStream;
-  }
-  extern record _GArrowBufferOutputStreamClass {
-    var parent_class : GArrowOutputStreamClass;
-  }
   extern proc garrow_buffer_output_stream_get_type() : GType;
   extern proc garrow_buffer_output_stream_new(ref buffer : GArrowResizableBuffer) : c_ptr(GArrowBufferOutputStream);
   extern proc garrow_buffer_output_stream_new(buffer : c_ptr(GArrowResizableBuffer)) : c_ptr(GArrowBufferOutputStream);
-  extern record _GArrowGIOOutputStream {
-    var parent_instance : GArrowOutputStream;
-  }
-  extern record _GArrowGIOOutputStreamClass {
-    var parent_class : GArrowOutputStreamClass;
-  }
   extern proc garrow_gio_output_stream_get_type() : GType;
   extern proc garrow_gio_output_stream_new(ref gio_output_stream : GOutputStream) : c_ptr(GArrowGIOOutputStream);
   extern proc garrow_gio_output_stream_new(gio_output_stream : c_ptr(GOutputStream)) : c_ptr(GArrowGIOOutputStream);
   extern proc garrow_gio_output_stream_get_raw(ref output_stream : GArrowGIOOutputStream) : c_ptr(GOutputStream);
   extern proc garrow_gio_output_stream_get_raw(output_stream : c_ptr(GArrowGIOOutputStream)) : c_ptr(GOutputStream);
   extern proc garrow_compressed_output_stream_get_type() : GType;
-  extern record _GArrowCompressedOutputStream {
-    var parent_instance : GArrowOutputStream;
-  }
   extern proc GARROW_COMPRESSED_OUTPUT_STREAM(ptr : gpointer) : c_ptr(GArrowCompressedOutputStream);
   extern proc GARROW_COMPRESSED_OUTPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowCompressedOutputStreamClass);
   extern proc GARROW_IS_COMPRESSED_OUTPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_COMPRESSED_OUTPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_COMPRESSED_OUTPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCompressedOutputStreamClass);
-  extern record _GArrowCompressedOutputStreamClass {
-    var parent_class : GArrowOutputStreamClass;
-  }
   extern proc garrow_compressed_output_stream_new(ref codec : GArrowCodec, ref raw : GArrowOutputStream, ref error : c_ptr(GError)) : c_ptr(GArrowCompressedOutputStream);
   extern proc garrow_compressed_output_stream_new(codec : c_ptr(GArrowCodec), raw : c_ptr(GArrowOutputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowCompressedOutputStream);
   extern proc garrow_table_get_type() : GType;
-  extern record _GArrowTable {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_TABLE(ptr : gpointer) : c_ptr(GArrowTable);
   extern proc GARROW_TABLE_CLASS(ptr : gpointer) : c_ptr(GArrowTableClass);
   extern proc GARROW_IS_TABLE(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TABLE_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TABLE_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTableClass);
-  extern record _GArrowTableClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_table_new_values(ref schema : GArrowSchema, ref values : GList, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
   extern proc garrow_table_new_values(schema : c_ptr(GArrowSchema), values : c_ptr(GList), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTable);
   extern proc garrow_table_new_chunked_arrays(ref schema : GArrowSchema, ref chunked_arrays : c_ptr(GArrowChunkedArray), n_chunked_arrays : gsize, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
@@ -5209,32 +5539,20 @@ module ArrowAll {
   extern proc garrow_table_combine_chunks(ref table : GArrowTable, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
   extern proc garrow_table_combine_chunks(table : c_ptr(GArrowTable), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTable);
   extern proc garrow_feather_write_properties_get_type() : GType;
-  extern record _GArrowFeatherWriteProperties {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FEATHER_WRITE_PROPERTIES(ptr : gpointer) : c_ptr(GArrowFeatherWriteProperties);
   extern proc GARROW_FEATHER_WRITE_PROPERTIES_CLASS(ptr : gpointer) : c_ptr(GArrowFeatherWritePropertiesClass);
   extern proc GARROW_IS_FEATHER_WRITE_PROPERTIES(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FEATHER_WRITE_PROPERTIES_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FEATHER_WRITE_PROPERTIES_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFeatherWritePropertiesClass);
-  extern record _GArrowFeatherWritePropertiesClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_feather_write_properties_new() : c_ptr(GArrowFeatherWriteProperties);
   extern proc garrow_table_write_as_feather(ref table : GArrowTable, ref sink : GArrowOutputStream, ref properties : GArrowFeatherWriteProperties, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_table_write_as_feather(table : c_ptr(GArrowTable), sink : c_ptr(GArrowOutputStream), properties : c_ptr(GArrowFeatherWriteProperties), error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_datum_get_type() : GType;
-  extern record _GArrowDatum {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_DATUM(ptr : gpointer) : c_ptr(GArrowDatum);
   extern proc GARROW_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowDatumClass);
   extern proc GARROW_IS_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowDatumClass);
-  extern record _GArrowDatumClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_datum_is_array(ref datum : GArrowDatum) : gboolean;
   extern proc garrow_datum_is_array(datum : c_ptr(GArrowDatum)) : gboolean;
   extern proc garrow_datum_is_array_like(ref datum : GArrowDatum) : gboolean;
@@ -5248,203 +5566,119 @@ module ArrowAll {
   extern proc garrow_datum_to_string(ref datum : GArrowDatum) : c_ptr(gchar);
   extern proc garrow_datum_to_string(datum : c_ptr(GArrowDatum)) : c_ptr(gchar);
   extern proc garrow_scalar_datum_get_type() : GType;
-  extern record _GArrowScalarDatum {
-    var parent_instance : GArrowDatum;
-  }
   extern proc GARROW_SCALAR_DATUM(ptr : gpointer) : c_ptr(GArrowScalarDatum);
   extern proc GARROW_SCALAR_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowScalarDatumClass);
   extern proc GARROW_IS_SCALAR_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SCALAR_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SCALAR_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowScalarDatumClass);
-  extern record _GArrowScalarDatumClass {
-    var parent_class : GArrowDatumClass;
-  }
   extern proc garrow_scalar_datum_new(ref value : GArrowScalar) : c_ptr(GArrowScalarDatum);
   extern proc garrow_scalar_datum_new(value : c_ptr(GArrowScalar)) : c_ptr(GArrowScalarDatum);
   extern proc garrow_array_datum_get_type() : GType;
-  extern record _GArrowArrayDatum {
-    var parent_instance : GArrowDatum;
-  }
   extern proc GARROW_ARRAY_DATUM(ptr : gpointer) : c_ptr(GArrowArrayDatum);
   extern proc GARROW_ARRAY_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowArrayDatumClass);
   extern proc GARROW_IS_ARRAY_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_ARRAY_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_ARRAY_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowArrayDatumClass);
-  extern record _GArrowArrayDatumClass {
-    var parent_class : GArrowDatumClass;
-  }
   extern proc garrow_array_datum_new(ref value : GArrowArray) : c_ptr(GArrowArrayDatum);
   extern proc garrow_array_datum_new(value : c_ptr(GArrowArray)) : c_ptr(GArrowArrayDatum);
   extern proc garrow_chunked_array_datum_get_type() : GType;
-  extern record _GArrowChunkedArrayDatum {
-    var parent_instance : GArrowDatum;
-  }
   extern proc GARROW_CHUNKED_ARRAY_DATUM(ptr : gpointer) : c_ptr(GArrowChunkedArrayDatum);
   extern proc GARROW_CHUNKED_ARRAY_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowChunkedArrayDatumClass);
   extern proc GARROW_IS_CHUNKED_ARRAY_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CHUNKED_ARRAY_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CHUNKED_ARRAY_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowChunkedArrayDatumClass);
-  extern record _GArrowChunkedArrayDatumClass {
-    var parent_class : GArrowDatumClass;
-  }
   extern proc garrow_chunked_array_datum_new(ref value : GArrowChunkedArray) : c_ptr(GArrowChunkedArrayDatum);
   extern proc garrow_chunked_array_datum_new(value : c_ptr(GArrowChunkedArray)) : c_ptr(GArrowChunkedArrayDatum);
   extern proc garrow_record_batch_datum_get_type() : GType;
-  extern record _GArrowRecordBatchDatum {
-    var parent_instance : GArrowDatum;
-  }
   extern proc GARROW_RECORD_BATCH_DATUM(ptr : gpointer) : c_ptr(GArrowRecordBatchDatum);
   extern proc GARROW_RECORD_BATCH_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchDatumClass);
   extern proc GARROW_IS_RECORD_BATCH_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RECORD_BATCH_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RECORD_BATCH_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchDatumClass);
-  extern record _GArrowRecordBatchDatumClass {
-    var parent_class : GArrowDatumClass;
-  }
   extern proc garrow_record_batch_datum_new(ref value : GArrowRecordBatch) : c_ptr(GArrowRecordBatchDatum);
   extern proc garrow_record_batch_datum_new(value : c_ptr(GArrowRecordBatch)) : c_ptr(GArrowRecordBatchDatum);
   extern proc garrow_table_datum_get_type() : GType;
-  extern record _GArrowTableDatum {
-    var parent_instance : GArrowDatum;
-  }
   extern proc GARROW_TABLE_DATUM(ptr : gpointer) : c_ptr(GArrowTableDatum);
   extern proc GARROW_TABLE_DATUM_CLASS(ptr : gpointer) : c_ptr(GArrowTableDatumClass);
   extern proc GARROW_IS_TABLE_DATUM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TABLE_DATUM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TABLE_DATUM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTableDatumClass);
-  extern record _GArrowTableDatumClass {
-    var parent_class : GArrowDatumClass;
-  }
   extern proc garrow_table_datum_new(ref value : GArrowTable) : c_ptr(GArrowTableDatum);
   extern proc garrow_table_datum_new(value : c_ptr(GArrowTable)) : c_ptr(GArrowTableDatum);
   extern proc garrow_execute_context_get_type() : GType;
-  extern record _GArrowExecuteContext {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_EXECUTE_CONTEXT(ptr : gpointer) : c_ptr(GArrowExecuteContext);
   extern proc GARROW_EXECUTE_CONTEXT_CLASS(ptr : gpointer) : c_ptr(GArrowExecuteContextClass);
   extern proc GARROW_IS_EXECUTE_CONTEXT(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_EXECUTE_CONTEXT_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_EXECUTE_CONTEXT_GET_CLASS(ptr : gpointer) : c_ptr(GArrowExecuteContextClass);
-  extern record _GArrowExecuteContextClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_execute_context_new() : c_ptr(GArrowExecuteContext);
   extern proc garrow_function_options_get_type() : GType;
   extern proc GARROW_FUNCTION_OPTIONS(ptr : gpointer) : c_ptr(GArrowFunctionOptions);
   extern proc GARROW_IS_FUNCTION_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_FUNCTION_OPTIONS_GET_IFACE(ptr : gpointer) : c_ptr(GArrowFunctionOptionsInterface);
   extern proc garrow_function_get_type() : GType;
-  extern record _GArrowFunction {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FUNCTION(ptr : gpointer) : c_ptr(GArrowFunction);
   extern proc GARROW_FUNCTION_CLASS(ptr : gpointer) : c_ptr(GArrowFunctionClass);
   extern proc GARROW_IS_FUNCTION(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FUNCTION_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FUNCTION_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFunctionClass);
-  extern record _GArrowFunctionClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_function_find(ref name : gchar) : c_ptr(GArrowFunction);
   extern proc garrow_function_find(name : c_ptr(gchar)) : c_ptr(GArrowFunction);
   extern proc garrow_function_execute(ref function : GArrowFunction, ref args : GList, ref options : GArrowFunctionOptions, ref context : GArrowExecuteContext, ref error : c_ptr(GError)) : c_ptr(GArrowDatum);
   extern proc garrow_function_execute(function : c_ptr(GArrowFunction), args : c_ptr(GList), options : c_ptr(GArrowFunctionOptions), context : c_ptr(GArrowExecuteContext), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowDatum);
   extern proc garrow_cast_options_get_type() : GType;
-  extern record _GArrowCastOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_CAST_OPTIONS(ptr : gpointer) : c_ptr(GArrowCastOptions);
   extern proc GARROW_CAST_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowCastOptionsClass);
   extern proc GARROW_IS_CAST_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CAST_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CAST_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCastOptionsClass);
-  extern record _GArrowCastOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_cast_options_new() : c_ptr(GArrowCastOptions);
   extern proc garrow_scalar_aggregate_options_get_type() : GType;
-  extern record _GArrowScalarAggregateOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_SCALAR_AGGREGATE_OPTIONS(ptr : gpointer) : c_ptr(GArrowScalarAggregateOptions);
   extern proc GARROW_SCALAR_AGGREGATE_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowScalarAggregateOptionsClass);
   extern proc GARROW_IS_SCALAR_AGGREGATE_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SCALAR_AGGREGATE_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SCALAR_AGGREGATE_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowScalarAggregateOptionsClass);
-  extern record _GArrowScalarAggregateOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_scalar_aggregate_options_new() : c_ptr(GArrowScalarAggregateOptions);
   extern proc garrow_filter_options_get_type() : GType;
-  extern record _GArrowFilterOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FILTER_OPTIONS(ptr : gpointer) : c_ptr(GArrowFilterOptions);
   extern proc GARROW_FILTER_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowFilterOptionsClass);
   extern proc GARROW_IS_FILTER_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FILTER_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FILTER_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFilterOptionsClass);
-  extern record _GArrowFilterOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_filter_options_new() : c_ptr(GArrowFilterOptions);
   extern proc garrow_take_options_get_type() : GType;
-  extern record _GArrowTakeOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_TAKE_OPTIONS(ptr : gpointer) : c_ptr(GArrowTakeOptions);
   extern proc GARROW_TAKE_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowTakeOptionsClass);
   extern proc GARROW_IS_TAKE_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TAKE_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TAKE_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTakeOptionsClass);
-  extern record _GArrowTakeOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_take_options_new() : c_ptr(GArrowTakeOptions);
   extern proc garrow_array_sort_options_get_type() : GType;
-  extern record _GArrowArraySortOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_ARRAY_SORT_OPTIONS(ptr : gpointer) : c_ptr(GArrowArraySortOptions);
   extern proc GARROW_ARRAY_SORT_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowArraySortOptionsClass);
   extern proc GARROW_IS_ARRAY_SORT_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_ARRAY_SORT_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_ARRAY_SORT_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowArraySortOptionsClass);
-  extern record _GArrowArraySortOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_array_sort_options_new(order : GArrowSortOrder) : c_ptr(GArrowArraySortOptions);
   extern proc garrow_array_sort_options_equal(ref options : GArrowArraySortOptions, ref other_options : GArrowArraySortOptions) : gboolean;
   extern proc garrow_array_sort_options_equal(options : c_ptr(GArrowArraySortOptions), other_options : c_ptr(GArrowArraySortOptions)) : gboolean;
   extern proc garrow_sort_key_get_type() : GType;
-  extern record _GArrowSortKey {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_SORT_KEY(ptr : gpointer) : c_ptr(GArrowSortKey);
   extern proc GARROW_SORT_KEY_CLASS(ptr : gpointer) : c_ptr(GArrowSortKeyClass);
   extern proc GARROW_IS_SORT_KEY(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SORT_KEY_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SORT_KEY_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSortKeyClass);
-  extern record _GArrowSortKeyClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_sort_key_new(ref name : gchar, order : GArrowSortOrder) : c_ptr(GArrowSortKey);
   extern proc garrow_sort_key_new(name : c_ptr(gchar), order : GArrowSortOrder) : c_ptr(GArrowSortKey);
   extern proc garrow_sort_key_equal(ref sort_key : GArrowSortKey, ref other_sort_key : GArrowSortKey) : gboolean;
   extern proc garrow_sort_key_equal(sort_key : c_ptr(GArrowSortKey), other_sort_key : c_ptr(GArrowSortKey)) : gboolean;
   extern proc garrow_sort_options_get_type() : GType;
-  extern record _GArrowSortOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_SORT_OPTIONS(ptr : gpointer) : c_ptr(GArrowSortOptions);
   extern proc GARROW_SORT_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowSortOptionsClass);
   extern proc GARROW_IS_SORT_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SORT_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SORT_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSortOptionsClass);
-  extern record _GArrowSortOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_sort_options_new(ref sort_keys : GList) : c_ptr(GArrowSortOptions);
   extern proc garrow_sort_options_new(sort_keys : c_ptr(GList)) : c_ptr(GArrowSortOptions);
   extern proc garrow_sort_options_equal(ref options : GArrowSortOptions, ref other_options : GArrowSortOptions) : gboolean;
@@ -5539,17 +5773,11 @@ module ArrowAll {
   extern proc ggandiva_selection_vector_mode_get_type() : GType;
   extern proc garrow_error_quark() : GQuark;
   extern proc garrow_record_batch_builder_get_type() : GType;
-  extern record _GArrowRecordBatchBuilder {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_RECORD_BATCH_BUILDER(ptr : gpointer) : c_ptr(GArrowRecordBatchBuilder);
   extern proc GARROW_RECORD_BATCH_BUILDER_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchBuilderClass);
   extern proc GARROW_IS_RECORD_BATCH_BUILDER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RECORD_BATCH_BUILDER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RECORD_BATCH_BUILDER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchBuilderClass);
-  extern record _GArrowRecordBatchBuilderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_builder_new(ref schema : GArrowSchema, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatchBuilder);
   extern proc garrow_record_batch_builder_new(schema : c_ptr(GArrowSchema), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatchBuilder);
   extern proc garrow_record_batch_builder_get_initial_capacity(ref builder : GArrowRecordBatchBuilder) : gint64;
@@ -5581,17 +5809,11 @@ module ArrowAll {
   extern proc garrow_file_get_mode(ref file : GArrowFile) : GArrowFileMode;
   extern proc garrow_file_get_mode(file : c_ptr(GArrowFile)) : GArrowFileMode;
   extern proc garrow_input_stream_get_type() : GType;
-  extern record _GArrowInputStream {
-    var parent_instance : GInputStream;
-  }
   extern proc GARROW_INPUT_STREAM(ptr : gpointer) : c_ptr(GArrowInputStream);
   extern proc GARROW_INPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowInputStreamClass);
   extern proc GARROW_IS_INPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_INPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_INPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowInputStreamClass);
-  extern record _GArrowInputStreamClass {
-    var parent_class : GInputStreamClass;
-  }
   extern proc garrow_input_stream_advance(ref input_stream : GArrowInputStream, n_bytes : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_input_stream_advance(input_stream : c_ptr(GArrowInputStream), n_bytes : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_input_stream_align(ref input_stream : GArrowInputStream, alignment : gint32, ref error : c_ptr(GError)) : gboolean;
@@ -5601,17 +5823,11 @@ module ArrowAll {
   extern proc garrow_input_stream_read_record_batch(ref input_stream : GArrowInputStream, ref schema : GArrowSchema, ref options : GArrowReadOptions, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
   extern proc garrow_input_stream_read_record_batch(input_stream : c_ptr(GArrowInputStream), schema : c_ptr(GArrowSchema), options : c_ptr(GArrowReadOptions), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatch);
   extern proc garrow_seekable_input_stream_get_type() : GType;
-  extern record _GArrowSeekableInputStream {
-    var parent_instance : GArrowInputStream;
-  }
   extern proc GARROW_SEEKABLE_INPUT_STREAM(ptr : gpointer) : c_ptr(GArrowSeekableInputStream);
   extern proc GARROW_SEEKABLE_INPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowSeekableInputStreamClass);
   extern proc GARROW_IS_SEEKABLE_INPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SEEKABLE_INPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SEEKABLE_INPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSeekableInputStreamClass);
-  extern record _GArrowSeekableInputStreamClass {
-    var parent_class : GArrowInputStreamClass;
-  }
   extern proc garrow_seekable_input_stream_get_size(ref input_stream : GArrowSeekableInputStream, ref error : c_ptr(GError)) : guint64;
   extern proc garrow_seekable_input_stream_get_size(input_stream : c_ptr(GArrowSeekableInputStream), error : c_ptr(c_ptr(GError))) : guint64;
   extern proc garrow_seekable_input_stream_get_support_zero_copy(ref input_stream : GArrowSeekableInputStream) : gboolean;
@@ -5623,53 +5839,29 @@ module ArrowAll {
   extern proc garrow_seekable_input_stream_peek(ref input_stream : GArrowSeekableInputStream, n_bytes : gint64, ref error : c_ptr(GError)) : c_ptr(GBytes);
   extern proc garrow_seekable_input_stream_peek(input_stream : c_ptr(GArrowSeekableInputStream), n_bytes : gint64, error : c_ptr(c_ptr(GError))) : c_ptr(GBytes);
   extern proc garrow_buffer_input_stream_get_type() : GType;
-  extern record _GArrowBufferInputStream {
-    var parent_instance : GArrowSeekableInputStream;
-  }
   extern proc GARROW_BUFFER_INPUT_STREAM(ptr : gpointer) : c_ptr(GArrowBufferInputStream);
   extern proc GARROW_BUFFER_INPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowBufferInputStreamClass);
   extern proc GARROW_IS_BUFFER_INPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_BUFFER_INPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_BUFFER_INPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowBufferInputStreamClass);
-  extern record _GArrowBufferInputStreamClass {
-    var parent_class : GArrowSeekableInputStreamClass;
-  }
   extern proc garrow_buffer_input_stream_new(ref buffer : GArrowBuffer) : c_ptr(GArrowBufferInputStream);
   extern proc garrow_buffer_input_stream_new(buffer : c_ptr(GArrowBuffer)) : c_ptr(GArrowBufferInputStream);
   extern proc garrow_buffer_input_stream_get_buffer(ref input_stream : GArrowBufferInputStream) : c_ptr(GArrowBuffer);
   extern proc garrow_buffer_input_stream_get_buffer(input_stream : c_ptr(GArrowBufferInputStream)) : c_ptr(GArrowBuffer);
-  extern record _GArrowMemoryMappedInputStream {
-    var parent_instance : GArrowSeekableInputStream;
-  }
-  extern record _GArrowMemoryMappedInputStreamClass {
-    var parent_class : GArrowSeekableInputStreamClass;
-  }
   extern proc garrow_memory_mapped_input_stream_get_type() : GType;
   extern proc garrow_memory_mapped_input_stream_new(ref path : gchar, ref error : c_ptr(GError)) : c_ptr(GArrowMemoryMappedInputStream);
   extern proc garrow_memory_mapped_input_stream_new(path : c_ptr(gchar), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowMemoryMappedInputStream);
-  extern record _GArrowGIOInputStream {
-    var parent_instance : GArrowSeekableInputStream;
-  }
-  extern record _GArrowGIOInputStreamClass {
-    var parent_class : GArrowSeekableInputStreamClass;
-  }
   extern proc garrow_gio_input_stream_get_type() : GType;
   extern proc garrow_gio_input_stream_new(ref gio_input_stream : GInputStream) : c_ptr(GArrowGIOInputStream);
   extern proc garrow_gio_input_stream_new(gio_input_stream : c_ptr(GInputStream)) : c_ptr(GArrowGIOInputStream);
   extern proc garrow_gio_input_stream_get_raw(ref input_stream : GArrowGIOInputStream) : c_ptr(GInputStream);
   extern proc garrow_gio_input_stream_get_raw(input_stream : c_ptr(GArrowGIOInputStream)) : c_ptr(GInputStream);
   extern proc garrow_compressed_input_stream_get_type() : GType;
-  extern record _GArrowCompressedInputStream {
-    var parent_instance : GArrowInputStream;
-  }
   extern proc GARROW_COMPRESSED_INPUT_STREAM(ptr : gpointer) : c_ptr(GArrowCompressedInputStream);
   extern proc GARROW_COMPRESSED_INPUT_STREAM_CLASS(ptr : gpointer) : c_ptr(GArrowCompressedInputStreamClass);
   extern proc GARROW_IS_COMPRESSED_INPUT_STREAM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_COMPRESSED_INPUT_STREAM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_COMPRESSED_INPUT_STREAM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCompressedInputStreamClass);
-  extern record _GArrowCompressedInputStreamClass {
-    var parent_class : GArrowInputStreamClass;
-  }
   extern proc garrow_compressed_input_stream_new(ref codec : GArrowCodec, ref raw : GArrowInputStream, ref error : c_ptr(GError)) : c_ptr(GArrowCompressedInputStream);
   extern proc garrow_compressed_input_stream_new(codec : c_ptr(GArrowCodec), raw : c_ptr(GArrowInputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowCompressedInputStream);
   extern proc garrow_readable_get_type() : GType;
@@ -5695,17 +5887,11 @@ module ArrowAll {
   extern proc garrow_writable_file_write_at(ref writable_file : GArrowWritableFile, position : gint64, ref data : guint8, n_bytes : gint64, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_writable_file_write_at(writable_file : c_ptr(GArrowWritableFile), position : gint64, data : c_ptr(guint8), n_bytes : gint64, error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_record_batch_reader_get_type() : GType;
-  extern record _GArrowRecordBatchReader {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_RECORD_BATCH_READER(ptr : gpointer) : c_ptr(GArrowRecordBatchReader);
   extern proc GARROW_RECORD_BATCH_READER_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchReaderClass);
   extern proc GARROW_IS_RECORD_BATCH_READER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_RECORD_BATCH_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_RECORD_BATCH_READER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowRecordBatchReaderClass);
-  extern record _GArrowRecordBatchReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_reader_get_schema(ref reader : GArrowRecordBatchReader) : c_ptr(GArrowSchema);
   extern proc garrow_record_batch_reader_get_schema(reader : c_ptr(GArrowRecordBatchReader)) : c_ptr(GArrowSchema);
   extern proc garrow_record_batch_reader_get_next_record_batch(ref reader : GArrowRecordBatchReader, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
@@ -5715,34 +5901,16 @@ module ArrowAll {
   extern proc garrow_record_batch_reader_read_next(ref reader : GArrowRecordBatchReader, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
   extern proc garrow_record_batch_reader_read_next(reader : c_ptr(GArrowRecordBatchReader), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatch);
   extern proc garrow_table_batch_reader_get_type() : GType;
-  extern record _GArrowTableBatchReader {
-    var parent_instance : GArrowRecordBatchReader;
-  }
   extern proc GARROW_TABLE_BATCH_READER(ptr : gpointer) : c_ptr(GArrowTableBatchReader);
   extern proc GARROW_TABLE_BATCH_READER_CLASS(ptr : gpointer) : c_ptr(GArrowTableBatchReaderClass);
   extern proc GARROW_IS_TABLE_BATCH_READER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_TABLE_BATCH_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_TABLE_BATCH_READER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowTableBatchReaderClass);
-  extern record _GArrowTableBatchReaderClass {
-    var parent_class : GArrowRecordBatchReaderClass;
-  }
   extern proc garrow_table_batch_reader_new(ref table : GArrowTable) : c_ptr(GArrowTableBatchReader);
   extern proc garrow_table_batch_reader_new(table : c_ptr(GArrowTable)) : c_ptr(GArrowTableBatchReader);
-  extern record _GArrowRecordBatchStreamReader {
-    var parent_instance : GArrowRecordBatchReader;
-  }
-  extern record _GArrowRecordBatchStreamReaderClass {
-    var parent_class : GArrowRecordBatchReaderClass;
-  }
   extern proc garrow_record_batch_stream_reader_get_type() : GType;
   extern proc garrow_record_batch_stream_reader_new(ref stream : GArrowInputStream, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatchStreamReader);
   extern proc garrow_record_batch_stream_reader_new(stream : c_ptr(GArrowInputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatchStreamReader);
-  extern record _GArrowRecordBatchFileReader {
-    var parent_instance : GObject;
-  }
-  extern record _GArrowRecordBatchFileReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_file_reader_get_type() : GType;
   extern proc garrow_record_batch_file_reader_new(ref file : GArrowSeekableInputStream, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatchFileReader);
   extern proc garrow_record_batch_file_reader_new(file : c_ptr(GArrowSeekableInputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatchFileReader);
@@ -5757,17 +5925,11 @@ module ArrowAll {
   extern proc garrow_record_batch_file_reader_read_record_batch(ref reader : GArrowRecordBatchFileReader, i : guint, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatch);
   extern proc garrow_record_batch_file_reader_read_record_batch(reader : c_ptr(GArrowRecordBatchFileReader), i : guint, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatch);
   extern proc garrow_feather_file_reader_get_type() : GType;
-  extern record _GArrowFeatherFileReader {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FEATHER_FILE_READER(ptr : gpointer) : c_ptr(GArrowFeatherFileReader);
   extern proc GARROW_FEATHER_FILE_READER_CLASS(ptr : gpointer) : c_ptr(GArrowFeatherFileReaderClass);
   extern proc GARROW_IS_FEATHER_FILE_READER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FEATHER_FILE_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FEATHER_FILE_READER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFeatherFileReaderClass);
-  extern record _GArrowFeatherFileReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_feather_file_reader_new(ref file : GArrowSeekableInputStream, ref error : c_ptr(GError)) : c_ptr(GArrowFeatherFileReader);
   extern proc garrow_feather_file_reader_new(file : c_ptr(GArrowSeekableInputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowFeatherFileReader);
   extern proc garrow_feather_file_reader_get_version(ref reader : GArrowFeatherFileReader) : gint;
@@ -5779,17 +5941,11 @@ module ArrowAll {
   extern proc garrow_feather_file_reader_read_names(ref reader : GArrowFeatherFileReader, ref names : c_ptr(gchar), n_names : guint, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
   extern proc garrow_feather_file_reader_read_names(reader : c_ptr(GArrowFeatherFileReader), names : c_ptr(c_ptr(gchar)), n_names : guint, error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTable);
   extern proc garrow_csv_read_options_get_type() : GType;
-  extern record _GArrowCSVReadOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_CSV_READ_OPTIONS(ptr : gpointer) : c_ptr(GArrowCSVReadOptions);
   extern proc GARROW_CSV_READ_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowCSVReadOptionsClass);
   extern proc GARROW_IS_CSV_READ_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CSV_READ_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CSV_READ_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCSVReadOptionsClass);
-  extern record _GArrowCSVReadOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_csv_read_options_new() : c_ptr(GArrowCSVReadOptions);
   extern proc garrow_csv_read_options_add_column_type(ref options : GArrowCSVReadOptions, ref name : gchar, ref data_type : GArrowDataType) : void;
   extern proc garrow_csv_read_options_add_column_type(options : c_ptr(GArrowCSVReadOptions), name : c_ptr(gchar), data_type : c_ptr(GArrowDataType)) : void;
@@ -5822,56 +5978,32 @@ module ArrowAll {
   extern proc garrow_csv_read_options_add_column_name(ref options : GArrowCSVReadOptions, ref column_name : gchar) : void;
   extern proc garrow_csv_read_options_add_column_name(options : c_ptr(GArrowCSVReadOptions), column_name : c_ptr(gchar)) : void;
   extern proc garrow_csv_reader_get_type() : GType;
-  extern record _GArrowCSVReader {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_CSV_READER(ptr : gpointer) : c_ptr(GArrowCSVReader);
   extern proc GARROW_CSV_READER_CLASS(ptr : gpointer) : c_ptr(GArrowCSVReaderClass);
   extern proc GARROW_IS_CSV_READER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_CSV_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_CSV_READER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowCSVReaderClass);
-  extern record _GArrowCSVReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_csv_reader_new(ref input : GArrowInputStream, ref options : GArrowCSVReadOptions, ref error : c_ptr(GError)) : c_ptr(GArrowCSVReader);
   extern proc garrow_csv_reader_new(input : c_ptr(GArrowInputStream), options : c_ptr(GArrowCSVReadOptions), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowCSVReader);
   extern proc garrow_csv_reader_read(ref reader : GArrowCSVReader, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
   extern proc garrow_csv_reader_read(reader : c_ptr(GArrowCSVReader), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTable);
   extern proc garrow_json_read_options_get_type() : GType;
-  extern record _GArrowJSONReadOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_JSON_READ_OPTIONS(ptr : gpointer) : c_ptr(GArrowJSONReadOptions);
   extern proc GARROW_JSON_READ_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowJSONReadOptionsClass);
   extern proc GARROW_IS_JSON_READ_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_JSON_READ_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_JSON_READ_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowJSONReadOptionsClass);
-  extern record _GArrowJSONReadOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_json_read_options_new() : c_ptr(GArrowJSONReadOptions);
   extern proc garrow_json_reader_get_type() : GType;
-  extern record _GArrowJSONReader {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_JSON_READER(ptr : gpointer) : c_ptr(GArrowJSONReader);
   extern proc GARROW_JSON_READER_CLASS(ptr : gpointer) : c_ptr(GArrowJSONReaderClass);
   extern proc GARROW_IS_JSON_READER(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_JSON_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_JSON_READER_GET_CLASS(ptr : gpointer) : c_ptr(GArrowJSONReaderClass);
-  extern record _GArrowJSONReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_json_reader_new(ref input : GArrowInputStream, ref options : GArrowJSONReadOptions, ref error : c_ptr(GError)) : c_ptr(GArrowJSONReader);
   extern proc garrow_json_reader_new(input : c_ptr(GArrowInputStream), options : c_ptr(GArrowJSONReadOptions), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowJSONReader);
   extern proc garrow_json_reader_read(ref reader : GArrowJSONReader, ref error : c_ptr(GError)) : c_ptr(GArrowTable);
   extern proc garrow_json_reader_read(reader : c_ptr(GArrowJSONReader), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowTable);
-  extern record _GArrowRecordBatchWriter {
-    var parent_instance : GObject;
-  }
-  extern record _GArrowRecordBatchWriterClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_record_batch_writer_get_type() : GType;
   extern proc garrow_record_batch_writer_write_record_batch(ref writer : GArrowRecordBatchWriter, ref record_batch : GArrowRecordBatch, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_record_batch_writer_write_record_batch(writer : c_ptr(GArrowRecordBatchWriter), record_batch : c_ptr(GArrowRecordBatch), error : c_ptr(c_ptr(GError))) : gboolean;
@@ -5879,36 +6011,18 @@ module ArrowAll {
   extern proc garrow_record_batch_writer_write_table(writer : c_ptr(GArrowRecordBatchWriter), table : c_ptr(GArrowTable), error : c_ptr(c_ptr(GError))) : gboolean;
   extern proc garrow_record_batch_writer_close(ref writer : GArrowRecordBatchWriter, ref error : c_ptr(GError)) : gboolean;
   extern proc garrow_record_batch_writer_close(writer : c_ptr(GArrowRecordBatchWriter), error : c_ptr(c_ptr(GError))) : gboolean;
-  extern record _GArrowRecordBatchStreamWriter {
-    var parent_instance : GArrowRecordBatchWriter;
-  }
-  extern record _GArrowRecordBatchStreamWriterClass {
-    var parent_class : GArrowRecordBatchWriterClass;
-  }
   extern proc garrow_record_batch_stream_writer_get_type() : GType;
   extern proc garrow_record_batch_stream_writer_new(ref sink : GArrowOutputStream, ref schema : GArrowSchema, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatchStreamWriter);
   extern proc garrow_record_batch_stream_writer_new(sink : c_ptr(GArrowOutputStream), schema : c_ptr(GArrowSchema), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatchStreamWriter);
-  extern record _GArrowRecordBatchFileWriter {
-    var parent_instance : GArrowRecordBatchStreamWriter;
-  }
-  extern record _GArrowRecordBatchFileWriterClass {
-    var parent_class : GArrowRecordBatchStreamWriterClass;
-  }
   extern proc garrow_record_batch_file_writer_get_type() : GType;
   extern proc garrow_record_batch_file_writer_new(ref sink : GArrowOutputStream, ref schema : GArrowSchema, ref error : c_ptr(GError)) : c_ptr(GArrowRecordBatchFileWriter);
   extern proc garrow_record_batch_file_writer_new(sink : c_ptr(GArrowOutputStream), schema : c_ptr(GArrowSchema), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowRecordBatchFileWriter);
   extern proc garrow_file_info_get_type() : GType;
-  extern record _GArrowFileInfo {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FILE_INFO(ptr : gpointer) : c_ptr(GArrowFileInfo);
   extern proc GARROW_FILE_INFO_CLASS(ptr : gpointer) : c_ptr(GArrowFileInfoClass);
   extern proc GARROW_IS_FILE_INFO(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FILE_INFO_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FILE_INFO_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFileInfoClass);
-  extern record _GArrowFileInfoClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_file_info_new() : c_ptr(GArrowFileInfo);
   extern proc garrow_file_info_equal(ref file_info : GArrowFileInfo, ref other_file_info : GArrowFileInfo) : gboolean;
   extern proc garrow_file_info_equal(file_info : c_ptr(GArrowFileInfo), other_file_info : c_ptr(GArrowFileInfo)) : gboolean;
@@ -5919,29 +6033,17 @@ module ArrowAll {
   extern proc garrow_file_info_to_string(ref file_info : GArrowFileInfo) : c_ptr(gchar);
   extern proc garrow_file_info_to_string(file_info : c_ptr(GArrowFileInfo)) : c_ptr(gchar);
   extern proc garrow_file_selector_get_type() : GType;
-  extern record _GArrowFileSelector {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FILE_SELECTOR(ptr : gpointer) : c_ptr(GArrowFileSelector);
   extern proc GARROW_FILE_SELECTOR_CLASS(ptr : gpointer) : c_ptr(GArrowFileSelectorClass);
   extern proc GARROW_IS_FILE_SELECTOR(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FILE_SELECTOR_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FILE_SELECTOR_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFileSelectorClass);
-  extern record _GArrowFileSelectorClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_file_system_get_type() : GType;
-  extern record _GArrowFileSystem {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowFileSystem);
   extern proc GARROW_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowFileSystemClass);
   extern proc GARROW_IS_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowFileSystemClass);
-  extern record _GArrowFileSystemClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_file_system_create(ref uri : gchar, ref error : c_ptr(GError)) : c_ptr(GArrowFileSystem);
   extern proc garrow_file_system_create(uri : c_ptr(gchar), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowFileSystem);
   extern proc garrow_file_system_get_type_name(ref file_system : GArrowFileSystem) : c_ptr(gchar);
@@ -5975,110 +6077,62 @@ module ArrowAll {
   extern proc garrow_file_system_open_append_stream(ref file_system : GArrowFileSystem, ref path : gchar, ref error : c_ptr(GError)) : c_ptr(GArrowOutputStream);
   extern proc garrow_file_system_open_append_stream(file_system : c_ptr(GArrowFileSystem), path : c_ptr(gchar), error : c_ptr(c_ptr(GError))) : c_ptr(GArrowOutputStream);
   extern proc garrow_sub_tree_file_system_get_type() : GType;
-  extern record _GArrowSubTreeFileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_SUB_TREE_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowSubTreeFileSystem);
   extern proc GARROW_SUB_TREE_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowSubTreeFileSystemClass);
   extern proc GARROW_IS_SUB_TREE_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SUB_TREE_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SUB_TREE_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSubTreeFileSystemClass);
-  extern record _GArrowSubTreeFileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_sub_tree_file_system_new(ref base_path : gchar, ref base_file_system : GArrowFileSystem) : c_ptr(GArrowSubTreeFileSystem);
   extern proc garrow_sub_tree_file_system_new(base_path : c_ptr(gchar), base_file_system : c_ptr(GArrowFileSystem)) : c_ptr(GArrowSubTreeFileSystem);
   extern proc garrow_slow_file_system_get_type() : GType;
-  extern record _GArrowSlowFileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_SLOW_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowSlowFileSystem);
   extern proc GARROW_SLOW_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowSlowFileSystemClass);
   extern proc GARROW_IS_SLOW_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_SLOW_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_SLOW_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowSlowFileSystemClass);
-  extern record _GArrowSlowFileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_slow_file_system_new_average_latency(ref base_file_system : GArrowFileSystem, average_latency : gdouble) : c_ptr(GArrowSlowFileSystem);
   extern proc garrow_slow_file_system_new_average_latency(base_file_system : c_ptr(GArrowFileSystem), average_latency : gdouble) : c_ptr(GArrowSlowFileSystem);
   extern proc garrow_slow_file_system_new_average_latency_and_seed(ref base_file_system : GArrowFileSystem, average_latency : gdouble, seed : gint32) : c_ptr(GArrowSlowFileSystem);
   extern proc garrow_slow_file_system_new_average_latency_and_seed(base_file_system : c_ptr(GArrowFileSystem), average_latency : gdouble, seed : gint32) : c_ptr(GArrowSlowFileSystem);
   extern proc garrow_mock_file_system_get_type() : GType;
-  extern record _GArrowMockFileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_MOCK_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowMockFileSystem);
   extern proc GARROW_MOCK_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowMockFileSystemClass);
   extern proc GARROW_IS_MOCK_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_MOCK_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_MOCK_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowMockFileSystemClass);
-  extern record _GArrowMockFileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_hdfs_file_system_get_type() : GType;
-  extern record _GArrowHDFSFileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_HDFS_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowHDFSFileSystem);
   extern proc GARROW_HDFS_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowHDFSFileSystemClass);
   extern proc GARROW_IS_HDFS_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_HDFS_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_HDFS_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowHDFSFileSystemClass);
-  extern record _GArrowHDFSFileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_s3_file_system_get_type() : GType;
-  extern record _GArrowS3FileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_S3_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowS3FileSystem);
   extern proc GARROW_S3_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowS3FileSystemClass);
   extern proc GARROW_IS_S3_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_S3_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_S3_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowS3FileSystemClass);
-  extern record _GArrowS3FileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_local_file_system_options_get_type() : GType;
-  extern record _GArrowLocalFileSystemOptions {
-    var parent_instance : GObject;
-  }
   extern proc GARROW_LOCAL_FILE_SYSTEM_OPTIONS(ptr : gpointer) : c_ptr(GArrowLocalFileSystemOptions);
   extern proc GARROW_LOCAL_FILE_SYSTEM_OPTIONS_CLASS(ptr : gpointer) : c_ptr(GArrowLocalFileSystemOptionsClass);
   extern proc GARROW_IS_LOCAL_FILE_SYSTEM_OPTIONS(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LOCAL_FILE_SYSTEM_OPTIONS_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LOCAL_FILE_SYSTEM_OPTIONS_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLocalFileSystemOptionsClass);
-  extern record _GArrowLocalFileSystemOptionsClass {
-    var parent_class : GObjectClass;
-  }
   extern proc garrow_local_file_system_options_new() : c_ptr(GArrowLocalFileSystemOptions);
   extern proc garrow_local_file_system_get_type() : GType;
-  extern record _GArrowLocalFileSystem {
-    var parent_instance : GArrowFileSystem;
-  }
   extern proc GARROW_LOCAL_FILE_SYSTEM(ptr : gpointer) : c_ptr(GArrowLocalFileSystem);
   extern proc GARROW_LOCAL_FILE_SYSTEM_CLASS(ptr : gpointer) : c_ptr(GArrowLocalFileSystemClass);
   extern proc GARROW_IS_LOCAL_FILE_SYSTEM(ptr : gpointer) : gboolean;
   extern proc GARROW_IS_LOCAL_FILE_SYSTEM_CLASS(ptr : gpointer) : gboolean;
   extern proc GARROW_LOCAL_FILE_SYSTEM_GET_CLASS(ptr : gpointer) : c_ptr(GArrowLocalFileSystemClass);
-  extern record _GArrowLocalFileSystemClass {
-    var parent_class : GArrowFileSystemClass;
-  }
   extern proc garrow_local_file_system_new(ref options : GArrowLocalFileSystemOptions) : c_ptr(GArrowLocalFileSystem);
   extern proc garrow_local_file_system_new(options : c_ptr(GArrowLocalFileSystemOptions)) : c_ptr(GArrowLocalFileSystem);
   extern proc gparquet_arrow_file_reader_get_type() : GType;
-  extern record _GParquetArrowFileReader {
-    var parent_instance : GObject;
-  }
   extern proc GPARQUET_ARROW_FILE_READER(ptr : gpointer) : c_ptr(GParquetArrowFileReader);
   extern proc GPARQUET_ARROW_FILE_READER_CLASS(ptr : gpointer) : c_ptr(GParquetArrowFileReaderClass);
   extern proc GPARQUET_IS_ARROW_FILE_READER(ptr : gpointer) : gboolean;
   extern proc GPARQUET_IS_ARROW_FILE_READER_CLASS(ptr : gpointer) : gboolean;
   extern proc GPARQUET_ARROW_FILE_READER_GET_CLASS(ptr : gpointer) : c_ptr(GParquetArrowFileReaderClass);
-  extern record _GParquetArrowFileReaderClass {
-    var parent_class : GObjectClass;
-  }
   extern proc gparquet_arrow_file_reader_new_arrow(ref source : GArrowSeekableInputStream, ref error : c_ptr(GError)) : c_ptr(GParquetArrowFileReader);
   extern proc gparquet_arrow_file_reader_new_arrow(source : c_ptr(GArrowSeekableInputStream), error : c_ptr(c_ptr(GError))) : c_ptr(GParquetArrowFileReader);
   extern proc gparquet_arrow_file_reader_new_path(ref path : gchar, ref error : c_ptr(GError)) : c_ptr(GParquetArrowFileReader);
@@ -6096,17 +6150,11 @@ module ArrowAll {
   extern proc gparquet_arrow_file_reader_set_use_threads(ref reader : GParquetArrowFileReader, use_threads : gboolean) : void;
   extern proc gparquet_arrow_file_reader_set_use_threads(reader : c_ptr(GParquetArrowFileReader), use_threads : gboolean) : void;
   extern proc gparquet_writer_properties_get_type() : GType;
-  extern record _GParquetWriterProperties {
-    var parent_instance : GObject;
-  }
   extern proc GPARQUET_WRITER_PROPERTIES(ptr : gpointer) : c_ptr(GParquetWriterProperties);
   extern proc GPARQUET_WRITER_PROPERTIES_CLASS(ptr : gpointer) : c_ptr(GParquetWriterPropertiesClass);
   extern proc GPARQUET_IS_WRITER_PROPERTIES(ptr : gpointer) : gboolean;
   extern proc GPARQUET_IS_WRITER_PROPERTIES_CLASS(ptr : gpointer) : gboolean;
   extern proc GPARQUET_WRITER_PROPERTIES_GET_CLASS(ptr : gpointer) : c_ptr(GParquetWriterPropertiesClass);
-  extern record _GParquetWriterPropertiesClass {
-    var parent_class : GObjectClass;
-  }
   extern proc gparquet_writer_properties_new() : c_ptr(GParquetWriterProperties);
   extern proc gparquet_writer_properties_set_compression(ref properties : GParquetWriterProperties, compression_type : GArrowCompressionType, ref path : gchar) : void;
   extern proc gparquet_writer_properties_set_compression(properties : c_ptr(GParquetWriterProperties), compression_type : GArrowCompressionType, path : c_ptr(gchar)) : void;
@@ -6135,17 +6183,11 @@ module ArrowAll {
   extern proc gparquet_writer_properties_get_data_page_size(ref properties : GParquetWriterProperties) : gint64;
   extern proc gparquet_writer_properties_get_data_page_size(properties : c_ptr(GParquetWriterProperties)) : gint64;
   extern proc gparquet_arrow_file_writer_get_type() : GType;
-  extern record _GParquetArrowFileWriter {
-    var parent_instance : GObject;
-  }
   extern proc GPARQUET_ARROW_FILE_WRITER(ptr : gpointer) : c_ptr(GParquetArrowFileWriter);
   extern proc GPARQUET_ARROW_FILE_WRITER_CLASS(ptr : gpointer) : c_ptr(GParquetArrowFileWriterClass);
   extern proc GPARQUET_IS_ARROW_FILE_WRITER(ptr : gpointer) : gboolean;
   extern proc GPARQUET_IS_ARROW_FILE_WRITER_CLASS(ptr : gpointer) : gboolean;
   extern proc GPARQUET_ARROW_FILE_WRITER_GET_CLASS(ptr : gpointer) : c_ptr(GParquetArrowFileWriterClass);
-  extern record _GParquetArrowFileWriterClass {
-    var parent_class : GObjectClass;
-  }
   extern proc gparquet_arrow_file_writer_new_arrow(ref schema : GArrowSchema, ref sink : GArrowOutputStream, ref writer_properties : GParquetWriterProperties, ref error : c_ptr(GError)) : c_ptr(GParquetArrowFileWriter);
   extern proc gparquet_arrow_file_writer_new_arrow(schema : c_ptr(GArrowSchema), sink : c_ptr(GArrowOutputStream), writer_properties : c_ptr(GParquetWriterProperties), error : c_ptr(c_ptr(GError))) : c_ptr(GParquetArrowFileWriter);
   extern proc gparquet_arrow_file_writer_new_path(ref schema : GArrowSchema, ref path : gchar, ref writer_properties : GParquetWriterProperties, ref error : c_ptr(GError)) : c_ptr(GParquetArrowFileWriter);
@@ -6156,14 +6198,11 @@ module ArrowAll {
   extern proc gparquet_arrow_file_writer_close(writer : c_ptr(GParquetArrowFileWriter), error : c_ptr(c_ptr(GError))) : gboolean;
   // ==== c2chapel typedefs ====
   // Opaque struct?
-  extern record GAction {};
   extern type GActionEntry = _GActionEntry;
   // Opaque struct?
-  extern record GActionGroup {};
   extern type GActionGroupInterface = _GActionGroupInterface;
   extern type GActionInterface = _GActionInterface;
   // Opaque struct?
-  extern record GActionMap {};
   extern type GActionMapInterface = _GActionMapInterface;
   extern type GActionMap_autoptr = c_ptr(GActionMap);
   extern type GActionMap_listautoptr = c_ptr(GList);
@@ -6174,9 +6213,7 @@ module ArrowAll {
   extern type GAction_queueautoptr = c_ptr(GQueue);
   extern type GAction_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GAllocator {};
   // Opaque struct?
-  extern record GAppInfo {};
   // GAppInfoCreateFlags enum
   extern type GAppInfoCreateFlags = c_int;
   extern const G_APP_INFO_CREATE_NONE :GAppInfoCreateFlags;
@@ -6185,7 +6222,6 @@ module ArrowAll {
   extern const G_APP_INFO_CREATE_SUPPORTS_STARTUP_NOTIFICATION :GAppInfoCreateFlags;
   extern type GAppInfoIface = _GAppInfoIface;
   // Opaque struct?
-  extern record GAppInfoMonitor {};
   extern type GAppInfoMonitor_autoptr = c_ptr(GAppInfoMonitor);
   extern type GAppInfoMonitor_listautoptr = c_ptr(GList);
   extern type GAppInfoMonitor_queueautoptr = c_ptr(GQueue);
@@ -6197,7 +6233,6 @@ module ArrowAll {
   extern type GAppLaunchContext = _GAppLaunchContext;
   extern type GAppLaunchContextClass = _GAppLaunchContextClass;
   // Opaque struct?
-  extern record GAppLaunchContextPrivate {};
   extern type GAppLaunchContext_autoptr = c_ptr(GAppLaunchContext);
   extern type GAppLaunchContext_listautoptr = c_ptr(GList);
   extern type GAppLaunchContext_queueautoptr = c_ptr(GQueue);
@@ -6207,7 +6242,6 @@ module ArrowAll {
   extern type GApplicationCommandLine = _GApplicationCommandLine;
   extern type GApplicationCommandLineClass = _GApplicationCommandLineClass;
   // Opaque struct?
-  extern record GApplicationCommandLinePrivate {};
   extern type GApplicationCommandLine_autoptr = c_ptr(GApplicationCommandLine);
   extern type GApplicationCommandLine_listautoptr = c_ptr(GList);
   extern type GApplicationCommandLine_queueautoptr = c_ptr(GQueue);
@@ -6225,7 +6259,6 @@ module ArrowAll {
   extern const G_APPLICATION_ALLOW_REPLACEMENT :GApplicationFlags;
   extern const G_APPLICATION_REPLACE :GApplicationFlags;
   // Opaque struct?
-  extern record GApplicationPrivate {};
   extern type GApplication_autoptr = c_ptr(GApplication);
   extern type GApplication_listautoptr = c_ptr(GList);
   extern type GApplication_queueautoptr = c_ptr(GQueue);
@@ -6904,7 +6937,6 @@ module ArrowAll {
   extern type GArrowField_queueautoptr = c_ptr(GQueue);
   extern type GArrowField_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowFile {};
   extern type GArrowFileInfo = _GArrowFileInfo;
   extern type GArrowFileInfoClass = _GArrowFileInfoClass;
   extern type GArrowFileInfoClass_autoptr = c_ptr(GArrowFileInfoClass);
@@ -6916,7 +6948,6 @@ module ArrowAll {
   extern type GArrowFileInfo_queueautoptr = c_ptr(GQueue);
   extern type GArrowFileInfo_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowFileInterface {};
   // GArrowFileMode enum
   extern type GArrowFileMode = c_int;
   extern const GARROW_FILE_MODE_READ :GArrowFileMode;
@@ -7075,9 +7106,7 @@ module ArrowAll {
   extern type GArrowFunctionClass_queueautoptr = c_ptr(GQueue);
   extern type GArrowFunctionClass_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowFunctionOptions {};
   // Opaque struct?
-  extern record GArrowFunctionOptionsInterface {};
   extern type GArrowFunctionOptions_autoptr = c_ptr(GArrowFunctionOptions);
   extern type GArrowFunctionOptions_listautoptr = c_ptr(GList);
   extern type GArrowFunctionOptions_queueautoptr = c_ptr(GQueue);
@@ -7653,9 +7682,7 @@ module ArrowAll {
   extern type GArrowReadOptions_queueautoptr = c_ptr(GQueue);
   extern type GArrowReadOptions_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowReadable {};
   // Opaque struct?
-  extern record GArrowReadableInterface {};
   extern type GArrowReadable_autoptr = c_ptr(GArrowReadable);
   extern type GArrowReadable_listautoptr = c_ptr(GList);
   extern type GArrowReadable_queueautoptr = c_ptr(GQueue);
@@ -8381,17 +8408,13 @@ module ArrowAll {
   extern type GArrowUnionScalar_queueautoptr = c_ptr(GQueue);
   extern type GArrowUnionScalar_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowWritable {};
   // Opaque struct?
-  extern record GArrowWritableFile {};
   // Opaque struct?
-  extern record GArrowWritableFileInterface {};
   extern type GArrowWritableFile_autoptr = c_ptr(GArrowWritableFile);
   extern type GArrowWritableFile_listautoptr = c_ptr(GList);
   extern type GArrowWritableFile_queueautoptr = c_ptr(GQueue);
   extern type GArrowWritableFile_slistautoptr = c_ptr(GSList);
   // Opaque struct?
-  extern record GArrowWritableInterface {};
   extern type GArrowWritable_autoptr = c_ptr(GArrowWritable);
   extern type GArrowWritable_listautoptr = c_ptr(GList);
   extern type GArrowWritable_queueautoptr = c_ptr(GQueue);
