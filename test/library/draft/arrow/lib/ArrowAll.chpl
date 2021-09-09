@@ -8726,6 +8726,77 @@ module ArrowAll {
     }
     return retval;
   }
+  
+  proc writeTableToParquetFile(table: arrowTable, path: string) {
+    var error: GErrorPtr;
+    var writer_properties: c_ptr(GParquetWriterProperties) = gparquet_writer_properties_new();
+    var writer: c_ptr(GParquetArrowFileWriter) = gparquet_arrow_file_writer_new_path(
+                                                                                     garrow_table_get_schema(table.tbl),
+                                                                                     path.c_str(): c_ptr(gchar), 
+                                                                                     writer_properties,
+                                                                                     c_ptrTo(error));
+    if(isNull(writer)){
+      printGError("failed to initialize writer:", error);
+      exit(EXIT_FAILURE);
+    }
+    var success: gboolean = gparquet_arrow_file_writer_write_table(writer,
+                                                                   table.tbl ,
+                                                                   10 : guint64, // Should not be hardcoded
+                                                                   c_ptrTo(error));
+    if(!success){
+      printGError("failed to write table:", error);
+      exit(EXIT_FAILURE);
+    }
+    success = gparquet_arrow_file_writer_close(writer, c_ptrTo(error));
+    if(!success){
+      printGError("could not close writer:", error);
+      exit(EXIT_FAILURE);
+    }
+  }
+  
+  //----------------------- Functions for printing ----------------------------
+  proc printArray(arr: arrowArray) {
+    printArray(arr.val);
+  }
+  proc printArray(array: c_ptr(GArrowArray)) {
+    var error: GErrorPtr;
+    var str: c_ptr(gchar) = garrow_array_to_string(array, c_ptrTo(error));
+    if(isNull(str)){
+      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
+      g_error_free(error);
+      return;
+    }
+    g_print("%s\n".c_str(): c_ptr(gchar),str);
+  }
+  proc printRecordBatch(recordBatch: arrowRecordBatch){
+    printRecordBatch(recordBatch.rcbatch);
+  }
+  proc printRecordBatch(recordBatch: c_ptr(GArrowRecordBatch)) {
+    var error: GErrorPtr;
+    var str: c_ptr(gchar) = garrow_record_batch_to_string(recordBatch, c_ptrTo(error));
+    if(isNull(str)){
+      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
+      g_error_free(error);
+      return;
+    }
+    g_print("%s\n".c_str(): c_ptr(gchar),str: c_ptr(gchar));
+  }
+  proc printTable(table: arrowTable) {
+    printTable(table.tbl);
+  }
+  proc printTable(table: c_ptr(GArrowTable)) {
+    if(isNull(table)) then return;
+    var error: GErrorPtr;
+    var str: c_ptr(gchar) = garrow_table_to_string(table, c_ptrTo(error));
+    if(isNull(str)){
+      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
+      g_error_free(error);
+      return;
+    }
+    g_print("%s\n".c_str(): c_ptr(gchar),str: c_ptr(gchar));
+  }
+
+  // MY STUFF
   // -------------------------- Parquet -------------------------------------
   proc getSingleSchemaType(schema, idx: int) {
     var field = garrow_schema_get_field(schema, idx:guint);
@@ -8799,7 +8870,7 @@ module ArrowAll {
     for i in D {
       var error: GErrorPtr;
       var reader = gparquet_arrow_file_reader_new_path(filenames[i].c_str(): c_ptr(gchar), c_ptrTo(error));
-      writeln("NUM ROW GROUPS: ", gparquet_arrow_file_reader_get_n_row_groups(reader));
+
       var t = gparquet_arrow_file_reader_read_table(reader, c_ptrTo(error));
       sizes[i] = garrow_table_get_n_rows(t):int;
 
@@ -8813,22 +8884,56 @@ module ArrowAll {
     }
     return (sizes, ty);
   }
-  
-  proc readFiles(A, filenames: [] string) {
-    var perLoc = 10;//A.size/numLocales;
-    writeln(perLoc, " elems per locale");
-    /*coforall (loc, i) in zip(A.targetLocales(), LocaleSpace) do on loc {
-        var f1 = new parquetFileReader(filenames[i]);
-        A[0+(perLoc*i)..#perLoc] = f1.readColumn(0);
-        }*/
-    for i in 0..1 {
-      var f1 = new parquetFileReader(filenames[i]);
-      var col = f1.readColumn(0);
-      forall j in 0+(perLoc*i)..#perLoc {
-        A[j] = col[j-(perLoc*i)];
-      }
+
+  proc readFileColumnToDist(A, filename, col) {
+    var perLoc = A.size/numLocales;
+    
+    coforall (loc, i) in zip(A.targetLocales(), 0..#numLocales) do on loc {
+      var localFilename = filename;
+      var file = new parquetFileReader(localFilename);
+      A[i*perLoc..#perLoc] = file.readColumn(col)[i*perLoc..#perLoc];
     }
-    return A;
+  }
+
+  proc getSubdomains(lengths: [?FD] int) {
+    var subdoms: [FD] domain(1);
+    var offset = 0;
+    for i in FD {
+      subdoms[i] = {offset..#lengths[i]};
+      offset += lengths[i];
+    }
+    return (subdoms, (+ reduce lengths));
+  }
+
+  proc domain_intersection(d1: domain(1), d2: domain(1)) {
+    var low = max(d1.low, d2.low);
+    var high = min(d1.high, d2.high);
+    if (d1.stride !=1) && (d2.stride != 1) {
+      //TODO: change this to throw
+      halt("At least one domain must have stride 1");
+    }
+    var stride = max(d1.stride, d2.stride);
+    return {low..high by stride};
+  }
+  
+  proc readFiles(A, filenames: [] string, sizes: [] int) {
+    var (subdoms, length) = getSubdomains(sizes);
+
+    coforall loc in A.targetLocales() do on loc {
+        var locFiles = filenames;
+        var locFiledoms = subdoms;
+        for (filedom, filename) in zip(locFiledoms, locFiles) {
+          for locdom in A.localSubdomains() {
+            const intersection = domain_intersection(locdom, filedom);
+            if intersection.size > 0 {
+              // LINE 969 on Arkouda file
+              var pqReader = new parquetFileReader(filename);
+              var col = pqReader.readColumn(0);
+              A[filedom] = col;
+            }
+          }
+        }
+    }
   }
   
   // Record that stores a reader for the file and can serve columns
@@ -8840,12 +8945,16 @@ module ArrowAll {
     proc init(path: string) {
       this.path = path;
       var error: GErrorPtr;
-      pqFileReader = gparquet_arrow_file_reader_new_path(path.c_str(): c_ptr(gchar), c_ptrTo(error));
+      pqFileReader = gparquet_arrow_file_reader_new_path(this.path.c_str(): c_ptr(gchar), c_ptrTo(error));
       if isNull(pqFileReader) {
         printGError("failed to open file: ", error);
         exit(EXIT_FAILURE);
       }
       schema = gparquet_arrow_file_reader_get_schema(pqFileReader, c_ptrTo(error));
+    }
+
+    proc useThreads() {
+      gparquet_arrow_file_reader_set_use_threads(pqFileReader, true:gboolean);
     }
     
     proc readColumn(col: int) {
@@ -8877,40 +8986,24 @@ module ArrowAll {
     
     proc writeSchema() {
       extern proc strlen(str): int;
+      extern proc g_hash_table_get_keys(a): c_ptr(GList);
+      extern proc g_list_length(a): guint;
       var gstr = garrow_schema_to_string(schema);
       var sch = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
       writeln(sch);
+
+      var m = garrow_schema_get_metadata(schema);
+      if !isNull(m) {
+        var l = g_hash_table_get_keys(m);
+        writeln(g_list_length(l):int);
+      }
+
+      gstr = garrow_schema_to_string_metadata(schema, true:gboolean);
+      sch = try! createStringWithNewBuffer(gstr:c_string, length=strlen(gstr));
+      writeln(sch);
     }
   }
-  
-  proc writeTableToParquetFile(table: arrowTable, path: string) {
-    var error: GErrorPtr;
-    var writer_properties: c_ptr(GParquetWriterProperties) = gparquet_writer_properties_new();
-    var writer: c_ptr(GParquetArrowFileWriter) = gparquet_arrow_file_writer_new_path(
-                                                                                     garrow_table_get_schema(table.tbl),
-                                                                                     path.c_str(): c_ptr(gchar), 
-                                                                                     writer_properties,
-                                                                                     c_ptrTo(error));
-    if(isNull(writer)){
-      printGError("failed to initialize writer:", error);
-      exit(EXIT_FAILURE);
-    }
-    var success: gboolean = gparquet_arrow_file_writer_write_table(writer,
-                                                                   table.tbl ,
-                                                                   10 : guint64, // Should not be hardcoded
-                                                                   c_ptrTo(error));
-    if(!success){
-      printGError("failed to write table:", error);
-      exit(EXIT_FAILURE);
-    }
-    success = gparquet_arrow_file_writer_close(writer, c_ptrTo(error));
-    if(!success){
-      printGError("could not close writer:", error);
-      exit(EXIT_FAILURE);
-    }
-  }
-  
-  proc read(path: string) {
+    proc read(path: string) {
     var error: GErrorPtr;
     var pqFileReader: c_ptr(GParquetArrowFileReader) = gparquet_arrow_file_reader_new_path(
                                                                                            path.c_str(): c_ptr(gchar), c_ptrTo(error));
@@ -8929,46 +9022,5 @@ module ArrowAll {
   proc getColumnType(table, col: int) {
     var chunk = garrow_table_get_column_data(table, col:gint);
     return garrow_chunked_array_get_value_type(chunk);
-  }
-  //----------------------- Functions for printing ----------------------------
-  proc printArray(arr: arrowArray) {
-    printArray(arr.val);
-  }
-  proc printArray(array: c_ptr(GArrowArray)) {
-    var error: GErrorPtr;
-    var str: c_ptr(gchar) = garrow_array_to_string(array, c_ptrTo(error));
-    if(isNull(str)){
-      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
-      g_error_free(error);
-      return;
-    }
-    g_print("%s\n".c_str(): c_ptr(gchar),str);
-  }
-  proc printRecordBatch(recordBatch: arrowRecordBatch){
-    printRecordBatch(recordBatch.rcbatch);
-  }
-  proc printRecordBatch(recordBatch: c_ptr(GArrowRecordBatch)) {
-    var error: GErrorPtr;
-    var str: c_ptr(gchar) = garrow_record_batch_to_string(recordBatch, c_ptrTo(error));
-    if(isNull(str)){
-      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
-      g_error_free(error);
-      return;
-    }
-    g_print("%s\n".c_str(): c_ptr(gchar),str: c_ptr(gchar));
-  }
-  proc printTable(table: arrowTable) {
-    printTable(table.tbl);
-  }
-  proc printTable(table: c_ptr(GArrowTable)) {
-    if(isNull(table)) then return;
-    var error: GErrorPtr;
-    var str: c_ptr(gchar) = garrow_table_to_string(table, c_ptrTo(error));
-    if(isNull(str)){
-      g_print("Failed to print: %s\n".c_str(): c_ptr(gchar), error.deref().message);
-      g_error_free(error);
-      return;
-    }
-    g_print("%s\n".c_str(): c_ptr(gchar),str: c_ptr(gchar));
   }
 }

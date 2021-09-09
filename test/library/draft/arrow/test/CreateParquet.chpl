@@ -24,4 +24,6 @@ proc main() {
   writeln(fromParquet);
   writeln(pqReader.readColumnStr(1));
   writeln(pqReader.readColumn(2));
+
+  pqReader.writeSchema();
 }
