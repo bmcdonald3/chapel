@@ -107,29 +107,29 @@ shouldAddArgForAlwaysRvf(Symbol* sym, FnSymbol* fn) {
   return false;
 }
 
-//
-// Returns true if the symbol is defined in an outer function to fn.
-// Third argument not used at call site.
-//
+// Should parentFn get a formal argument to propagate sym?
+// calledFn can be nullptr if it is not currently relevant.
 static bool
-isOuterVar(Symbol* sym, FnSymbol* fn, Symbol* parent = nullptr) {
-  if (!parent) {
-    parent = fn->defPoint->parentSymbol;
+shouldPropagateOuterArg(Symbol* sym, FnSymbol* parentFn, FnSymbol* calledFn) {
+  Symbol* symDefParent = sym->defPoint->parentSymbol;
 
-    if (shouldAddArgForAlwaysRvf(sym, fn))
-      return true;
-  }
-
-  if (!isFnSymbol(parent))
+  // e.g. sym is a local variable or formal
+  if (symDefParent == parentFn)
     return false;
 
-  else if (sym->defPoint->parentSymbol == parent)
+  // e.g. sym is a formal for the called function
+  if (calledFn && symDefParent == calledFn)
+    return false;
+
+  if (shouldAddArgForAlwaysRvf(sym, parentFn))
+    // do propagate RVF'd module-scope variable to task functions
     return true;
 
-  else
-    return isOuterVar(sym, fn, parent->defPoint->parentSymbol);
-}
+  if (isModuleSymbol(symDefParent))
+    // don't propagate module-scope symbols in general
+    return false;
 
+<<<<<<< HEAD
 // Should parentFn get a formal argument to propagate sym,
 // which was an outer var in some context, somewhere?
 // calledFn can be nullptr.
@@ -155,6 +155,10 @@ shouldPropagateOuterArg(Symbol* sym, FnSymbol* parentFn, FnSymbol* calledFn) {
 
   // otherwise, it comes from some other function
   return true;
+=======
+  // otherwise, return true if it comes from some other function
+  return isFnSymbol(symDefParent);
+>>>>>>> ba63a17b6d0a10d46968ea3ea7795469e71284aa
 }
 
 //
@@ -168,11 +172,20 @@ findOuterVars(FnSymbol* fn, SymbolMap* uses) {
   for_vector(SymExpr, symExpr, SEs) {
     Symbol* sym = symExpr->symbol();
 
+<<<<<<< HEAD
     // Here isOuterVar will only return 'true' for variables
     // that are outer variables for 'fn'. But 'collectLcnSymExprs'
     // is also gathering the contents for nested functions.
     // This pattern could be clearer with an AST visitor.
     if (isOuterVar(sym, fn)) {
+=======
+    // This code should only gather outer variables used in 'fn',
+    // but 'collectLcnSymExprs' is also gathering the contents for nested
+    // functions.
+    // This pattern could be clearer with an AST visitor.
+    if (symExpr->getFunction() == fn &&
+        shouldPropagateOuterArg(sym, fn, nullptr)) {
+>>>>>>> ba63a17b6d0a10d46968ea3ea7795469e71284aa
       uses->put(sym,gNil);
     }
   }
