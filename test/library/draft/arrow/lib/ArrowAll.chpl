@@ -8926,7 +8926,6 @@ module ArrowAll {
           for locdom in A.localSubdomains() {
             const intersection = domain_intersection(locdom, filedom);
             if intersection.size > 0 {
-              // LINE 969 on Arkouda file
               var pqReader = new parquetFileReader(filename);
               var col = pqReader.readColumn(0);
               A[filedom] = col;
