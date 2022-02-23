@@ -59,6 +59,10 @@ writeln("here.maxTaskPar = ", here.maxTaskPar);
 // Get a list of .csv filenames from the input directory.
 use FileSystem;
 
+use Time;
+var t: Timer;
+t.start();
+
 var filenames: list(string);
 
 for f in findfiles(inputDir) {
@@ -182,3 +186,4 @@ proc findAbstractColumnIndex(line : string) {
   return -1;
 }
 
+writeln("Took: ", t.elapsed());

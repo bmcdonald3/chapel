@@ -30,11 +30,15 @@
 use IO;
 use List;
 use SortedMap;
+use Time;
 
-config const inFileName = "metadata-morelines.csv";
+config const inFileName = "metadata.csv";
 config const outputFileName = "abstract-word-count.csv";
 config const debug = false;
 config const minCount = 3;
+
+var t: Timer;
+t.start();
 
 //-----------------------------------------------------------------------
 // Read in the input csv data.
@@ -178,3 +182,4 @@ proc createListOfColNames(line : string) {
   return colNames;
 } 
 
+writeln("Took: ", t.elapsed());

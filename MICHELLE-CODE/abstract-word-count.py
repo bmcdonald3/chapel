@@ -5,14 +5,18 @@
 # to apples performance comparison.  Only doing one pass here?
 # See https://realpython.com/python-csv/ for reading in csv files.
 
+import time
 import csv
+
+start = time.time()
+
 minCount = 3
 
 # dictionary to hold the results
 wordCount = {}
 
 # Reading in the file and doing word count at the same time.
-with open('metadata-morelines.csv') as csv_file:
+with open('metadata.csv') as csv_file:
   csv_reader = csv.reader(csv_file, delimiter=',')
   line_count = 0
   for row in csv_reader:
@@ -31,4 +35,6 @@ for key, value in sorted(wordCount.items(), key=lambda x: x[0]):
   if value>minCount:
     print("{} : {}".format(key, value))
 
+print("--- %s seconds ---" % (time.time() - start))
+    
 #print(wordCount)
