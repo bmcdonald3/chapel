@@ -150,7 +150,7 @@ module Set {
        when you would like to reduce memory impact or potentially
        speed up how fast the map finds a slot.
     */
-    const resizeThreshold = 0.5;
+    const resizeThreshold = 0.75;
 
     pragma "no doc"
     var _lock$ = if parSafe then new _LockWrapper() else none;
@@ -169,15 +169,15 @@ module Set {
                             map can hold at least this many values before
                             attempting to resize.
     */
-    proc init(type eltType, param parSafe=false, resizeThreshold=0.5,
+    proc init(type eltType, param parSafe=false, resizeThreshold=0.75,
               initialCapacity=16) {
       _checkElementType(eltType);
       this.eltType = eltType;
       this.parSafe = parSafe;
       if resizeThreshold <= 0 || resizeThreshold >= 1 {
         warning("'resizeThreshold' must be between 0 and 1.",
-                        " 'resizeThreshold' will be set to 0.5");
-        this.resizeThreshold = 0.5;
+                " 'resizeThreshold' will be set to 0.75");
+        this.resizeThreshold = 0.75;
       } else {
         this.resizeThreshold = resizeThreshold;
       }
@@ -200,7 +200,7 @@ module Set {
                             attempting to resize.
     */
     proc init(type eltType, iterable, param parSafe=false,
-              resizeThreshold=0.5, initialCapacity=16)
+              resizeThreshold=0.75, initialCapacity=16)
     where canResolveMethod(iterable, "these") lifetime this < iterable {
       _checkElementType(eltType);
 
@@ -208,8 +208,8 @@ module Set {
       this.parSafe = parSafe;
       if resizeThreshold <= 0 || resizeThreshold >= 1 {
         warning("'resizeThreshold' must be between 0 and 1.",
-                        " 'resizeThreshold' will be set to 0.5");
-        this.resizeThreshold = 0.5;
+                " 'resizeThreshold' will be set to 0.75");
+        this.resizeThreshold = 0.75;
       } else {
         this.resizeThreshold = resizeThreshold;
       }

@@ -235,7 +235,7 @@ module ChapelHashtable {
 
     const startingSize: int;
 
-    proc init(type keyType, type valType, resizeThreshold=0.5,
+    proc init(type keyType, type valType, resizeThreshold=0.75,
               initialCapacity=16,
               in rehashHelpers: owned chpl__rehashHelpers? = nil) {
       if isDomainType(keyType) then

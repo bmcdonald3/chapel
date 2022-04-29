@@ -88,7 +88,7 @@ module Map {
        when you would like to reduce memory impact or potentially
        speed up how fast the map finds a slot.
     */
-    const resizeThreshold = 0.5;
+    const resizeThreshold = 0.75;
 
     pragma "no doc"
     var table: chpl__hashtable(keyType, valType);
@@ -123,15 +123,15 @@ module Map {
                             attempting to resize.
     */
     proc init(type keyType, type valType, param parSafe=false,
-              resizeThreshold=0.5, initialCapacity=16) {
+              resizeThreshold=0.75, initialCapacity=16) {
       _checkKeyAndValType(keyType, valType);
       this.keyType = keyType;
       this.valType = valType;
       this.parSafe = parSafe;
       if resizeThreshold <= 0 || resizeThreshold >= 1 {
         warning("'resizeThreshold' must be between 0 and 1.",
-                        " 'resizeThreshold' will be set to 0.5");
-        this.resizeThreshold = 0.5;
+                " 'resizeThreshold' will be set to 0.75");
+        this.resizeThreshold = 0.75;
       } else {
         this.resizeThreshold = resizeThreshold;
       }
@@ -140,7 +140,7 @@ module Map {
     }
 
     proc init(type keyType, type valType, param parSafe=false,
-              resizeThreshold=0.5, initialCapacity=16)
+              resizeThreshold=0.75, initialCapacity=16)
     where isNonNilableClass(valType) {
       _checkKeyAndValType(keyType, valType);
       this.keyType = keyType;
@@ -148,8 +148,8 @@ module Map {
       this.parSafe = parSafe;
       if resizeThreshold <= 0 || resizeThreshold >= 1 {
         warning("'resizeThreshold' must be between 0 and 1.",
-                        " 'resizeThreshold' will be set to 0.5");
-        this.resizeThreshold = 0.5;
+                " 'resizeThreshold' will be set to 0.75");
+        this.resizeThreshold = 0.75;
       } else {
         this.resizeThreshold = resizeThreshold;
       }
