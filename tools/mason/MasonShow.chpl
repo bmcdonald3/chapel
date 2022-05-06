@@ -12,13 +12,13 @@ proc masonShow(ref args: list(string)) {
   try! {
     writeln("Mason packages installed:");
     for filename in listdir(MASON_HOME+'/src/', dirs=true, files=true) {
-      var first = true;
+      var name = true;
       for val in filename.split('-',maxsplit=1) {
-        if first {
-          first=!first;
+        if name {
+          name=!name;
           write(val, " ");
         } else
-          write("Version: ", val);
+          write("(", val, ")");
       }
       writeln();
     }
