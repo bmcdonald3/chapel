@@ -200,76 +200,9 @@ module BigInteger {
     pragma "no doc"
     var localeId : chpl_nodeID_t;      // The locale id for the GMP state
 
-    proc init() {
-      this.complete();
-      mpz_init(this.mpz);
-
-      this.localeId = chpl_nodeID;
-    }
-
-    proc init(const ref num: bigint) {
-      this.complete();
-      if _local || num.localeId == chpl_nodeID {
-        mpz_init_set(this.mpz, num.mpz);
-      } else {
-        var mpz_struct = num.getImpl();
-
-        mpz_init(this.mpz);
-
-        chpl_gmp_get_mpz(this.mpz, num.localeId, mpz_struct);
-      }
-
-      this.localeId = chpl_nodeID;
-    }
-
-    proc init=(const ref num: bigint) {
-      this.init(num);
-    }
-
     proc init(num: int) {
       this.complete();
       mpz_init_set_si(this.mpz, num.safeCast(c_long));
-
-      this.localeId = chpl_nodeID;
-    }
-
-    proc init(num: uint) {
-      this.complete();
-      mpz_init_set_ui(this.mpz, num.safeCast(c_ulong));
-
-      this.localeId = chpl_nodeID;
-    }
-
-    proc init=(num : integral) {
-      this.init(num);
-    }
-
-    proc init(str: string, base: int = 0) {
-      this.complete();
-      const str_  = str.localize().c_str();
-      const base_ = base.safeCast(c_int);
-
-      if mpz_init_set_str(this.mpz, str_, base_) != 0 {
-        mpz_clear(this.mpz);
-
-        HaltWrappers.initHalt("Error initializing big integer: bad format");
-      }
-
-      this.localeId = chpl_nodeID;
-    }
-
-    proc init(str: string, base: int = 0, out error: errorCode) {
-      this.complete();
-      const str_  = str.localize().c_str();
-      const base_ = base.safeCast(c_int);
-
-      if mpz_init_set_str(this.mpz, str_, base_) != 0 {
-        mpz_clear(this.mpz);
-
-        error = chpl_macro_int_EFORMAT();
-      } else {
-        error = 0;
-      }
 
       this.localeId = chpl_nodeID;
     }
