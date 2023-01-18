@@ -333,10 +333,9 @@ module BigInteger {
     // is meaningless.
     pragma "no doc"
     proc deinit() {
-      if isOwned {
-        if _local || this.localeId == chpl_nodeID {
+      if _local || this.localeId == chpl_nodeID {
+        if isOwned then
           mpz_clear(this.mpz);
-        }
       }
     }
 
@@ -5393,26 +5392,11 @@ module BigInteger {
     }
   }
 
-  proc initBigIntWithBorrowedBuffer(ref x: ?t, other: t) {
-
-    const otherRemote = other.localeId != chpl_nodeID;
-    x.isOwned = false;
-
-    if otherRemote {
-      // if other is remote, copy and own the buffer no matter what
-      //x.buff = bufferCopyRemote(other.locale_id, other.buff, otherLen);
-      //x.buffLen = otherLen+1;
-    }
-    else {
-      // if other is local just adjust my buff and _size
-      x.mpz = other.mpz;
-      x.localeId = other.localeId;
-    }
-  }
-
   inline proc createBigIntWithBorrowedBuffer(x: bigint) : bigint {
     var ret: bigint;
-    initBigIntWithBorrowedBuffer(ret, x);
+    ret.isOwned = false;
+    ret.mpz = x.mpz;
+    ret.localeId = x.localeId;
     return ret;
   }
   
