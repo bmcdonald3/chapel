@@ -245,30 +245,103 @@ module BigInteger {
 
       return ret;
     }
+
+    proc writeThis(writer) throws {
+      var s: string;
+
+      if _local {
+        s = this.get_str();
+
+      } else if this.localeId == chpl_nodeID {
+        s = this.get_str();
+
+      } else {
+        const thisLoc = chpl_buildLocaleID(this.localeId, c_sublocid_any);
+
+        on __primitive("chpl_on_locale_num", thisLoc) {
+          s = this.get_str();
+        }
+      }
+
+      writer.write(s);
+    }
+  
+    proc get_str(base: int = 10) : string {
+      const base_ = base.safeCast(c_int);
+      var   ret: string;
+
+      if _local {
+        var tmpvar = chpl_gmp_mpz_get_str(base_, this.mpz);
+
+        try! {
+          ret = createStringWithOwnedBuffer(tmpvar);
+        }
+
+      } else if this.localeId == chpl_nodeID {
+        var tmpvar = chpl_gmp_mpz_get_str(base_, this.mpz);
+
+        try! {
+          ret = createStringWithOwnedBuffer(tmpvar);
+        }
+
+      } else {
+        const thisLoc = chpl_buildLocaleID(this.localeId, c_sublocid_any);
+
+        on __primitive("chpl_on_locale_num", thisLoc) {
+          var tmpvar = chpl_gmp_mpz_get_str(base_, this.mpz);
+
+          try! {
+            ret = createStringWithOwnedBuffer(tmpvar);
+          }
+        }
+      }
+
+      return ret;
+    }
+  }
     
   //
   // Binary operators
   //
 
   // Addition
-  operator bigint.+(const ref a: bigint, const ref b: bigint): bigint {
-    var c = new bigint();
+    operator bigint.+(const ref a: bigint, const ref b: bigint): bigint {
+      var c = new bigint();
 
-    if _local {
-      mpz_add(c.mpz, a.mpz, b.mpz);
+      if _local {
+        mpz_add(c.mpz, a.mpz, b.mpz);
 
-    } else if a.localeId == chpl_nodeID && b.localeId == chpl_nodeID {
-      mpz_add(c.mpz, a.mpz, b.mpz);
+      } else if a.localeId == chpl_nodeID && b.localeId == chpl_nodeID {
+        mpz_add(c.mpz, a.mpz, b.mpz);
 
-    } else {
-      const a_ = a;
-      const b_ = b;
+      } else {
+        const a_ = a;
+        const b_ = b;
 
-      mpz_add(c.mpz, a_.mpz, b_.mpz);
+        mpz_add(c.mpz, a_.mpz, b_.mpz);
+      }
+
+      return c;
     }
 
-    return c;
-  }
+    proc myAdd(const ref a: bigint, const ref b: bigint): bigint {
+      var c = new bigint();
+
+      if _local {
+        mpz_add(c.mpz, a.mpz, b.mpz);
+
+      } else if a.localeId == chpl_nodeID && b.localeId == chpl_nodeID {
+        mpz_add(c.mpz, a.mpz, b.mpz);
+
+      } else {
+        const a_ = a;
+        const b_ = b;
+
+        mpz_add(c.mpz, a_.mpz, b_.mpz);
+      }
+
+      return c;
+    }
 
   inline proc bigint.localize() : bigint {
     if _local || this.localeId == chpl_nodeID {
