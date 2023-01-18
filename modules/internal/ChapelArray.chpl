@@ -1024,9 +1024,10 @@ module ChapelArray {
         (logDistArrEltAccess && !chpl_isNonDistributedArray()) then
         chpl_debug_writeln("default _array accessor was called");
 
-      if this.isRectangular() || this.isSparse() then
+      if this.isRectangular() || this.isSparse() {
+        writeln("In ChapelArray calling initialization dsiAccess ", i);
         return value.dsiAccess(i);
-      else
+      } else
         return value.dsiAccess(i(0));
     }
     pragma "no doc" // value version, for POD types
@@ -1042,9 +1043,10 @@ module ChapelArray {
         (logDistArrEltAccess && !chpl_isNonDistributedArray()) then
         chpl_debug_writeln("default _array accessor was called");
 
-      if this.isRectangular() || this.isSparse() then
+      if this.isRectangular() || this.isSparse() {
+        writeln("In ChapelArray calling indexing dsiAccess ", i);
         return value.dsiAccess(i);
-      else
+      } else
         return value.dsiAccess(i(0));
     }
     pragma "no doc" // const ref version, for not-POD types
@@ -1059,9 +1061,9 @@ module ChapelArray {
         (logDistArrEltAccess && !chpl_isNonDistributedArray()) then
         chpl_debug_writeln("default _array accessor was called");
 
-      if this.isRectangular() || this.isSparse() then
+      if this.isRectangular() || this.isSparse() {
         return value.dsiAccess(i);
-      else
+      } else
         return value.dsiAccess(i(0));
     }
 

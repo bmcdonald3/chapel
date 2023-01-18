@@ -1361,6 +1361,7 @@ module DefaultRectangular {
     inline proc dsiAccess(ind : rank*idxType)
     where shouldReturnRvalueByValue(eltType) {
       // Note: bounds checking occurs in ChapelArray for this type.
+      writeln("In DefaultRectangular index dsiAccess ", ind);
       var dataInd = getDataIndex(ind);
       return theData(dataInd);
     }

@@ -1095,6 +1095,7 @@ inline proc BlockArr.dsiLocalAccess(i: rank*idxType) ref {
 // fast/local path and get better performance.
 //
 inline proc BlockArr.dsiAccess(const in idx: rank*idxType) ref {
+  writeln("In block dsiAccess");
   local {
     if const myLocArrNN = myLocArr then
       if myLocArrNN.locDom.contains(idx) then
