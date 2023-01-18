@@ -29,3 +29,22 @@ writeln("Addition with primitive took : ",
 t.clear();
 
 writeln("First elem locale: ", bArr[0].locale, " Second elem locale: ", bArr[1].locale);
+
+t.start();
+for i in 1..numOps do
+  bArr[0].size();
+t.stop();
+
+writeln("Size local took     : ",
+        t.elapsed());
+t.clear();
+
+
+t.start();
+for i in 1..numOps do
+  bArr[1].size();
+t.stop();
+
+writeln("Size remote took    : ",
+        t.elapsed());
+t.clear();

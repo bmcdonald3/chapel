@@ -327,21 +327,7 @@ module BigInteger {
   proc bigint.myAdd(const ref b: bigint): bigint {
     var c = new bigint();
 
-    if _local {
-      mpz_add(c.mpz, this.mpz, b.mpz);
-
-    } else if this.localeId == chpl_nodeID && b.localeId == chpl_nodeID {
-      mpz_add(c.mpz, this.mpz, b.mpz);
-
-    } else {
-      const a_ = this;
-      const b_ = b;
-      const thisLoc = chpl_buildLocaleID(this.localeId, c_sublocid_any);
-
-      on __primitive("chpl_on_locale_num", thisLoc) {
-        mpz_add(c.mpz, a_.mpz, b_.mpz);
-      }
-    }
+    mpz_add(c.mpz, this.localize().mpz, b.localize().mpz);
 
     return c;
   }
