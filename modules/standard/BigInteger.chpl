@@ -225,6 +225,27 @@ module BigInteger {
       }
     }
 
+    deprecated "bigint.size() is deprecated"
+    proc size() : c_size_t {
+      var ret: c_size_t;
+
+      if _local {
+        ret = mpz_size(this.mpz);
+
+      } else if this.localeId == chpl_nodeID {
+        ret = mpz_size(this.mpz);
+
+      } else {
+        const thisLoc = chpl_buildLocaleID(this.localeId, c_sublocid_any);
+
+        on __primitive("chpl_on_locale_num", thisLoc) {
+          ret = mpz_size(this.mpz);
+        }
+      }
+
+      return ret;
+    }
+    
   //
   // Binary operators
   //
