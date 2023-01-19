@@ -5416,7 +5416,10 @@ module BigInteger {
   }
   
   inline proc bigint.localizeMPZ() {
-    if _local || this.localeId == chpl_nodeID {
+    if _local {
+      const ret = new bigintWrapper(this.mpz, this.localeId);
+      return ret;
+    } else if this.localeId == chpl_nodeID {
       const ret = new bigintWrapper(this.mpz, this.localeId);
       return ret;
     } else {
