@@ -213,8 +213,6 @@ module BigInteger {
     pragma "no doc"
     var localeId : chpl_nodeID_t;      // The locale id for the GMP state
 
-    var isOwned: bool = true;
-
     proc init() {
       this.complete();
       mpz_init(this.mpz);
@@ -334,8 +332,7 @@ module BigInteger {
     pragma "no doc"
     proc deinit() {
       if _local || this.localeId == chpl_nodeID {
-        if isOwned then
-          mpz_clear(this.mpz);
+        mpz_clear(this.mpz);
       }
     }
 
@@ -771,7 +768,7 @@ module BigInteger {
     const a_ = a.localizeMPZ();
     const b_ = b.localizeMPZ();
     
-    mpz_add(c.mpz, a_, b_);
+    mpz_add(c.mpz, a_.mpz, b_.mpz);
 
     return c;
   }
@@ -5392,29 +5389,39 @@ module BigInteger {
     }
   }
 
-  inline proc createBigIntWithBorrowedBuffer(x: bigint) : bigint {
-    var ret: bigint;
-    ret.isOwned = false;
-    ret.mpz = x.mpz;
-    ret.localeId = x.localeId;
-    return ret;
-  }
-  
-  inline proc bigint.localize() : bigint {
-    if _local || this.localeId == chpl_nodeID {
-      return createBigIntWithBorrowedBuffer(this);
-    } else {
-      const x:bigint = this; // assignment makes it local
-      return x;
+  record bigintWrapper {
+    var mpz: mpz_t;
+    var localeId: chpl_nodeID_t;
+    var isOwned: bool;
+    proc init(a: mpz_t, b: chpl_nodeID_t) {
+      mpz = a;
+      localeId = b;
+      isOwned = false;
+    }
+
+    proc init(a: bigint) {
+      this.complete();
+      var mpz_struct = a.getImpl();
+      mpz_init(this.mpz);
+      chpl_gmp_get_mpz(this.mpz, a.localeId, mpz_struct);
+      isOwned = true;
+    }
+
+    proc deinit() {
+      if _local || this.localeId == chpl_nodeID {
+        if isOwned then
+          mpz_clear(this.mpz);
+      }
     }
   }
-
-  inline proc bigint.localizeMPZ() : mpz_t {
+  
+  inline proc bigint.localizeMPZ() {
     if _local || this.localeId == chpl_nodeID {
-      return this.mpz;
+      const ret = new bigintWrapper(this.mpz, this.localeId);
+      return ret;
     } else {
-      const x:bigint = this;
-      return x.mpz;
+      const ret = new bigintWrapper(this);
+      return ret;
     }
   }
 
