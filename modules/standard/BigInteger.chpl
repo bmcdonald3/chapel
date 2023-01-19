@@ -717,10 +717,10 @@ module BigInteger {
   operator bigint.+(const ref a: bigint, const ref b: bigint): bigint {
     var c = new bigint();
 
-    const a_ = a.localize();
-    const b_ = b.localize();
+    const a_ = a.localizeMPZ();
+    const b_ = b.localizeMPZ();
     
-    mpz_add(c.mpz, a_.mpz, b_.mpz);
+    mpz_add(c.mpz, a_, b_);
 
     return c;
   }
@@ -5355,6 +5355,15 @@ module BigInteger {
     } else {
       const x:bigint = this; // assignment makes it local
       return x;
+    }
+  }
+
+  inline proc bigint.localizeMPZ() : mpz_t {
+    if _local || this.localeId == chpl_nodeID {
+      return this.mpz;
+    } else {
+      const x:bigint = this;
+      return x.mpz;
     }
   }
 
