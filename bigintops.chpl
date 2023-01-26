@@ -16,13 +16,12 @@ proc runOnStmtTest(inputVal: bigint) {
   if perfTest then t.start();
 
   for i in 1..numOps {
-    b = 0;
-    b.pow(a, 2:uint);
+    b = a + a;
   }
 
   if perfTest {
     t.stop();
-    writeln("Elapsed ", inputVal.sizeInBase(2), " on stmt time = ", t.elapsed(TimeUnits.seconds));
+    writeln("Elapsed ", inputVal.sizeInBase(2), " op time = ", t.elapsed(TimeUnits.seconds));
   } else {
     writeln("Result: ", b);
   }
