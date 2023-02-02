@@ -693,13 +693,23 @@ proc Block.targetLocsIdx(ind: idxType) where rank == 1 {
   return targetLocsIdx((ind,));
 }
 
+extern record libdivide_s64_t {
+  var magic: int;
+  var more: uint(8);
+}
+extern proc libdivide_s64_gen(a): libdivide_s64_t;
+extern proc libdivide_s64_do(a, ref b): int;
+
 proc Block.targetLocsIdx(ind: rank*idxType) {
   var result: rank*int;
-  for param i in 0..rank-1 do
+  var denom: libdivide_s64_t;
+  for param i in 0..rank-1 {
+    denom = libdivide_s64_gen(boundingBox.dim(i).sizeAs(int));
     result(i) = max(0, min(targetLocDom.dim(i).sizeAs(int)-1,
-                           (((ind(i) - boundingBox.dim(i).lowBound).safeCast(int) *
-                             targetLocDom.dim(i).sizeAs(int)) /
-                            boundingBox.dim(i).sizeAs(int))));
+                           (libdivide_s64_do((ind(i) - boundingBox.dim(i).lowBound).safeCast(int) *
+                                              targetLocDom.dim(i).sizeAs(int),
+                                              denom))));
+  }
   return if rank == 1 then result(0) else result;
 }
 
@@ -1109,37 +1119,7 @@ inline proc BlockArr.dsiBoundsCheck(i: rank*idxType) {
 
 pragma "fn unordered safe"
 proc BlockArr.nonLocalAccess(i: rank*idxType) ref {
-  if doRADOpt {
-    if const myLocArr = this.myLocArr {
-      var rlocIdx = dom.dist.targetLocsIdx(i);
-      if !disableBlockLazyRAD {
-        if myLocArr.locRAD == nil {
-          myLocArr.locRADLock.lock();
-          if myLocArr.locRAD == nil {
-            var tempLocRAD = new unmanaged LocRADCache(eltType, rank, idxType, stridable, dom.dist.targetLocDom);
-            tempLocRAD.RAD.blk = SENTINEL;
-            myLocArr.locRAD = tempLocRAD;
-          }
-          myLocArr.locRADLock.unlock();
-        }
-        const locRAD = _to_nonnil(myLocArr.locRAD);
-        if locRAD.RAD(rlocIdx).blk == SENTINEL {
-          locRAD.lockRAD(rlocIdx);
-          if locRAD.RAD(rlocIdx).blk == SENTINEL {
-            locRAD.RAD(rlocIdx) =
-              locArr(rlocIdx).myElems._value.dsiGetRAD();
-          }
-          locRAD.unlockRAD(rlocIdx);
-        }
-      }
-      pragma "no copy" pragma "no auto destroy" var myLocRAD = myLocArr.locRAD;
-      pragma "no copy" pragma "no auto destroy" var radata = _to_nonnil(myLocRAD).RAD;
-      if radata(rlocIdx).shiftedData != nil {
-        var dataIdx = radata(rlocIdx).getDataIndex(i);
-        return radata(rlocIdx).getDataElem(dataIdx);
-      }
-    }
-  }
+  // THIS WHERE YOU ARE
   return locArr(dom.dist.targetLocsIdx(i))(i);
 }
 
