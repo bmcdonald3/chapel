@@ -8,16 +8,15 @@ extern record libdivide_s64_t {
 extern proc libdivide_s64_gen(a): libdivide_s64_t;
 extern proc libdivide_s64_do(a, ref b): int;
                                   
-config const numOps=100000;
+config const numOps=1000000000;
 
 var sum = 0;
 var t: stopwatch;
 var asd: libdivide_s64_t;
+asd = libdivide_s64_gen(10);
 t.start();
-
 for i in 1..numOps {
-  asd = libdivide_s64_gen(i);
-  sum+=libdivide_s64_do(numOps, asd);
+  sum+=libdivide_s64_do(i, asd);
 }
 writeln(sum);
 t.stop();
@@ -28,7 +27,7 @@ t.clear();
 t.start();
 
 for i in 1..numOps {
-  sum += (numOps/i);
+  sum += (i/10);
 }
 writeln(sum);
 t.stop();
