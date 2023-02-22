@@ -639,6 +639,7 @@ module Map {
 
       :yields: A reference to one of the keys contained in this map.
     */
+    @unstable "'Map.these' is unstable"
     iter these() const ref {
       for key in this.keys() {
         yield key;
@@ -663,6 +664,7 @@ module Map {
       :yields: A tuple whose elements are a copy of one of the key-value
                pairs contained in this map.
     */
+    @unstable "'Map.items' is unstable"
     iter items() {
       if !isCopyableType(keyType) then
         compilerError('in map.items(): map key type ' + keyType:string +
