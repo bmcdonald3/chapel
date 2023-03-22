@@ -1,8 +1,14 @@
-use CommDiagnostics, Time, CTypes;
+use CommDiagnostics, Time, CTypes, CyclicDist;
 
 config const size = 10,
              printRecords = false,
              printDiagnotics = true;
+
+class dist_array {
+  const Space = {0..Locales.size};
+  const D: domain(1) dmapped CyclicDist.Cyclic(startIdx=Space.lowBound) = Space;
+  var foos: [D] foo;
+}
 
 // Record that will be locale to each locale
 pragma "always RVF"
@@ -16,20 +22,21 @@ record foo {
 }
 
 proc main() {
-  const r = new foo(42);
+  const world_array = new shared dist_array();
 
   startCommDiagnostics();
 
+  ref globalFoo = world_array.foos[0];
   coforall loc in Locales do on loc {
 
-    process(r);
+    process(globalFoo);
   }
 
   stopCommDiagnostics();
   printCommDiagnosticsTable();
 
   if printRecords then
-    writeln("back home: ", r);
+    writeln("back home: ", world_array.foos[0]);
 }
 
 proc process(x) {
