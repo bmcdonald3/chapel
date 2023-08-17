@@ -2053,8 +2053,10 @@ module ChapelArray {
       help();
 
       chpl_incRefCountsForDomainsInArrayEltTypes(x, x.eltType);
+      var ret = _newArray(x);
+      ret = this;
 
-      return _newArray(x);
+      return ret;
     }
 
     @chpldoc.nodoc
