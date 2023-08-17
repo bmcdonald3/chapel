@@ -2044,6 +2044,19 @@ module ChapelArray {
       return _value.doiScan(op, this.domain);
     }
 
+    proc tryCopy() throws {
+      var x = this.domain.doiTryCopy(this);
+      pragma "dont disable remote value forwarding"
+      proc help() {
+        this.domain._value.add_arr(x);
+      }
+      help();
+
+      chpl_incRefCountsForDomainsInArrayEltTypes(x, x.eltType);
+
+      return _newArray(x);
+    }
+
     @chpldoc.nodoc
     proc iteratorYieldsLocalElements() param {
       return _value.dsiIteratorYieldsLocalElements();

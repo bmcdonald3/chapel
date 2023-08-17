@@ -713,6 +713,22 @@ module DefaultRectangular {
                                                  data=data);
     }
 
+    proc doiTryCopy(arr) throws {
+      var callPostAlloc: bool;
+      var data: _ddata(arr.eltType) =
+        _ddata_allocate_noinit(arr.eltType, ranges(0).size,
+                               callPostAlloc, c_sublocid_none, false);
+      if data == nil then
+        throw new ArrayOomError();
+
+      data = arr._value.data;
+      return new unmanaged DefaultRectangularArr(eltType=arr.eltType, rank=rank,
+                                                 idxType=idxType,
+                                                 strides=strides,
+                                                 dom=_to_unmanaged(this),
+                                                 data=data);
+    }
+
     proc dsiBuildArrayWith(type eltType, data:_ddata(eltType), allocSize:int) {
 
       var allocRange:range(idxType) = (ranges(0).lowBound)..#allocSize;
