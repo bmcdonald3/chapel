@@ -720,6 +720,7 @@ module DefaultRectangular {
                                callPostAlloc, c_sublocid_none, false);
       if data == nil then
         throw new ArrayOomError();
+      _ddata_allocate_postalloc(data, ranges(0).size);
 
       data = arr._value.data;
       return new unmanaged DefaultRectangularArr(eltType=arr.eltType, rank=rank,
