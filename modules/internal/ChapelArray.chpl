@@ -2044,6 +2044,11 @@ module ChapelArray {
       return _value.doiScan(op, this.domain);
     }
 
+    proc tryCopy() throws {
+      var x = tryInitCopy(this, false);
+      writeln(x);
+    }
+
     @chpldoc.nodoc
     proc iteratorYieldsLocalElements() param {
       return _value.dsiIteratorYieldsLocalElements();
@@ -3885,6 +3890,119 @@ module ChapelArray {
 
       pragma "no copy"
       var A = D.buildArrayWith(elemType, data, size:int);
+
+      // in lieu of automatic memory management for runtime types
+      __primitive("auto destroy runtime type", elemType);
+
+      return A;
+    }
+  }
+
+  pragma "init copy fn"
+  proc tryInitCopy(arr, definedConst: bool) throws {
+    var i  = 0;
+    var size = arr.domain.size;
+    type elemType = arr.eltType;
+    var data:_ddata(elemType) = nil;
+
+    var callPostAlloc: bool;
+    var subloc = c_sublocid_none;
+
+    if size > 0 {
+      data = _ddata_allocate_noinit(elemType, size, callPostAlloc);
+      if data == nil then
+        throw new ArrayOomError();
+    }
+
+    try {
+      for elt in arr {
+
+        // Future: we should generally remove this copy.
+        // Note though that in some cases it invokes this function
+        // recursively - in that case it shouldn't be removed!
+        pragma "no auto destroy"
+        pragma "no copy"
+        var eltCopy = try chpl__initCopy(elt, definedConst);
+
+        if i >= size {
+          // Allocate a new buffer and then copy.
+          var oldSize = size;
+          var oldData = data;
+
+          if size == 0 then
+            size = 4;
+          else
+            size = 2 * size;
+
+          data = _ddata_allocate_noinit(elemType, size, callPostAlloc);
+          if data == nil then
+            throw new ArrayOomError();
+
+          // Now copy the data over
+          for i in 0..#oldSize {
+            // this is a move, transferring ownership
+            __primitive("=", data[i], oldData[i]);
+          }
+
+          // Then, free the old data
+          _ddata_free(oldData, oldSize);
+        }
+
+        // Now move the element to the array
+        // The intent here is to transfer ownership to the array.
+        __primitive("=", data[i], eltCopy);
+
+        i += 1;
+      }
+    } catch e {
+      // Deinitialize any elements that have been initialized.
+      for j in 0..i-1 {
+        chpl__autoDestroy(data[j]);
+      }
+      // Free the allocated memory.
+      _ddata_free(data, size);
+      // Propagate the thrown error, but don't consider this
+      // function throwing just because of this call.
+      chpl__throwErrorUnchecked(e);
+    }
+    pragma "insert auto destroy"
+    var D = arr.domain;
+
+    if data != nil {
+
+      // let the comm layer adjust array allocation
+      if callPostAlloc then
+        _ddata_allocate_postalloc(data, size);
+
+      // Now construct a DefaultRectangular array using the data
+      pragma "no copy"
+        var A = D.buildArrayWith(data[0].type, data, size:int);
+
+      // Normally, the sub-arrays share a domain with the
+      // parent, but that's not the case for the arrays created
+      // by this routine. Instead, each sub-array may have its own domain.
+      // That allows them to have different runtime sizes.
+      chpl_decRefCountsForDomainsInArrayEltTypes(A._value, data[0].type);
+      A._value._decEltRefCounts = false;
+
+      // in lieu of automatic memory management for runtime types
+      __primitive("auto destroy runtime type", elemType);
+
+      return A;
+
+    } else {
+      // Construct and return an empty array.
+
+      // Create space for 1 element as a placeholder.
+      data = _ddata_allocate_noinit(elemType, size, callPostAlloc);
+      if data == nil then
+        throw new ArrayOomError();
+      
+      if callPostAlloc then
+        _ddata_allocate_postalloc(data, size);
+
+      pragma "no copy"
+        var A = D.buildArrayWith(elemType, data, size:int);
 
       // in lieu of automatic memory management for runtime types
       __primitive("auto destroy runtime type", elemType);

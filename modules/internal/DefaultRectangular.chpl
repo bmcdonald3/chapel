@@ -2415,6 +2415,11 @@ module DefaultRectangular {
     return res;
   }
 
+  proc DefaultRectangularArr.doiTryCopy(arr) throws {
+    var res = arr.domain.buildArray(arr.eltType, initElts=true);
+    return res;
+  }
+
   // A helper routine that will perform a pointer swap on an array
   // instead of doing a deep copy of that array. Returns true
   // if used the optimized swap, false otherwise
