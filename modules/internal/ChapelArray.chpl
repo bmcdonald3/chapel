@@ -2046,7 +2046,7 @@ module ChapelArray {
 
     proc tryCopy() throws {
       var x = tryInitCopy(this, false);
-      writeln(x);
+      return x;
     }
 
     @chpldoc.nodoc
