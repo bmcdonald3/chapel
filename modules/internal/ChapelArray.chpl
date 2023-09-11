@@ -1039,6 +1039,11 @@ module ChapelArray {
         yield i;
     }
 
+    proc tryCopy() throws {
+      var x = this.domain._value.doiTryCreateArray(this.eltType, this._value.data, this.domain.size);
+      return _newArray(x);
+    }
+
     // bounds checking helpers
     pragma "insert line file info"
     pragma "always propagate line file info"
