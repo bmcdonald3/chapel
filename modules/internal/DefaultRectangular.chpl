@@ -715,19 +715,6 @@ module DefaultRectangular {
                                                  data=data);
     }
 
-    proc doiTryCreateArray(type eltType, data:_ddata(eltType), allocSize: int) throws {
-      var asd = false;
-      var mydata = _ddata_allocate_noinit(eltType, allocSize, asd, 0, false);
-      forall i in 0..#allocSize {
-        __primitive("=", mydata[i], data[i]);
-      }
-      return new unmanaged DefaultRectangularArr(eltType=eltType, rank=rank,
-                                                 idxType=idxType,
-                                                 strides=strides,
-                                                 dom=_to_unmanaged(this),
-                                                 data=mydata);
-    }
-
     proc dsiBuildArrayWith(type eltType, data:_ddata(eltType), allocSize:int) {
 
       var allocRange:range(idxType) = (ranges(0).lowBound)..#allocSize;
@@ -1456,6 +1443,19 @@ module DefaultRectangular {
         alias.blk(i) = blk(i);
         alias.str(i) = d.dsiDim(i).stride;
       }
+    }
+
+    proc doiTryCopy(dom) throws {
+      var asd = false;
+      var mydata = _ddata_allocate_noinit(eltType, dom.size, asd, 0, false);
+      forall i in 0..#dom.size {
+        __primitive("=", mydata[i], data[i]);
+      }
+      return new unmanaged DefaultRectangularArr(eltType=eltType, rank=dom.rank,
+                                                 idxType=dom.idxType,
+                                                 strides=dom.strides,
+                                                 dom=_to_unmanaged(dom._value),
+                                                 data=mydata);
     }
 
     // Reallocate the array to have space for elements specified by `bounds`

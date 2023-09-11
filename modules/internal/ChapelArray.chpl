@@ -1040,8 +1040,12 @@ module ChapelArray {
     }
 
     proc tryCopy() throws {
-      var x = this.domain._value.doiTryCreateArray(this.eltType, this._value.data, this.domain.size);
+      var x = this.doiTryCopy(_dom);
       return _newArray(x);
+    }
+
+    proc printElems() {
+      this.printElems();
     }
 
     // bounds checking helpers

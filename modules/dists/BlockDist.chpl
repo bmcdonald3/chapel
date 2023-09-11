@@ -1274,26 +1274,33 @@ proc BlockDom.dsiBuildArray(type eltType, param initElts:bool) {
   return arr;
 }
 
-proc BlockDom.doiTryCreateArray(type eltType) throws {
-  const dom = this;
+proc BlockArr.printElems() {
+  writeln(10);
+}
+
+proc BlockArr.doiTryCopy(dom) throws {
   const creationLocale = here.id;
-  const dummyLBD = new unmanaged LocBlockDom(rank, idxType, strides);
-  const dummyLBA = new unmanaged LocBlockArr(eltType, rank, idxType,
-                                             strides, dummyLBD, false);
+  const dummyLBD = new unmanaged LocBlockDom(dom.rank, dom.idxType, dom.strides);
+  const dummyLBA = new unmanaged LocBlockArr(eltType, dom.rank, dom.idxType,
+                                             dom.strides, dummyLBD, false);
   var locArrTemp: [dom.dist.targetLocDom]
-        unmanaged LocBlockArr(eltType, rank, idxType, strides) = dummyLBA;
-  var myLocArrTemp: unmanaged LocBlockArr(eltType, rank, idxType, strides)?;
+    unmanaged LocBlockArr(eltType, dom.rank, dom.idxType, dom.strides) = dummyLBA;
+  var myLocArrTemp: unmanaged LocBlockArr(eltType, dom.rank, dom.idxType, dom.strides)?;
 
   // formerly in BlockArr.setup()
-  coforall (loc, locDomsElt, locArrTempElt)
-    in zip(dom.dist.targetLocales, dom.locDoms, locArrTemp)
+  coforall (loc, locDomsElt, locArrTempElt, locOriginalArr)
+    in zip(this.dsiTargetLocales(), dom.locDoms, locArrTemp, this.locArr)
            with (ref myLocArrTemp) {
     on loc {
       const locSize = locDomsElt.myBlock.size;
-      var data = _try_ddata_allocate(eltType, locSize);
+      var callPostalloc:bool;
+      var mydata = _ddata_allocate_noinit(eltType, dom.size, callPostalloc, 0, false);
+      forall i in 0..#dom.size {
+        __primitive("=", mydata[i], locOriginalArr.myElems.data[i]);
+      }
 
       const LBA = new unmanaged LocBlockArr(eltType, rank, idxType, strides,
-                                            locDomsElt, data=data, size=locSize);
+                                            locDomsElt, data=mydata, size=locSize);
       locArrTempElt = LBA;
       if here.id == creationLocale then
         myLocArrTemp = LBA;
@@ -1303,7 +1310,7 @@ proc BlockDom.doiTryCreateArray(type eltType) throws {
 
   var arr = new unmanaged BlockArr(eltType=eltType, rank=rank, idxType=idxType,
        strides=strides, sparseLayoutType=sparseLayoutType,
-       dom=_to_unmanaged(dom), locArr=locArrTemp, myLocArr=myLocArrTemp);
+       dom=_to_unmanaged(dom._value), locArr=locArrTemp, myLocArr=myLocArrTemp);
 
   // formerly in BlockArr.setup()
   if arr.doRADOpt && disableBlockLazyRAD then arr.setupRADOpt();
