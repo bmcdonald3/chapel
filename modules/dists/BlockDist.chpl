@@ -1274,8 +1274,41 @@ proc BlockDom.dsiBuildArray(type eltType, param initElts:bool) {
   return arr;
 }
 
-proc BlockArr.printElems() {
-  writeln(10);
+proc BlockDom.doiTryCreateArray(type eltType) throws {
+  const dom = this;
+  const creationLocale = here.id;
+  const dummyLBD = new unmanaged LocBlockDom(rank, idxType, strides);
+  const dummyLBA = new unmanaged LocBlockArr(eltType, rank, idxType,
+                                             strides, dummyLBD, false);
+  var locArrTemp: [dom.dist.targetLocDom]
+        unmanaged LocBlockArr(eltType, rank, idxType, strides) = dummyLBA;
+  var myLocArrTemp: unmanaged LocBlockArr(eltType, rank, idxType, strides)?;
+
+  // formerly in BlockArr.setup()
+  coforall (loc, locDomsElt, locArrTempElt)
+    in zip(dom.dist.targetLocales, dom.locDoms, locArrTemp)
+           with (ref myLocArrTemp) {
+    on loc {
+      const locSize = locDomsElt.myBlock.size;
+      var data = _try_ddata_allocate(eltType, locSize);
+
+      const LBA = new unmanaged LocBlockArr(eltType, rank, idxType, strides,
+                                            locDomsElt, data=data, size=locSize);
+      locArrTempElt = LBA;
+      if here.id == creationLocale then
+        myLocArrTemp = LBA;
+    }
+  }
+  delete dummyLBA, dummyLBD;
+
+  var arr = new unmanaged BlockArr(eltType=eltType, rank=rank, idxType=idxType,
+       strides=strides, sparseLayoutType=sparseLayoutType,
+       dom=_to_unmanaged(dom), locArr=locArrTemp, myLocArr=myLocArrTemp);
+
+  // formerly in BlockArr.setup()
+  if arr.doRADOpt && disableBlockLazyRAD then arr.setupRADOpt();
+
+  return arr;
 }
 
 proc BlockArr.doiTryCopy(dom) throws {
@@ -1295,7 +1328,9 @@ proc BlockArr.doiTryCopy(dom) throws {
       const locSize = locDomsElt.myBlock.size;
       var callPostalloc:bool;
       var mydata = _ddata_allocate_noinit(eltType, dom.size, callPostalloc, 0, false);
-      forall i in 0..#dom.size {
+      writeln(locOriginalArr.myElems);
+      writeln(locOriginalArr.myElems.domain);
+      forall i in 0..#locSize {
         __primitive("=", mydata[i], locOriginalArr.myElems.data[i]);
       }
 
